@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Facebook-like-Android</string>
+    <string name="et_username">Username</string>
+    <string name="et_password">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_changeMode">Change Mode</string>
+    <string name="title_activity_sign_up">SignUp</string>
+    <string name="msg_login">Don\'t have an account yet?</string>
+    <string name="btn_signup">Sign Up</string>
+    <string name="et_confirmPassword">Confirm Password</string>
+    <string name="et_Nickname">Nickname</string>
+    <string name="tv_pwdRequire">The password should contain at least 8 characters, a number and both capital and non-capital letters</string>
+    <string name="tv_rePwd">Re-enter your password</string>
+    <string name="tv_fulNm">This is how you will be viewed by others</string>
+    <string name="tv_unq">Your username must be unique</string>
+    <string name="msg_signup">Already have an account?</string>
+    <string name="tv_signup">Sign Up</string>
+    <string name="tv_createAcnt">Create your account</string>
 </resources>
