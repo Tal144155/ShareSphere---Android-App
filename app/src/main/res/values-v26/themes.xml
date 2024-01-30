@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.Theme.FacebooklikeAndroid" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:tint">#033C69</item>
+        <item name="colorPrimary">#AE0DAB</item>
+        <item name="colorSecondary">#E91E9F</item>
+        <item name="android:colorBackground">#ABE6F8</item>
+    </style>
+</resources>
