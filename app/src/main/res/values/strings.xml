@@ -16,4 +16,6 @@
     <string name="msg_signup">Already have an account?</string>
     <string name="tv_signup">Sign Up</string>
     <string name="tv_createAcnt">Create your account</string>
+    <string name="title_activity_feed">Feed</string>
+    <string name="title_activity_main_feed">MainFeed</string>
 </resources>
