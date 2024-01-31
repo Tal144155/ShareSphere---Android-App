@@ -58,7 +58,6 @@ public class Login extends AppCompatActivity {
             Intent i = new Intent(this, Feed.class);
             startActivity(i);
         });
-
     }
 
     @Override
