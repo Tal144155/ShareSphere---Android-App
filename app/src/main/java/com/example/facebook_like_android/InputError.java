@@ -5,9 +5,9 @@ import android.widget.EditText;
 
 public class InputError {
     enum FIELD {
-        Username, Password, ConfirmPassword, Nickname;
+        Username, Password, ConfirmPassword, Nickname
     }
-    private EditText[] fields;
+    private final EditText[] fields;
 
     public InputError(EditText username, EditText password) {
         this.fields = new EditText[2];

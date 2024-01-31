@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.facebook_like_android.R;
 
-public class ThemeMode{
+public class ThemeMode {
     private boolean isDarkTheme;
     private static ThemeMode instance = null;
 

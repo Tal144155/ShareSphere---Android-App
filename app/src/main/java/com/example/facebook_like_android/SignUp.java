@@ -13,7 +13,7 @@ import com.example.facebook_like_android.style.ThemeMode;
 public class SignUp extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
-    private ThemeMode mode = ThemeMode.getInstance();;
+    private final ThemeMode mode = ThemeMode.getInstance();
     private User user;
     private InputError inputError;
     TextWatcher watcher = new TextWatcher() {

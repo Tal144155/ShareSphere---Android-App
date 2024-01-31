@@ -3,10 +3,10 @@ package com.example.facebook_like_android;
 import android.widget.EditText;
 
 public class User {
-    private EditText username;
-    private EditText password;
-    private EditText re_password;
-    private EditText nickname;
+    private final EditText username;
+    private final EditText password;
+    private final EditText re_password;
+    private final EditText nickname;
 
     // TODO: add picture
 
