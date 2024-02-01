@@ -6,7 +6,7 @@
         <item name="android:tint">#033C69</item>
         <item name="colorPrimary">#8D12BA</item>
         <item name="colorSecondary">#E91E9F</item>
-        <item name="android:colorBackground">#A7B1F4</item>
+<!--        <item name="android:colorBackground">#A7B1F4</item>-->
         <item name="colorError">#A6046B</item>
         <item name="colorButtonNormal">#FFFFFF</item>
 
