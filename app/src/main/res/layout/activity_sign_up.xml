@@ -152,11 +152,12 @@
                 android:id="@+id/et_confirmPassword_su"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
+                android:layout_marginBottom="5dp"
                 android:ems="10"
                 android:hint="@string/et_confirmPassword"
                 android:inputType="textPassword"
                 android:padding="15dp" />
+
 
         </LinearLayout>
 
@@ -164,7 +165,7 @@
             android:id="@+id/tv_rePwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="7dp"
             android:text="@string/tv_rePwd"
             android:textSize="16sp" />
 

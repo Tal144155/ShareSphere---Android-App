@@ -35,33 +35,15 @@ public class SignUp extends AppCompatActivity {
     private Uri photo;
     TextWatcher watcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             // check whether both the fields are empty or not
             binding.btnSignup.setEnabled(!inputError.checkEmpty());
         }
-
         @Override
         public void afterTextChanged(Editable s) {
-            boolean valid = true;
-            if (!inputError.isUnique()) {
-                binding.etUsername.setError("Username must be unique!");
-                valid = false;
-            }
-            if (!inputError.isPwdValid()) {
-                binding.etPasswordSu.setError("Invalid password!");
-                valid = false;
-            }
-            if (!inputError.arePwdSame()){
-                binding.etConfirmPasswordSu.setError("Passwords must match!");
-                valid = false;
-            }
-
             // You can sign up only if the info is correct
-            binding.btnSignup.setEnabled(valid);
             binding.btnSignup.setEnabled(inputError.isValid());
         }
     };
@@ -83,9 +65,10 @@ public class SignUp extends AppCompatActivity {
         binding.etConfirmPasswordSu.addTextChangedListener(watcher);
         binding.etNickname.addTextChangedListener(watcher);
 
+        // Disabling the sign up button upon entering
         binding.btnSignup.setEnabled(inputError.isValid());
 
-
+        // Change theme button
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
         binding.btnLogin.setOnClickListener(v -> {
