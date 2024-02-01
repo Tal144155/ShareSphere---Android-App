@@ -1,7 +1,6 @@
 package com.example.facebook_like_android;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,10 +9,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebook_like_android.databinding.ActivitySignUpBinding;
@@ -31,7 +31,8 @@ public class SignUp extends AppCompatActivity {
     private final Users users = Users.getInstance();
     private InputError inputError;
     private ImageView imgView;
-    private static final int PERMISSION_REQUEST_CODE = 2;
+    // Declare a member variable to store the selected image URI
+    private Uri photo;
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -46,6 +47,10 @@ public class SignUp extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
             boolean valid = true;
+            if (!inputError.isUnique()) {
+                binding.etUsername.setError("Username must be unique!");
+                valid = false;
+            }
             if (!inputError.isPwdValid()) {
                 binding.etPasswordSu.setError("Invalid password!");
                 valid = false;
@@ -57,7 +62,7 @@ public class SignUp extends AppCompatActivity {
 
             // You can sign up only if the info is correct
             binding.btnSignup.setEnabled(valid);
-            binding.btnSignup.setEnabled(!inputError.checkEmpty());
+            binding.btnSignup.setEnabled(inputError.isValid());
         }
     };
 
@@ -78,7 +83,7 @@ public class SignUp extends AppCompatActivity {
         binding.etConfirmPasswordSu.addTextChangedListener(watcher);
         binding.etNickname.addTextChangedListener(watcher);
 
-        binding.btnSignup.setEnabled(!inputError.isEmpty());
+        binding.btnSignup.setEnabled(inputError.isValid());
 
 
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
@@ -89,6 +94,7 @@ public class SignUp extends AppCompatActivity {
         });
 
         binding.btnSignup.setOnClickListener(v -> {
+            user.setProfilePhoto(photo);
             users.addUser(user);
             Intent i = new Intent(this, Login.class);
             startActivity(i);
@@ -98,16 +104,6 @@ public class SignUp extends AppCompatActivity {
         imgView = binding.ivPrvImg;
 
         selectImg.setOnClickListener(v -> openGallery());
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openGallery();
-            }
-        }
     }
 
     private void openGallery() {
@@ -121,21 +117,34 @@ public class SignUp extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                Uri selectedImageUri;
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    selectedImageUri = result.getData().getData();
-                     imgView.setImageURI(selectedImageUri);
-
-                    try {
-                        Bitmap bitmap = loadBitmapFromUri(selectedImageUri);
-                        imgView.setImageBitmap(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            this::handleImagePickResult
     );
+
+    private void handleImagePickResult(ActivityResult result) {
+        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+            photo = result.getData().getData();  // Automatically save the image URI to 'photo'
+            showSelectedImage(photo);
+        } else {
+            showImagePickFailure();
+        }
+    }
+
+    private void showSelectedImage(Uri selectedImageUri) {
+        imgView.setImageURI(selectedImageUri);
+        binding.btnSignup.setEnabled(inputError.isValid());
+
+        try {
+            Bitmap bitmap = loadBitmapFromUri(selectedImageUri);
+            imgView.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showImagePickFailure() {
+        Toast.makeText(this, "You must pick a photo!", Toast.LENGTH_SHORT).show();
+        binding.btnSignup.setEnabled(false);
+    }
 
     private Bitmap loadBitmapFromUri(Uri uri) throws IOException {
         try (InputStream input = getContentResolver().openInputStream(uri)) {
@@ -145,6 +154,15 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // The app is not persistent
+        binding.etUsername.setText(null);
+        binding.etPasswordSu.setText(null);
+        binding.etConfirmPasswordSu.setText(null);
+        binding.etNickname.setText(null);
+        binding.ivPrvImg.setImageBitmap(null);
+    }
 }
 

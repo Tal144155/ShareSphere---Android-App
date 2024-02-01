@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.example.facebook_like_android.users.User;
+import com.example.facebook_like_android.users.Users;
 
 public class InputError {
     enum FIELD {
@@ -42,6 +43,13 @@ public class InputError {
                 return true;
         }
         return false;
+    }
+    public boolean isUnique() {
+        Users users = Users.getInstance();
+        return users.isUnique(fields[FIELD.Username.ordinal()]);
+    }
+    public boolean isValid() {
+        return isEmpty() && isPwdValid() && arePwdSame() && isUnique();
     }
 
     public boolean isPwdValid() {

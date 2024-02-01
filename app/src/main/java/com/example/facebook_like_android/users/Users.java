@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Users {
     enum FIELD {
-        Username, Password, ConfirmPassword, Nickname
+        Username, Password, ConfirmPassword, Nickname, ProfilePhoto
     }
     private final Map<String, Map<FIELD, String>> users;
 
@@ -30,6 +30,7 @@ public class Users {
         map.put(FIELD.Password, user.getPassword().getText().toString());
         map.put(FIELD.ConfirmPassword, user.getRe_password().getText().toString());
         map.put(FIELD.Nickname, user.getNickname().getText().toString());
+        map.put(FIELD.ProfilePhoto, user.getProfilePhoto().toString());
         users.put(user.getUsername().getText().toString(), map);
     }
 
@@ -39,6 +40,10 @@ public class Users {
         return Objects.equals(Objects.requireNonNull(
                 users.get(username.getText().toString())).get(FIELD.Password),
                 password.getText().toString());
+    }
+
+    public boolean isUnique(EditText username) {
+        return !users.containsKey(username.getText().toString());
     }
 
 }
