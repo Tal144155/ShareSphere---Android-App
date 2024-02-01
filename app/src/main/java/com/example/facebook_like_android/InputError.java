@@ -3,6 +3,8 @@ package com.example.facebook_like_android;
 import android.text.TextUtils;
 import android.widget.EditText;
 
+import com.example.facebook_like_android.users.User;
+
 public class InputError {
     enum FIELD {
         Username, Password, ConfirmPassword, Nickname
@@ -34,11 +36,19 @@ public class InputError {
         return isEmpty;
     }
 
+    public boolean isEmpty() {
+        for (int i = 0; i < fields.length; i++) {
+            if (TextUtils.isEmpty(fields[i].getText()))
+                return true;
+        }
+        return false;
+    }
+
     public boolean isPwdValid() {
         return fields[FIELD.Password.ordinal()].getText().toString().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$");
     }
 
     public boolean arePwdSame() {
-        return fields[FIELD.Password.ordinal()].equals(fields[FIELD.ConfirmPassword.ordinal()]);
+        return fields[FIELD.Password.ordinal()].getText().toString().equals(fields[FIELD.ConfirmPassword.ordinal()].getText().toString());
     }
 }

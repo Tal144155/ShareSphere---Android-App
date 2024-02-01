@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebook_like_android.databinding.ActivitySignUpBinding;
 import com.example.facebook_like_android.style.ThemeMode;
+import com.example.facebook_like_android.users.User;
+import com.example.facebook_like_android.users.Users;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,15 +28,13 @@ public class SignUp extends AppCompatActivity {
     private ActivitySignUpBinding binding;
     private final ThemeMode mode = ThemeMode.getInstance();
     private User user;
+    private final Users users = Users.getInstance();
     private InputError inputError;
-    private Button selectImg;
     private ImageView imgView;
-    private static final int PICK_IMAGE_REQUEST = 1;
     private static final int PERMISSION_REQUEST_CODE = 2;
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            binding.btnSignup.setEnabled(!inputError.checkEmpty());
         }
 
         @Override
@@ -78,7 +78,7 @@ public class SignUp extends AppCompatActivity {
         binding.etConfirmPasswordSu.addTextChangedListener(watcher);
         binding.etNickname.addTextChangedListener(watcher);
 
-        binding.btnSignup.setEnabled(!inputError.checkEmpty());
+        binding.btnSignup.setEnabled(!inputError.isEmpty());
 
 
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
@@ -89,11 +89,12 @@ public class SignUp extends AppCompatActivity {
         });
 
         binding.btnSignup.setOnClickListener(v -> {
-            Intent i = new Intent(this, Feed.class);
+            users.addUser(user);
+            Intent i = new Intent(this, Login.class);
             startActivity(i);
         });
 
-        selectImg = binding.btnImg;
+        Button selectImg = binding.btnImg;
         imgView = binding.ivPrvImg;
 
         selectImg.setOnClickListener(v -> openGallery());
@@ -143,6 +144,7 @@ public class SignUp extends AppCompatActivity {
             return BitmapFactory.decodeStream(input, null, options);
         }
     }
+
 
 }
 

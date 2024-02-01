@@ -1,4 +1,4 @@
-package com.example.facebook_like_android;
+package com.example.facebook_like_android.users;
 
 import android.widget.EditText;
 
@@ -16,6 +16,7 @@ public class User {
         this.re_password = re_password;
         this.nickname = nickname;
     }
+
 
     public EditText getUsername() {
         return username;

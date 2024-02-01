@@ -4,21 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebook_like_android.databinding.ActivityLoginBinding;
 import com.example.facebook_like_android.style.ThemeMode;
+import com.example.facebook_like_android.users.Users;
 
 public class Login extends AppCompatActivity {
-
+    private Users users = Users.getInstance();
     private ActivityLoginBinding binding;
     private final ThemeMode mode = ThemeMode.getInstance();
     private InputError inputError;
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            binding.btnLogin.setEnabled(!inputError.checkEmpty());
         }
 
         @Override
@@ -28,7 +29,6 @@ public class Login extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            // TODO: add check to see if user exists
             binding.btnLogin.setEnabled(!inputError.checkEmpty());
         }
     };
@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity {
         binding.etUsername.addTextChangedListener(watcher);
         binding.etPassword.addTextChangedListener(watcher);
 
-        binding.btnLogin.setEnabled(!inputError.checkEmpty());
+        binding.btnLogin.setEnabled(!inputError.isEmpty());
 
         binding.btnSignup.setOnClickListener(v -> {
             Intent i = new Intent(this, SignUp.class);
@@ -55,8 +55,13 @@ public class Login extends AppCompatActivity {
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
         binding.btnLogin.setOnClickListener(v -> {
-            Intent i = new Intent(this, Feed.class);
-            startActivity(i);
+            if (users.isSigned(binding.etUsername, binding.etPassword)) {
+                Intent i = new Intent(this, Feed.class);
+                startActivity(i);
+            } else {
+                Toast toast = Toast.makeText(this, "Username or password invalid!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         });
     }
 
