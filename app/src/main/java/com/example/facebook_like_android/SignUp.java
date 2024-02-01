@@ -81,7 +81,6 @@ public class SignUp extends AppCompatActivity {
         binding.btnSignup.setEnabled(!inputError.checkEmpty());
 
 
-
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
         binding.btnLogin.setOnClickListener(v -> {
@@ -97,21 +96,7 @@ public class SignUp extends AppCompatActivity {
         selectImg = binding.btnImg;
         imgView = binding.ivPrvImg;
 
-        selectImg.setOnClickListener(v -> {
-//            Intent intent = new Intent(Intent.ACTION_PICK);
-//            intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            pickImage.launch(intent);
-            checkPermissionAndOpenGallery();
-        });
-    }
-
-    private void checkPermissionAndOpenGallery() {
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-//        } else {
-//            openGallery();
-//        }
-        openGallery();
+        selectImg.setOnClickListener(v -> openGallery());
     }
 
     @Override
@@ -136,7 +121,7 @@ public class SignUp extends AppCompatActivity {
     ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                Uri selectedImageUri = null;
+                Uri selectedImageUri;
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     selectedImageUri = result.getData().getData();
                      imgView.setImageURI(selectedImageUri);
