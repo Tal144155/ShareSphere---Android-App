@@ -46,10 +46,14 @@ public class InputError {
     }
     public boolean isUnique() {
         Users users = Users.getInstance();
-        return users.isUnique(fields[FIELD.Username.ordinal()]);
+        if (!users.isUnique(fields[FIELD.Username.ordinal()])) {
+            fields[FIELD.Username.ordinal()].setError("This username already exists!");
+            return false;
+        }
+        return true;
     }
     public boolean isValid() {
-        return isEmpty() && isPwdValid() && arePwdSame() && isUnique();
+        return !isEmpty() && isPwdValid() && arePwdSame() && isUnique();
     }
 
     public boolean isPwdValid() {

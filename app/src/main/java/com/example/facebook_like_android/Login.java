@@ -66,7 +66,9 @@ public class Login extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onPause() {
+        super.onPause();
+        binding.etUsername.setText(null);
+        binding.etPassword.setText(null);
     }
 }
