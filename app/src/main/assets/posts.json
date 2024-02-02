@@ -1,0 +1,64 @@
+{
+  "posts": [
+    {
+      "author": "John Doe",
+      "authorProfilePhoto": "profile1",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "picture": "post1"
+    },
+    {
+      "author": "Alice Smith",
+      "authorProfilePhoto": "profile2",
+      "content": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "picture": "post2"
+    },
+    {
+      "author": "Bob Johnson",
+      "authorProfilePhoto": "profile3",
+      "content": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "picture": "post3"
+    },
+    {
+      "author": "Emily White",
+      "authorProfilePhoto": "profile4",
+      "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "picture": "post4"
+    },
+    {
+      "author": "Michael Brown",
+      "authorProfilePhoto": "profile5",
+      "content": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "picture": "post5"
+    },
+    {
+      "author": "Sophia Jones",
+      "authorProfilePhoto": "profile6",
+      "content": "Nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
+      "picture": "post6"
+    },
+    {
+      "author": "Daniel Lee",
+      "authorProfilePhoto": "profile7",
+      "content": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
+      "picture": "post7"
+    },
+    {
+      "author": "Olivia Taylor",
+      "authorProfilePhoto": "profile8",
+      "content": "Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
+      "picture": "post8"
+    },
+    {
+      "author": "William Miller",
+      "authorProfilePhoto": "profile9",
+      "content": "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
+      "picture": "post9"
+    },
+    {
+      "author": "Ava Wilson",
+      "authorProfilePhoto": "profile10",
+      "content": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
+      "picture": "post10"
+    }
+  ]
+}

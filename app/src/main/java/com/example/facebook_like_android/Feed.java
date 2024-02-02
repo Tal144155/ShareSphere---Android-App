@@ -10,11 +10,20 @@ import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
 import com.example.facebook_like_android.entities.Post;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Feed extends AppCompatActivity {
     private ActivityFeedBinding binding;
+    private List<Post> posts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +36,54 @@ public class Feed extends AppCompatActivity {
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
-        List<Post> posts = new ArrayList<>();
-        posts.add(new Post("Alice", "Hello world", R.drawable.ic_darkmd, R.drawable.ic_user));
-        posts.add(new Post("Alice2", "Hello 2", R.drawable.ic_darkmd, R.drawable.ic_user));
-        posts.add(new Post("Alice3", "Hello 3", R.drawable.ic_darkmd, R.drawable.ic_user));
-        posts.add(new Post("Alice4", "Hello 4", R.drawable.ic_darkmd, R.drawable.ic_user));
-        posts.add(new Post("Alice5", "Hello 5", R.drawable.ic_darkmd, R.drawable.ic_user));
-        posts.add(new Post("Alice6", "Hello 6", R.drawable.ic_darkmd, R.drawable.ic_user));
-        posts.add(new Post("Alice7", "Hello 7", R.drawable.ic_darkmd, R.drawable.ic_user));
-        posts.add(new Post("Alice8", "Hello 8", R.drawable.ic_darkmd, R.drawable.ic_user));
-        posts.add(new Post("Alice9", "Hello 9", R.drawable.ic_darkmd, R.drawable.ic_user));
+
+        // Call the method to read and parse the JSON file
+        parseJsonFile();
+
         adapter.setPosts(posts);
 
+
+
+    }
+
+    private void parseJsonFile() {
+        try (InputStream inputStream = getAssets().open("posts.json")) {
+            // Read the JSON file from the assets folder
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line).append('\n');
+            }
+
+            String json = stringBuilder.toString();
+
+            // Parse the data
+            JSONObject jsonData = new JSONObject(json);
+            JSONArray postsArray = jsonData.getJSONArray("posts");
+
+            // Parse each post in the array
+            for (int i = 0; i < postsArray.length(); i++) {
+                JSONObject postObject = postsArray.getJSONObject(i);
+
+                String author = postObject.getString("author");
+                String content = postObject.getString("content");
+
+                // Create a Post object and add it to the list
+                Post post = new Post(author, content,
+                        getResourceId(postObject.getString("picture"), "drawable"),
+                        getResourceId(postObject.getString("authorProfilePhoto"), "drawable"));
+                posts.add(post);
+            }
+
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int getResourceId(String resourceName, String resourceType) {
+        return getResources().getIdentifier(resourceName, resourceType, getPackageName());
     }
 }

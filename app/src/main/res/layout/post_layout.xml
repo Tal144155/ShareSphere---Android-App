@@ -10,10 +10,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp"
+        android:backgroundTint="#470752"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="15dp">
@@ -21,13 +22,12 @@
 
             <ImageView
                 android:id="@+id/iv_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="start"
-                android:minHeight="60dp"
-                android:minWidth="60dp"
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp"
+                android:scaleType="centerCrop"
                 android:contentDescription="@string/profile_pic" />
 
             <TextView
@@ -56,7 +56,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
+            android:layout_gravity="center"
             android:contentDescription="@string/post_picture" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/iv_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:src="@drawable/ic_likes"
+            android:contentDescription="@string/post_picture" />
+
+        <TextView
+            android:id="@+id/tv_likes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

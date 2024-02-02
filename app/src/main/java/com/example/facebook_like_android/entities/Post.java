@@ -9,9 +9,13 @@ public class Post {
     private int id;
     private String author;
     private String content;
-    private int like;
+    private int likes;
     private int pic;
     private int profile;
+    private boolean isLiked;
+    public boolean isLiked() {
+        return isLiked;
+    }
 
     public String getAuthor() {
         return author;
@@ -29,12 +33,12 @@ public class Post {
         this.content = content;
     }
 
-    public int getLike() {
-        return like;
+    public int getLikes() {
+        return likes;
     }
 
-    public void setLike(int like) {
-        this.like = like;
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     public int getPic() {
@@ -54,5 +58,17 @@ public class Post {
         this.content = content;
         this.pic = pic;
         this.profile = profile;
+        this.likes = 0;
+    }
+
+    public void like() {
+        // Toggle the like status
+        isLiked = !isLiked;
+        // Adjust the number of likes based on the like status
+        if (isLiked) {
+            likes++;
+        } else {
+            likes--;
+        }
     }
 }
