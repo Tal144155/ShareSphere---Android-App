@@ -46,6 +46,16 @@
                 android:minHeight="48dp"
                 app:srcCompat="@drawable/ic_search" />
 
+            <ImageButton
+                android:id="@+id/btn_changeMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/btn_changeMode"
+                app:srcCompat="@drawable/ic_darkmd" />
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
