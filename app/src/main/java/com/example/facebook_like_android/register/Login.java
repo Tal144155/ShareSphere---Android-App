@@ -1,4 +1,4 @@
-package com.example.facebook_like_android;
+package com.example.facebook_like_android.register;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +9,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebook_like_android.databinding.ActivityLoginBinding;
+import com.example.facebook_like_android.feed.Feed;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.users.Users;
 
 public class Login extends AppCompatActivity {
-    private Users users = Users.getInstance();
-    private ActivityLoginBinding binding;
-    private final ThemeMode mode = ThemeMode.getInstance();
-    private InputError inputError;
+    private Users users = Users.getInstance();  // Singleton instance for managing user data
+    private ActivityLoginBinding binding;  // View binding instance for the activity
+    private final ThemeMode mode = ThemeMode.getInstance();  // ThemeMode singleton instance for theme management
+    private InputError inputError;  // Object to handle input validation errors
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -24,11 +25,13 @@ public class Login extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // Enable or disable the login button based on input validity
             binding.btnLogin.setEnabled(!inputError.checkEmpty());
         }
 
         @Override
         public void afterTextChanged(Editable s) {
+            // Enable or disable the login button based on input validity
             binding.btnLogin.setEnabled(!inputError.checkEmpty());
         }
     };
@@ -37,16 +40,21 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Inflate the layout using view binding
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Initialize InputError object for handling input validation
         inputError = new InputError(binding.etUsername, binding.etPassword);
 
+        // Add TextWatcher to input fields for dynamic validation
         binding.etUsername.addTextChangedListener(watcher);
         binding.etPassword.addTextChangedListener(watcher);
 
+        // Enable or disable the login button based on input validity
         binding.btnLogin.setEnabled(!inputError.isEmpty());
 
+        // Set click listeners for buttons
         binding.btnSignup.setOnClickListener(v -> {
             Intent i = new Intent(this, SignUp.class);
             startActivity(i);
@@ -57,10 +65,13 @@ public class Login extends AppCompatActivity {
         binding.btnLogin.setOnClickListener(v -> {
             // TODO: remove that line!
             startActivity(new Intent(this, Feed.class));
+
+            // Check if the provided username and password are valid
             if (users.isSigned(binding.etUsername, binding.etPassword)) {
                 Intent i = new Intent(this, Feed.class);
                 startActivity(i);
             } else {
+                // Display a toast message for invalid credentials
                 Toast toast = Toast.makeText(this, "Username or password invalid!", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -70,6 +81,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        // Clear input fields on pause to ensure a clean state when returning to the activity
         binding.etUsername.setText(null);
         binding.etPassword.setText(null);
     }

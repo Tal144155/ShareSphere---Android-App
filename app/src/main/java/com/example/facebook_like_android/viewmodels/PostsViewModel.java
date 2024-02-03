@@ -3,7 +3,7 @@ package com.example.facebook_like_android.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.facebook_like_android.entities.Post;
+import com.example.facebook_like_android.entities.post.Post;
 
 import java.util.List;
 
