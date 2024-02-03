@@ -24,4 +24,8 @@
     <string name="btn_like">Like</string>
     <string name="post_picture">post picture</string>
     <string name="profile_pic">profile picture</string>
+    <string name="tv_shrur">Share your thoughts..</string>
+    <string name="profile">Profile</string>
+    <string name="menu">Menu</string>
+    <string name="search">Search</string>
 </resources>
