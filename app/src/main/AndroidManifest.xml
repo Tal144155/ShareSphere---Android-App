@@ -19,6 +19,9 @@
         android:theme="@style/Theme.FacebooklikeAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".Menu"
+            android:exported="false" />
+        <activity
             android:name=".Feed"
             android:exported="false" />
         <activity
