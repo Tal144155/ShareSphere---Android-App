@@ -44,6 +44,7 @@ public class Feed extends AppCompatActivity {
         adapter.setPosts(posts);
 
         binding.btnMenu.setOnClickListener(v -> startActivity(new Intent(this, Menu.class)));
+        binding.btnSearch.setOnClickListener(v -> startActivity(new Intent(this, Search.class)));
 
     }
 
