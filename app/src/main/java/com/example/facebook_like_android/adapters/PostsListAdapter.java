@@ -59,20 +59,25 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             holder.tvLikes.setText(String.valueOf(current.getLikes()));
 
             // Apply circular outline to profile image
-            ImageView circularProfile = holder.itemView.findViewById(R.id.iv_profile);
-            circularProfile.setClipToOutline(true);
-            circularProfile.setOutlineProvider(new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 100f);
-                }
-            });
+            setupCircularOutline(holder);
 
             // Set onClick listener for like button
             setupLikeButtonClickListener(holder, current);
 
         }
     }
+
+    private void setupCircularOutline(@NonNull PostViewHolder holder) {
+        ImageView circularProfile = holder.itemView.findViewById(R.id.iv_profile);
+        circularProfile.setClipToOutline(true);
+        circularProfile.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 100f);
+            }
+        });
+    }
+
     private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, final Post current) {
         LikeButton like = new LikeButton(holder.itemView.findViewById(R.id.btn_like));
         like.setOnClickListener(v -> {
