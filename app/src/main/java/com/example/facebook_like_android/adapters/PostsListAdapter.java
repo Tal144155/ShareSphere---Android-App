@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     private final LayoutInflater mInflater;  // LayoutInflater to inflate views
     private List<Post> posts;  // List to store posts
+    private int visibility = View.GONE;
 
     // Constructor to initialize the LayoutInflater
     public PostsListAdapter(Context context) {
@@ -71,6 +73,12 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             // Set onClick listener for like button
             setupLikeButtonClickListener(holder, current);
+
+            // Set the visibility of edit and delete
+            ImageButton edit = holder.itemView.findViewById(R.id.btn_edit);
+            edit.setVisibility(visibility);
+            ImageButton delete = holder.itemView.findViewById(R.id.btn_delete);
+            delete.setVisibility(visibility);
         }
     }
 
@@ -113,5 +121,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     // getPosts: Returns the current list of posts
     public List<Post> getPosts() {
         return posts;
+    }
+
+    public void setFeedVisibility() {
+        this.visibility = View.GONE;
+        notifyDataSetChanged(); // Notify the adapter to update the views
+    }
+    public void setProfileVisibility() {
+        this.visibility = View.VISIBLE;
+        notifyDataSetChanged(); // Notify the adapter to update the views
     }
 }

@@ -59,11 +59,12 @@
             android:layout_gravity="center"
             android:contentDescription="@string/post_picture" />
 
-    <LinearLayout
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/iv_likes"
@@ -71,6 +72,9 @@
             android:layout_height="wrap_content"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            android:minHeight="60dp"
+            android:minWidth="60dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_likes"
             android:contentDescription="@string/post_picture" />
 
@@ -96,7 +100,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:minHeight="48dp"
+                android:minHeight="60dp"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_like"
                 android:contentDescription="@string/btn_like" />
 
@@ -104,7 +109,8 @@
                 android:id="@+id/btn_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
+                android:minHeight="60dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_comment"
                 android:contentDescription="@string/btn_cmt" />
@@ -114,10 +120,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:minHeight="48dp"
-
+                android:minHeight="60dp"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_share"
                 android:contentDescription="@string/btn_shr" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <ImageButton
+                android:id="@+id/btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="70dp"
+                android:minHeight="70dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_edit" />
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="70dp"
+                android:minHeight="70dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_delete" />
 
         </LinearLayout>
 

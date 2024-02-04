@@ -3,6 +3,9 @@ package com.example.facebook_like_android.entities.post;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Post {
 
@@ -14,6 +17,7 @@ public class Post {
     private int pic;  // Resource ID for the post picture
     private int profile;  // Resource ID for the profile picture of the post's author
     private boolean isLiked;  // Flag to indicate whether the post is liked
+    private List<Comment> comments;
 
     // Getter method to check if the post is liked
     public boolean isLiked() {
@@ -72,6 +76,7 @@ public class Post {
         this.pic = pic;
         this.profile = profile;
         this.likes = 0;  // Initial likes count is set to 0
+        this.comments = new ArrayList<>();
     }
 
     // Method to handle the liking of the post
@@ -84,5 +89,12 @@ public class Post {
         } else {
             likes--;
         }
+    }
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
     }
 }

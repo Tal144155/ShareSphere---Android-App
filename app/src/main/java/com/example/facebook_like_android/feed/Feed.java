@@ -44,9 +44,12 @@ public class Feed extends AppCompatActivity {
         // Set the parsed posts to the adapter
         adapter.setPosts(posts);
 
+        adapter.setFeedVisibility();
+
         // Set click listeners for buttons
         binding.btnMenu.setOnClickListener(v -> startActivity(new Intent(this, Menu.class)));
         binding.btnSearch.setOnClickListener(v -> startActivity(new Intent(this, Search.class)));
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
+        binding.btnProfile.setOnClickListener(v -> startActivity(new Intent(this, Profile.class)));
     }
 }

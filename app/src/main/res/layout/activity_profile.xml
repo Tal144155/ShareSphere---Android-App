@@ -21,7 +21,7 @@
             android:src="@drawable/ic_user" />
 
         <TextView
-            android:id="@+id/tv_nicname"
+            android:id="@+id/tv_username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
