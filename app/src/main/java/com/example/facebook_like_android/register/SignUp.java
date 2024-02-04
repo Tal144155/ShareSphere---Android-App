@@ -81,6 +81,7 @@ public class SignUp extends AppCompatActivity {
         // Set click listeners for buttons
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
         binding.btnLogin.setOnClickListener(v -> {
+            finish();
             Intent i = new Intent(this, Login.class);
             startActivity(i);
         });

@@ -1,6 +1,5 @@
 package com.example.facebook_like_android.feed;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +20,7 @@ public class Search extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Set click listeners for buttons
-        binding.btnBack.setOnClickListener(v -> startActivity(new Intent(this, Feed.class)));
+        binding.btnBack.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
     }
 }

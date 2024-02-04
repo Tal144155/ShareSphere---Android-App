@@ -56,6 +56,7 @@ public class Login extends AppCompatActivity {
 
         // Set click listeners for buttons
         binding.btnSignup.setOnClickListener(v -> {
+            finish();
             Intent i = new Intent(this, SignUp.class);
             startActivity(i);
         });

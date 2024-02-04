@@ -22,8 +22,12 @@ public class Menu extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Set click listeners for buttons
-        binding.btnLogout.setOnClickListener(v -> startActivity(new Intent(this, Login.class)));
-        binding.btnHome.setOnClickListener(v -> startActivity(new Intent(this, Feed.class)));
+        binding.btnLogout.setOnClickListener(v ->  {
+            Intent i = new Intent(this, Login.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        });
+        binding.btnHome.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
     }
 }
