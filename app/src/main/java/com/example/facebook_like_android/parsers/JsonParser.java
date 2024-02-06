@@ -3,6 +3,7 @@ package com.example.facebook_like_android.parsers;
 import android.content.Context;
 
 import com.example.facebook_like_android.entities.post.Post;
+import com.example.facebook_like_android.entities.post.PostManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,13 +13,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JsonParser {
+    static PostManager postManager = PostManager.getInstance();
 
-    public static List<Post> parsePosts(Context context,  InputStream inputStream) {
-        List<Post> posts = new ArrayList<>();
+    public static void parsePosts(Context context,  InputStream inputStream) {
+
         try {
             // Read the JSON file from the assets folder
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -49,12 +49,11 @@ public class JsonParser {
 
                 // Create a Post object and add it to the list
                 Post post = new Post(username, author, content, pictureResourceId, profilePhotoResourceId);
-                posts.add(post);
+                postManager.addPost(post);
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        return posts;
     }
 
 

@@ -9,20 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
-import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.parsers.JsonParser;
-import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.style.ThemeMode;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Feed extends AppCompatActivity {
     private ActivityFeedBinding binding;
     private final ThemeMode mode = ThemeMode.getInstance();
-    private List<Post> posts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +34,10 @@ public class Feed extends AppCompatActivity {
 
         // Call the method to read and parse the JSON file
         try {
-            posts = JsonParser.parsePosts(this, getAssets().open("posts.json"));
+            JsonParser.parsePosts(this, getAssets().open("posts.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // Set the parsed posts to the adapter
-        adapter.setPosts(posts);
 
         adapter.setFeedVisibility();
 
