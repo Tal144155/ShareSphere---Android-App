@@ -17,7 +17,9 @@ public class Post {
     private int pic;  // Resource ID for the post picture
     private int profile;  // Resource ID for the profile picture of the post's author
     private boolean isLiked;  // Flag to indicate whether the post is liked
+    private String username;
     private List<Comment> comments;
+
 
     // Getter method to check if the post is liked
     public boolean isLiked() {
@@ -27,6 +29,14 @@ public class Post {
     // Getter method to retrieve the author of the post
     public String getAuthor() {
         return author;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     // Setter method to set the author of the post
@@ -70,7 +80,8 @@ public class Post {
     }
 
     // Constructor to initialize a new post with essential information
-    public Post(String author, String content, int pic, int profile) {
+    public Post(String username, String author, String content, int pic, int profile) {
+        this.username = username;
         this.author = author;
         this.content = content;
         this.pic = pic;

@@ -1,11 +1,9 @@
 package com.example.facebook_like_android.adapters;
 
 import android.content.Context;
-import android.graphics.Outline;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -83,17 +81,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         }
     }
 
-    // setupCircularOutline: Applies circular outline to the profile image
-    private void setupCircularOutline(@NonNull PostViewHolder holder) {
-        ImageView circularProfile = holder.itemView.findViewById(R.id.iv_profile);
-        circularProfile.setClipToOutline(true);
-        circularProfile.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 100f);
-            }
-        });
-    }
 
     // setupLikeButtonClickListener: Sets onClick listener for the like button
     private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, final Post current) {

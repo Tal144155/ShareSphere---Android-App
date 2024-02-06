@@ -40,6 +40,7 @@ public class JsonParser {
             for (int i = 0; i < postsArray.length(); i++) {
                 JSONObject postObject = postsArray.getJSONObject(i);
 
+                String username = postObject.getString("username");
                 String author = postObject.getString("author");
                 String content = postObject.getString("content");
                 // Pass the context to getResourceId method
@@ -47,7 +48,7 @@ public class JsonParser {
                 int profilePhotoResourceId = getResourceId(context, postObject.getString("authorProfilePhoto"), "drawable");
 
                 // Create a Post object and add it to the list
-                Post post = new Post(author, content, pictureResourceId, profilePhotoResourceId);
+                Post post = new Post(username, author, content, pictureResourceId, profilePhotoResourceId);
                 posts.add(post);
             }
         } catch (IOException | JSONException e) {

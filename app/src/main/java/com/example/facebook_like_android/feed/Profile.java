@@ -39,7 +39,7 @@ public class Profile extends AppCompatActivity {
             posts = JsonParser.parsePosts(this, getAssets().open("posts.json"));
             // Save only the files that are mine
             for (Post post : posts) {
-                if (post.getAuthor().equals(UserInfoManager.getUsername(this)))
+                if (post.getUsername().equals(UserInfoManager.getUsername(this)))
                     myPosts.add(post);
             }
         } catch (IOException e) {
@@ -47,7 +47,6 @@ public class Profile extends AppCompatActivity {
         }
 
         adapter.setPosts(myPosts);
-
         adapter.setProfileVisibility();
 
         UserInfoManager.setProfile(this, binding.ivProfile);
