@@ -10,6 +10,8 @@ import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.parsers.JsonParser;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
+import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class Profile extends AppCompatActivity {
             posts = JsonParser.parsePosts(this, getAssets().open("posts.json"));
             // Save only the files that are mine
             for (Post post : posts) {
-                if (post.getAuthor().equals(binding.tvUsername.getText().toString()))
+                if (post.getAuthor().equals(UserInfoManager.getUsername(this)))
                     myPosts.add(post);
             }
         } catch (IOException e) {
@@ -47,6 +49,11 @@ public class Profile extends AppCompatActivity {
         adapter.setPosts(myPosts);
 
         adapter.setProfileVisibility();
+
+        UserInfoManager.setProfile(this, binding.ivProfile);
+        CircularOutlineUtil.applyCircularOutline(binding.ivProfile);
+
+        UserInfoManager.setNickname(this, binding.tvNickname);
     }
 
 

@@ -17,16 +17,17 @@
             android:id="@+id/iv_profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="10dp"
-            android:src="@drawable/ic_user" />
+            android:scaleType="centerCrop"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/circle_background" />
 
         <TextView
-            android:id="@+id/tv_username"
+            android:id="@+id/tv_nickname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Yael Dahari"
+            android:layout_marginStart="15dp"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -40,6 +41,7 @@
         android:background="@color/white"
         android:backgroundTint="#DA74EB"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
@@ -50,8 +52,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="4dp"
-            android:gravity="center"
-            android:layout_gravity="center"
             android:hint="@string/tv_shrur"
             android:outlineProvider="bounds"
             android:padding="10dp"

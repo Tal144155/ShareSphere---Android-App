@@ -1,6 +1,7 @@
 package com.example.facebook_like_android.register;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +13,8 @@ import com.example.facebook_like_android.databinding.ActivityLoginBinding;
 import com.example.facebook_like_android.feed.Feed;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.users.Users;
+
+import java.util.Map;
 
 public class Login extends AppCompatActivity {
     private Users users = Users.getInstance();  // Singleton instance for managing user data
@@ -64,11 +67,13 @@ public class Login extends AppCompatActivity {
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
         binding.btnLogin.setOnClickListener(v -> {
-            // TODO: remove that line!
-            startActivity(new Intent(this, Feed.class));
+            //TODO: remove those 2 lines!
+//            startActivity(new Intent(this, Feed.class));
+//            saveCurrentUser();
 
             // Check if the provided username and password are valid
             if (users.isSigned(binding.etUsername, binding.etPassword)) {
+                saveCurrentUser();
                 Intent i = new Intent(this, Feed.class);
                 startActivity(i);
             } else {
@@ -85,5 +90,15 @@ public class Login extends AppCompatActivity {
         // Clear input fields on pause to ensure a clean state when returning to the activity
         binding.etUsername.setText(null);
         binding.etPassword.setText(null);
+    }
+
+    private void saveCurrentUser() {
+        SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Map<Users.FIELD, String> user = users.getUserByUsername(binding.etUsername.getText().toString());
+        editor.putString("username", user.get(Users.FIELD.Username));
+        editor.putString("nickname", user.get(Users.FIELD.Nickname));
+        editor.putString("profile", user.get(Users.FIELD.ProfilePhoto));
+        editor.apply();
     }
 }

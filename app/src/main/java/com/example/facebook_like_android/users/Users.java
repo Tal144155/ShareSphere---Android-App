@@ -13,7 +13,7 @@ import java.util.Objects;
 // Singleton class to manage user data and authentication
 public class Users {
     // Enum representing user registration fields
-    enum FIELD {
+    public enum FIELD {
         Username, Password, ConfirmPassword, Nickname, ProfilePhoto
     }
 
@@ -66,5 +66,9 @@ public class Users {
         if (userPosts.containsKey(user.getUsername().getText().toString()))
             return userPosts.get(user.getUsername().getText().toString());
         return null;
+    }
+
+    public Map<FIELD, String> getUserByUsername(String username) {
+        return users.get(username);
     }
 }

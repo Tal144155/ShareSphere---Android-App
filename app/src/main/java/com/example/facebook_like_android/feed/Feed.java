@@ -11,7 +11,9 @@ import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.parsers.JsonParser;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.style.ThemeMode;
+import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,5 +53,10 @@ public class Feed extends AppCompatActivity {
         binding.btnSearch.setOnClickListener(v -> startActivity(new Intent(this, Search.class)));
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
         binding.btnProfile.setOnClickListener(v -> startActivity(new Intent(this, Profile.class)));
+
+        UserInfoManager.setProfile(this, binding.btnProfile);
+
+        CircularOutlineUtil.applyCircularOutline(binding.btnProfile);
     }
+
 }

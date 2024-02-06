@@ -14,8 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
-import com.example.facebook_like_android.entities.post.buttons.LikeButton;
 import com.example.facebook_like_android.entities.post.Post;
+import com.example.facebook_like_android.entities.post.buttons.LikeButton;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
 
 import java.util.List;
 
@@ -68,8 +69,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             holder.ivProfile.setImageResource(current.getProfile());
             holder.tvLikes.setText(String.valueOf(current.getLikes()));
 
-            // Apply circular outline to profile image
-            setupCircularOutline(holder);
+            // Apply circular outline to profile image using the utility class
+            CircularOutlineUtil.applyCircularOutline(holder.itemView.findViewById(R.id.iv_profile));
 
             // Set onClick listener for like button
             setupLikeButtonClickListener(holder, current);

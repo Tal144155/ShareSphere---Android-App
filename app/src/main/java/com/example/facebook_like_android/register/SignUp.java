@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.Button;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.databinding.ActivitySignUpBinding;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.users.User;
 import com.example.facebook_like_android.users.Users;
@@ -64,6 +65,8 @@ public class SignUp extends AppCompatActivity {
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.ivPrvImg.setVisibility(View.GONE);
+
         // Initialize User object for storing registration information
         user = new User(findViewById(R.id.et_username), findViewById(R.id.et_password_su), findViewById(R.id.et_confirmPassword_su), findViewById(R.id.et_nickname));
         // Initialize InputError object for handling input validation
@@ -96,11 +99,15 @@ public class SignUp extends AppCompatActivity {
             startActivity(i);
         });
 
-        Button selectImg = binding.btnImg;
         imgView = binding.ivPrvImg;
 
         // Set click listener for the image selection button
-        selectImg.setOnClickListener(v -> openGallery());
+        binding.btnImg.setOnClickListener(v -> {
+            openGallery();
+            binding.ivPrvImg.setVisibility(View.VISIBLE);
+        });
+
+        CircularOutlineUtil.applyCircularOutline(binding.ivPrvImg);
     }
 
     // Method to open the gallery for image selection

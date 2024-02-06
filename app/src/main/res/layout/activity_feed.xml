@@ -80,13 +80,12 @@
 
         <ImageButton
             android:id="@+id/btn_profile"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
             android:layout_gravity="start"
             android:layout_marginStart="20dp"
-            app:srcCompat="@drawable/ic_user"
+            android:background="@drawable/circle_background"
             android:contentDescription="@string/profile" />
 
         <TextView

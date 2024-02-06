@@ -7,26 +7,23 @@ import com.example.facebook_like_android.users.User;
 import com.example.facebook_like_android.users.Users;
 
 public class InputError {
-    enum FIELD {
-        Username, Password, ConfirmPassword, Nickname
-    }
 
     private final EditText[] fields;  // Array to store EditText fields for input validation
 
     // Constructor for handling validation of username and password during registration
     public InputError(EditText username, EditText password) {
         this.fields = new EditText[2];
-        fields[FIELD.Username.ordinal()] = username;
-        fields[FIELD.Password.ordinal()] = password;
+        fields[Users.FIELD.Username.ordinal()] = username;
+        fields[Users.FIELD.Password.ordinal()] = password;
     }
 
     // Constructor for handling validation of various fields during user creation
     public InputError(User user) {
         this.fields = new EditText[4];
-        this.fields[FIELD.Username.ordinal()] = user.getUsername();
-        this.fields[FIELD.Password.ordinal()] = user.getPassword();
-        this.fields[FIELD.ConfirmPassword.ordinal()] = user.getRe_password();
-        this.fields[FIELD.Nickname.ordinal()] = user.getNickname();
+        this.fields[Users.FIELD.Username.ordinal()] = user.getUsername();
+        this.fields[Users.FIELD.Password.ordinal()] = user.getPassword();
+        this.fields[Users.FIELD.ConfirmPassword.ordinal()] = user.getRe_password();
+        this.fields[Users.FIELD.Nickname.ordinal()] = user.getNickname();
     }
 
     // Method to check if any input field is empty and display an error if so
@@ -34,7 +31,7 @@ public class InputError {
         boolean isEmpty = false;
         for (int i = 0; i < fields.length; i++) {
             if (TextUtils.isEmpty(fields[i].getText())) {
-                fields[i].setError(FIELD.values()[i] + " is required!");
+                fields[i].setError(Users.FIELD.values()[i] + " is required!");
                 isEmpty = true;
             }
         }
@@ -53,8 +50,8 @@ public class InputError {
     // Method to check if the username is unique and display an error if not
     public boolean isUnique() {
         Users users = Users.getInstance();
-        if (!users.isUnique(fields[FIELD.Username.ordinal()])) {
-            fields[FIELD.Username.ordinal()].setError("This username already exists!");
+        if (!users.isUnique(fields[Users.FIELD.Username.ordinal()])) {
+            fields[Users.FIELD.Username.ordinal()].setError("This username already exists!");
             return false;
         }
         return true;
@@ -67,11 +64,11 @@ public class InputError {
 
     // Method to check if the password meets the specified criteria
     public boolean isPwdValid() {
-        return fields[FIELD.Password.ordinal()].getText().toString().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$");
+        return fields[Users.FIELD.Password.ordinal()].getText().toString().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$");
     }
 
     // Method to check if the password and confirm password fields match
     public boolean arePwdSame() {
-        return fields[FIELD.Password.ordinal()].getText().toString().equals(fields[FIELD.ConfirmPassword.ordinal()].getText().toString());
+        return fields[Users.FIELD.Password.ordinal()].getText().toString().equals(fields[Users.FIELD.ConfirmPassword.ordinal()].getText().toString());
     }
 }
