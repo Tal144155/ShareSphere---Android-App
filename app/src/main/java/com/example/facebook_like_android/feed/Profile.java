@@ -56,6 +56,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener {
         binding.lstPosts.findViewById(R.id.btn_update).setVisibility(View.VISIBLE);
         binding.lstPosts.findViewById(R.id.btn_update).setOnClickListener(v -> {
             adapter.updatePost(position, content.getText().toString(), -1);
+            content.setVisibility(View.GONE);
+            tv.setVisibility(View.VISIBLE);
         });
     }
 }

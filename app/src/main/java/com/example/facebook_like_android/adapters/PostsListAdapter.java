@@ -136,7 +136,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             if (newPic != -1)
                 post.setPic(newPic);
             postManager.updatePost(position, post);
-            notifyItemChanged(position); // Notify adapter of the change at this position
+            notifyItemChanged(position);// Notify adapter of the change at this position
         }
     }
 
