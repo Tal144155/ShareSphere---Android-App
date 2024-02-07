@@ -77,7 +77,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             CircularOutlineUtil.applyCircularOutline(holder.itemView.findViewById(R.id.iv_profile));
 
             // Set onClick listener for like button
-            setupLikeButtonClickListener(holder, current);
+            setupLikeButtonClickListener(holder, position);
 
             setVisibility(holder);
 
@@ -100,13 +100,12 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         holder.itemView.findViewById(R.id.btn_update).setVisibility(View.GONE);
     }
 
-
     // setupLikeButtonClickListener: Sets onClick listener for the like button
-    private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, final Post current) {
+    private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, int position) {
         LikeButton like = new LikeButton(holder.itemView.findViewById(R.id.btn_like));
         like.setOnClickListener(v -> {
-            current.like();
-            holder.tvLikes.setText(String.valueOf(current.getLikes()));
+            posts.get(position).like();
+            holder.tvLikes.setText(String.valueOf(posts.get(position).getLikes()));
         });
     }
 
