@@ -97,7 +97,7 @@ public class SignUp extends AppCompatActivity {
 
         // Set click listener for the image selection button
         binding.btnImg.setOnClickListener(v -> {
-            imageHandler.openGallery();
+            imageHandler.openChooser();
             binding.ivPrvImg.setVisibility(View.VISIBLE);
         });
 

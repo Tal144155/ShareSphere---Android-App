@@ -1,6 +1,7 @@
 package com.example.facebook_like_android.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,8 +70,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             final Post current = posts.get(position);
             holder.tvAuthor.setText(current.getAuthor());
             holder.tvcontent.setText(current.getContent());
-            holder.ivPic.setImageResource(current.getPic());
-            holder.ivProfile.setImageResource(current.getProfile());
+            holder.ivPic.setImageURI(current.getPic());
+            holder.ivProfile.setImageURI(current.getProfile());
             holder.tvLikes.setText(String.valueOf(current.getLikes()));
 
             // Apply circular outline to profile image using the utility class
@@ -98,6 +99,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         delete.setVisibility(visibility);
         holder.itemView.findViewById(R.id.et_content).setVisibility(View.GONE);
         holder.itemView.findViewById(R.id.btn_update).setVisibility(View.GONE);
+        holder.itemView.findViewById(R.id.btn_changeImg).setVisibility(View.GONE);
     }
 
     // setupLikeButtonClickListener: Sets onClick listener for the like button
@@ -128,12 +130,12 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         notifyDataSetChanged(); // Notify the adapter to update the views
     }
     // Method to update post content
-    public void updatePost(int position, String newContent, int newPic) {
+    public void updatePost(int position, String newContent, Uri newPic) {
         if (posts != null && position >= 0 && position < posts.size()) {
             Post post = postManager.getPosts().get(position);
             if (!newContent.isEmpty())
                 post.setContent(newContent); // Update the content
-            if (newPic != -1)
+            if (newPic != null)
                 post.setPic(newPic);
             postManager.updatePost(position, post);
             notifyItemChanged(position);// Notify adapter of the change at this position

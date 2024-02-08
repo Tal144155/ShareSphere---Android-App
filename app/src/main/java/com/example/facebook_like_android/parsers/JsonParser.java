@@ -1,6 +1,7 @@
 package com.example.facebook_like_android.parsers;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.PostManager;
@@ -43,12 +44,16 @@ public class JsonParser {
                 String username = postObject.getString("username");
                 String author = postObject.getString("author");
                 String content = postObject.getString("content");
+                String picture = postObject.getString("picture");
+                String profile = postObject.getString("authorProfilePhoto");
+
                 // Pass the context to getResourceId method
                 int pictureResourceId = getResourceId(context, postObject.getString("picture"), "drawable");
                 int profilePhotoResourceId = getResourceId(context, postObject.getString("authorProfilePhoto"), "drawable");
 
                 // Create a Post object and add it to the list
-                Post post = new Post(username, author, content, pictureResourceId, profilePhotoResourceId);
+                //Post post = new Post(username, author, content, pictureResourceId, profilePhotoResourceId);
+                Post post = new Post(username, author, content, Uri.parse(picture), Uri.parse(profile));
                 postManager.addPost(post);
             }
         } catch (IOException | JSONException e) {

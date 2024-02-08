@@ -68,12 +68,26 @@
             android:layout_gravity="center"
             android:contentDescription="@string/post_picture" />
 
-        <Button
-            android:id="@+id/btn_update"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="@string/btn_update_post"/>
+            android:layout_gravity="end">
+
+            <Button
+                android:id="@+id/btn_changeImg"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_image"/>
+
+            <Button
+                android:layout_margin="10dp"
+                android:id="@+id/btn_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_update_post"/>
+
+        </LinearLayout>
 
 
         <LinearLayout

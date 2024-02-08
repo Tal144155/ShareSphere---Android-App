@@ -38,4 +38,5 @@
     <string name="memories">Memories</string>
     <string name="my_posts">My Posts</string>
     <string name="btn_update_post">Update Post</string>
+    <string name="change_image">Change Image</string>
 </resources>

@@ -21,7 +21,7 @@ public class ImageHandler {
         this.activity = activity;
     }
 
-    public void openGallery() {
+    public void openChooser() {
         Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
         galleryIntent.setType("image/*");

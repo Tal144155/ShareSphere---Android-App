@@ -1,5 +1,7 @@
 package com.example.facebook_like_android.entities.post;
 
+import android.net.Uri;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -14,8 +16,8 @@ public class Post {
     private String author;  // Author of the post
     private String content;  // Content of the post
     private int likes;  // Number of likes on the post
-    private int pic;  // Resource ID for the post picture
-    private int profile;  // Resource ID for the profile picture of the post's author
+    private Uri pic;
+    private Uri profile;
     private boolean isLiked;  // Flag to indicate whether the post is liked
     private String username;
     private List<Comment> comments;
@@ -65,22 +67,22 @@ public class Post {
     }
 
     // Getter method to retrieve the resource ID for the post picture
-    public int getPic() {
+    public Uri getPic() {
         return pic;
     }
 
     // Setter method to set the resource ID for the post picture
-    public void setPic(int pic) {
+    public void setPic(Uri pic) {
         this.pic = pic;
     }
 
     // Getter method to retrieve the resource ID for the profile picture of the post's author
-    public int getProfile() {
+    public Uri getProfile() {
         return profile;
     }
 
     // Constructor to initialize a new post with essential information
-    public Post(String username, String author, String content, int pic, int profile) {
+    public Post(String username, String author, String content, Uri pic, Uri profile) {
         this.username = username;
         this.author = author;
         this.content = content;
