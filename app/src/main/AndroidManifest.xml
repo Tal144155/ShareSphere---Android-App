@@ -7,7 +7,9 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <permission android:name="READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"

@@ -69,8 +69,9 @@ public class ImageHandler {
     }
 
     private Uri getImageUri(Activity activity, Bitmap bitmap) {
-        if (bitmap == null)
+        if (bitmap == null) {
             return null;
+        }
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(), bitmap, "Title", null);

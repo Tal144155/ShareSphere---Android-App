@@ -136,7 +136,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             if (!newContent.isEmpty())
                 post.setContent(newContent); // Update the content
             if (newPic != null)
-                post.setPic(newPic);
+                post.setPic(Uri.parse(newPic.toString()));
             postManager.updatePost(position, post);
             notifyItemChanged(position);// Notify adapter of the change at this position
         }
@@ -157,6 +157,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void refreshFeed() {
+        notifyDataSetChanged();
     }
 
 }
