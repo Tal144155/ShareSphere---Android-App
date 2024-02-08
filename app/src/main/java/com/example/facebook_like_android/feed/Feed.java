@@ -2,7 +2,9 @@ package com.example.facebook_like_android.feed;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import com.example.facebook_like_android.databinding.ActivityFeedBinding;
 import com.example.facebook_like_android.parsers.JsonParser;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
+import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.io.IOException;
@@ -59,9 +62,17 @@ public class Feed extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PROFILE_REQUEST_CODE && resultCode == RESULT_OK)
-            adapter.refreshFeed();
+        if (requestCode == PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
+                adapter.refreshFeed();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d("DEBUG", "onRequestPermissionsResult: requestCode=" + requestCode);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }
 
 }

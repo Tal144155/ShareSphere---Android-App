@@ -83,8 +83,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             setVisibility(holder);
 
             holder.itemView.findViewById(R.id.btn_edit).setOnClickListener(v -> {
-                if (editClickListener != null)
+                if (editClickListener != null) {
+                    holder.itemView.findViewById(R.id.btn_update).setVisibility(View.VISIBLE);
+                    holder.itemView.findViewById(R.id.btn_changeImg).setVisibility(View.VISIBLE);
                     editClickListener.onEditClick(position);
+                }
             });
 
             getMyPosts(holder, position);
