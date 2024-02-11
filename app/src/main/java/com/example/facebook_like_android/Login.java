@@ -55,6 +55,8 @@ public class Login extends AppCompatActivity {
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
         binding.btnLogin.setOnClickListener(v -> {
+            // TODO: remove that line!
+            startActivity(new Intent(this, Feed.class));
             if (users.isSigned(binding.etUsername, binding.etPassword)) {
                 Intent i = new Intent(this, Feed.class);
                 startActivity(i);
@@ -66,7 +68,9 @@ public class Login extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onPause() {
+        super.onPause();
+        binding.etUsername.setText(null);
+        binding.etPassword.setText(null);
     }
 }

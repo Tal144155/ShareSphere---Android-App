@@ -19,4 +19,13 @@
     <string name="title_activity_feed">Feed</string>
     <string name="title_activity_main_feed">MainFeed</string>
     <string name="btn_img">Pick Profile Photo</string>
+    <string name="btn_shr">Share</string>
+    <string name="btn_cmt">Comment</string>
+    <string name="btn_like">Like</string>
+    <string name="post_picture">post picture</string>
+    <string name="profile_pic">profile picture</string>
+    <string name="tv_shrur">Share your thoughts..</string>
+    <string name="profile">Profile</string>
+    <string name="menu">Menu</string>
+    <string name="search">Search</string>
 </resources>

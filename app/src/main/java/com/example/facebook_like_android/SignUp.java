@@ -43,6 +43,10 @@ public class SignUp extends AppCompatActivity {
         }
         @Override
         public void afterTextChanged(Editable s) {
+            if (!inputError.isPwdValid())
+                binding.etPasswordSu.setError("Invalid password!");
+            if (!inputError.arePwdSame())
+                binding.etConfirmPasswordSu.setError("Passwords must match!");
             // You can sign up only if the info is correct
             binding.btnSignup.setEnabled(inputError.isValid());
         }
