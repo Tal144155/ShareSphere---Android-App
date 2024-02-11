@@ -54,6 +54,7 @@ public class Feed extends AppCompatActivity {
         binding.btnProfile.setOnClickListener(v -> startActivityForResult(new Intent(this, Profile.class), PROFILE_REQUEST_CODE));
 
         UserInfoManager.setProfile(this, binding.btnProfile);
+        UserInfoManager.setNickname(this, binding.tvNickname);
 
         CircularOutlineUtil.applyCircularOutline(binding.btnProfile);
 

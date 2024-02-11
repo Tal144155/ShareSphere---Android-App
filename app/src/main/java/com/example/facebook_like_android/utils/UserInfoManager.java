@@ -34,7 +34,7 @@ public class UserInfoManager {
     public static void setNickname(Context context, TextView tvNickname) {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String nickname = preferences.getString("nickname", "");
-        tvNickname.setText(nickname);
+        tvNickname.append(nickname);
     }
     public static String getUsername(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);

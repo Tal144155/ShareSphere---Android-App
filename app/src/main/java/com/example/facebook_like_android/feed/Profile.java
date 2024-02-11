@@ -3,7 +3,6 @@ package com.example.facebook_like_android.feed;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +22,7 @@ import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
 import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
+import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.ImageHandler;
 import com.example.facebook_like_android.utils.PermissionsManager;
@@ -33,7 +33,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     private PostsListAdapter adapter;
     private final ImageHandler imageHandler = new ImageHandler(this);
     private ImageView prvImg;
-    private Uri picture;
+    private final ThemeMode mode = ThemeMode.getInstance();
     private Bitmap bitmap;
     private final PostManager postManager = PostManager.getInstance();
 
@@ -63,6 +63,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         UserInfoManager.setNickname(this, binding.tvNickname);
 
         binding.btnHome.setOnClickListener(v -> finish());
+        binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
 //        binding.etCreatePost.setOnClickListener(v -> {
 //            binding.btnImg.setVisibility(View.VISIBLE);
@@ -129,7 +130,6 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, prvImg);
-            Log.d("DEBUG", "Picture Uri: " + picture); // Log the Uri to verify its correctness
         } else {
             // Handle error or cancellation
             Toast.makeText(this, "Failed to select image", Toast.LENGTH_SHORT).show();
