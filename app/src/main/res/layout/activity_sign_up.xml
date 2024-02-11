@@ -13,7 +13,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp">
+    tools:context=".register.SignUp">
 
     <ImageButton
         android:id="@+id/btn_changeMode"
@@ -203,7 +203,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            tools:context=".SignUp"
+            tools:context=".register.SignUp"
             tools:ignore="HardcodedText">
 
             <!--Button to open the image selector-->

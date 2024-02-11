@@ -1,4 +1,4 @@
-package com.example.facebook_like_android;
+package com.example.facebook_like_android.feed;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
-import com.example.facebook_like_android.entities.Post;
+import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.style.ThemeMode;
 
 import org.json.JSONArray;
@@ -34,23 +34,25 @@ public class Feed extends AppCompatActivity {
         binding = ActivityFeedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;
         final PostsListAdapter adapter = new PostsListAdapter(this);
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
-
         // Call the method to read and parse the JSON file
         parseJsonFile();
 
+        // Set the parsed posts to the adapter
         adapter.setPosts(posts);
 
+        // Set click listeners for buttons
         binding.btnMenu.setOnClickListener(v -> startActivity(new Intent(this, Menu.class)));
         binding.btnSearch.setOnClickListener(v -> startActivity(new Intent(this, Search.class)));
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
-
     }
 
+    // Method to read and parse the JSON file containing posts
     private void parseJsonFile() {
         try (InputStream inputStream = getAssets().open("posts.json")) {
             // Read the JSON file from the assets folder
@@ -58,6 +60,7 @@ public class Feed extends AppCompatActivity {
             StringBuilder stringBuilder = new StringBuilder();
             String line;
 
+            // Read the file line by line
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line).append('\n');
             }
@@ -72,6 +75,7 @@ public class Feed extends AppCompatActivity {
             for (int i = 0; i < postsArray.length(); i++) {
                 JSONObject postObject = postsArray.getJSONObject(i);
 
+                // Extract post details from JSON
                 String author = postObject.getString("author");
                 String content = postObject.getString("content");
 
@@ -82,12 +86,12 @@ public class Feed extends AppCompatActivity {
                 posts.add(post);
             }
 
-
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
 
+    // Method to get the resource ID based on the resource name and type
     private int getResourceId(String resourceName, String resourceType) {
         return getResources().getIdentifier(resourceName, resourceType, getPackageName());
     }

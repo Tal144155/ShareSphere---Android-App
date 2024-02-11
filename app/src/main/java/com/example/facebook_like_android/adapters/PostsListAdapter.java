@@ -13,18 +13,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
-import com.example.facebook_like_android.buttons.LikeButton;
-import com.example.facebook_like_android.entities.Post;
+import com.example.facebook_like_android.entities.post.buttons.LikeButton;
+import com.example.facebook_like_android.entities.post.Post;
 
 import java.util.List;
 
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
+
+    // ViewHolder for holding views of individual posts
     class PostViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvAuthor;
         private final TextView tvcontent;
         private final ImageView ivPic;
         private final ImageView ivProfile;
         private final TextView tvLikes;
+
+        // Constructor to initialize views
         private PostViewHolder(View itemView) {
             super(itemView);
             tvAuthor = itemView.findViewById(R.id.tv_author);
@@ -35,12 +39,15 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         }
     }
 
-    private final LayoutInflater mInflater;
-    private List<Post> posts;
+    private final LayoutInflater mInflater;  // LayoutInflater to inflate views
+    private List<Post> posts;  // List to store posts
 
+    // Constructor to initialize the LayoutInflater
     public PostsListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
+
+    // onCreateViewHolder: Inflates the layout for individual posts and creates a ViewHolder
     @NonNull
     @Override
     public PostsListAdapter.PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,6 +55,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         return new PostViewHolder(itemView);
     }
 
+    // onBindViewHolder: Binds data to the views in each ViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostsListAdapter.PostViewHolder holder, int position) {
         if (posts != null) {
@@ -63,10 +71,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             // Set onClick listener for like button
             setupLikeButtonClickListener(holder, current);
-
         }
     }
 
+    // setupCircularOutline: Applies circular outline to the profile image
     private void setupCircularOutline(@NonNull PostViewHolder holder) {
         ImageView circularProfile = holder.itemView.findViewById(R.id.iv_profile);
         circularProfile.setClipToOutline(true);
@@ -78,6 +86,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         });
     }
 
+    // setupLikeButtonClickListener: Sets onClick listener for the like button
     private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, final Post current) {
         LikeButton like = new LikeButton(holder.itemView.findViewById(R.id.btn_like));
         like.setOnClickListener(v -> {
@@ -86,7 +95,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         });
     }
 
-
+    // getItemCount: Returns the number of items in the dataset
     @Override
     public int getItemCount() {
         if (posts != null) {
@@ -95,9 +104,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         return 0;
     }
 
+    // setPosts: Updates the dataset and notifies the adapter of the change
     public void setPosts(List<Post> list) {
         posts = list;
         notifyDataSetChanged();
     }
-    public List<Post> getPosts() { return posts; }
+
+    // getPosts: Returns the current list of posts
+    public List<Post> getPosts() {
+        return posts;
+    }
 }
