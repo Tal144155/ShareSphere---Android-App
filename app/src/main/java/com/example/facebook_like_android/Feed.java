@@ -1,5 +1,6 @@
 package com.example.facebook_like_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +43,7 @@ public class Feed extends AppCompatActivity {
 
         adapter.setPosts(posts);
 
-
+        binding.btnMenu.setOnClickListener(v -> startActivity(new Intent(this, Menu.class)));
 
     }
 
