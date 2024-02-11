@@ -2,6 +2,7 @@ package com.example.facebook_like_android.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.entities.post.buttons.LikeButton;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
+import com.example.facebook_like_android.feed.Comments;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 
 import java.util.List;
@@ -52,6 +54,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private boolean isProfile = false;
     private Activity activity;
     private String username;
+    public final static int COMMENTS_REQUEST_CODE = 123;
 
     // Constructor to initialize the LayoutInflater
     public PostsListAdapter(Context context) {
@@ -108,6 +111,12 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             holder.itemView.findViewById(R.id.btn_share).setOnClickListener(v ->
                     holder.itemView.findViewById(R.id.share_options).setVisibility(View.VISIBLE));
+
+            holder.itemView.findViewById(R.id.btn_comment).setOnClickListener(v -> {
+                Intent comment = new Intent(activity, Comments.class);
+                comment.putExtra("position", position);
+                activity.startActivityForResult(comment, COMMENTS_REQUEST_CODE);
+            });
 
             getMyPosts(holder, position);
         }

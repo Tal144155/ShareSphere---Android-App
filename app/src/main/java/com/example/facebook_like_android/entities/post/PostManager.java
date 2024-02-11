@@ -38,4 +38,7 @@ public class PostManager {
     public int getPosition(Post post) {
         return posts.indexOf(post);
     }
+    public List<Comment> getComments(int position) {
+        return posts.get(position).getComments();
+    }
 }

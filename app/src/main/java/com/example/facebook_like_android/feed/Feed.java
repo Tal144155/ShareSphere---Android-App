@@ -1,5 +1,7 @@
 package com.example.facebook_like_android.feed;
 
+import static com.example.facebook_like_android.adapters.PostsListAdapter.COMMENTS_REQUEST_CODE;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,6 +69,9 @@ public class Feed extends AppCompatActivity {
         if (requestCode == PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
             if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
                 adapter.refreshFeed();
+        }
+        if (requestCode == COMMENTS_REQUEST_CODE && resultCode == RESULT_OK) {
+            String content = data.getStringExtra("content"); // Get the content of the new comment
         }
     }
     @Override

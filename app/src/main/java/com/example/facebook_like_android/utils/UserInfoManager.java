@@ -50,4 +50,5 @@ public class UserInfoManager {
         String s = preferences.getString("profile", "");
         return BitmapUtils.stringToBitmap(s);
     }
+
 }
