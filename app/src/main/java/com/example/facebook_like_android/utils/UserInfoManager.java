@@ -13,15 +13,13 @@ public class UserInfoManager {
     public static void setProfile(Context context, ImageButton btnProfile) {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String profile = preferences.getString("profile", "");
-        if (!profile.isEmpty() && isValidUri(profile))
-            btnProfile.setImageURI(Uri.parse(profile));
+        btnProfile.setImageBitmap(BitmapUtils.stringToBitmap(profile));
     }
 
     public static void setProfile(Context context, ImageView ivProfile) {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String profile = preferences.getString("profile", "");
-        if (!profile.isEmpty() && isValidUri(profile))
-            ivProfile.setImageURI(Uri.parse(profile));
+        ivProfile.setImageBitmap(BitmapUtils.stringToBitmap(profile));
     }
 
     private static boolean isValidUri(String uriString) {

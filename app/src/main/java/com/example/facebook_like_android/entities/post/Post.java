@@ -1,5 +1,6 @@
 package com.example.facebook_like_android.entities.post;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import androidx.room.Entity;
@@ -16,11 +17,14 @@ public class Post {
     private String author;  // Author of the post
     private String content;  // Content of the post
     private int likes;  // Number of likes on the post
-    private Uri pic;
+    private Bitmap pic;
     private Uri profile;
     private boolean isLiked;  // Flag to indicate whether the post is liked
     private String username;
     private List<Comment> comments;
+    private int picID;
+    private int profileID;
+    public static final int NOT_RES = -1;
 
 
     // Getter method to check if the post is liked
@@ -67,13 +71,14 @@ public class Post {
     }
 
     // Getter method to retrieve the resource ID for the post picture
-    public Uri getPic() {
+    public Bitmap getPic() {
         return pic;
     }
 
     // Setter method to set the resource ID for the post picture
-    public void setPic(Uri pic) {
+    public void setPic(Bitmap pic) {
         this.pic = pic;
+        this.picID = NOT_RES;
     }
 
     // Getter method to retrieve the resource ID for the profile picture of the post's author
@@ -82,7 +87,7 @@ public class Post {
     }
 
     // Constructor to initialize a new post with essential information
-    public Post(String username, String author, String content, Uri pic, Uri profile) {
+    public Post(String username, String author, String content, Bitmap pic, Uri profile) {
         this.username = username;
         this.author = author;
         this.content = content;
@@ -90,6 +95,27 @@ public class Post {
         this.profile = profile;
         this.likes = 0;  // Initial likes count is set to 0
         this.comments = new ArrayList<>();
+        this.picID = NOT_RES;
+        this.profileID = NOT_RES;
+    }
+
+    // Constructor to initialize a new post with essential information
+    public Post(String username, String author, String content, int pic, int profile) {
+        this.username = username;
+        this.author = author;
+        this.content = content;
+        this.picID = pic;
+        this.profileID = profile;
+        this.likes = 0;  // Initial likes count is set to 0
+        this.comments = new ArrayList<>();
+    }
+
+    public int getProfileID() {
+        return profileID;
+    }
+
+    public int getPicID() {
+        return picID;
     }
 
     // Method to handle the liking of the post

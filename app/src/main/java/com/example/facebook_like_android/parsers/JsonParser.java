@@ -1,6 +1,6 @@
 package com.example.facebook_like_android.parsers;
 
-import android.net.Uri;
+import android.content.Context;
 
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.PostManager;
@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 public class JsonParser {
     static PostManager postManager = PostManager.getInstance();
 
-    public static void parsePosts(InputStream inputStream) {
+    public static void parsePosts(InputStream inputStream, Context context) {
 
         try {
             // Read the JSON file from the assets folder
@@ -45,13 +45,21 @@ public class JsonParser {
                 String content = postObject.getString("content");
                 String picture = postObject.getString("picture");
                 String profile = postObject.getString("authorProfilePhoto");
+                // Pass the context to getResourceId method
+                int pictureResourceId = getResourceId(context, postObject.getString("picture"), "drawable");
+                int profilePhotoResourceId = getResourceId(context, postObject.getString("authorProfilePhoto"), "drawable");
 
                 // Create a Post object and add it to the list
-                Post post = new Post(username, author, content, Uri.parse(picture), Uri.parse(profile));
+                Post post = new Post(username, author, content, pictureResourceId, profilePhotoResourceId);
                 postManager.addPost(post);
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
+    // Method to get the resource ID based on the resource name and type
+    private static int getResourceId(Context context, String resourceName, String resourceType) {
+        return context.getResources().getIdentifier(resourceName, resourceType, context.getPackageName());
+    }
 }
+

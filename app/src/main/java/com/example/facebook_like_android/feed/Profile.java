@@ -2,11 +2,13 @@ package com.example.facebook_like_android.feed;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,17 +21,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
+import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.ImageHandler;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
-public class Profile extends AppCompatActivity implements OnEditClickListener, OnEditClickListener.OnDeleteClickListener {
+public class Profile extends AppCompatActivity implements OnEditClickListener {
     private ActivityProfileBinding binding;
     private PostsListAdapter adapter;
     private final ImageHandler imageHandler = new ImageHandler(this);
-    Uri picture;
+    private ImageView prvImg;
+    private Uri picture;
+    private Bitmap bitmap;
+    private final PostManager postManager = PostManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +43,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+        if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+
             // Initialize RecyclerView for displaying posts
             RecyclerView lstPosts = binding.lstPosts;
             adapter = new PostsListAdapter(this);
@@ -46,10 +53,11 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
             adapter.setProfileVisibility();
             SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
             adapter.setUsername(preferences.getString("username", ""));
-
-            adapter.setOnDeleteClickListener(this);
             adapter.setOnEditClickListener(this);
-        //}
+        }
+
+
+
 
         UserInfoManager.setProfile(this, binding.ivProfile);
         CircularOutlineUtil.applyCircularOutline(binding.ivProfile);
@@ -57,22 +65,41 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 
         binding.btnHome.setOnClickListener(v -> finish());
 
+//        binding.etCreatePost.setOnClickListener(v -> {
+//            binding.btnImg.setVisibility(View.VISIBLE);
+//            binding.btnCreate.setVisibility(View.VISIBLE);
+//            createPost();
+//        });
     }
 
-    @Override
-    public void onDeleteClick(int position) {
-        adapter.deletePost(position);
+    private void createPost() {
+
+//        binding.btnImg.setOnClickListener(v -> {
+//            prvImg = binding.ivPic;
+////            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+////                imageHandler.openChooser();
+////                prvImg.setVisibility(View.VISIBLE);
+////            }
+//        });
+
+//        binding.btnCreate.setOnClickListener(v -> {
+//            postManager.addPost(picture, binding.etCreatePost, this);
+//            setResult(RESULT_OK);
+//        });
     }
+
+
 
     @Override
     public void onEditClick(int position) {
         startEditVisibility();
+        prvImg = binding.lstPosts.findViewById(R.id.iv_pic);
         TextView tv = binding.lstPosts.findViewById(R.id.tv_content);
         EditText content = binding.lstPosts.findViewById(R.id.et_content);
         content.setText(tv.getText());
 
         binding.lstPosts.findViewById(R.id.btn_update).setOnClickListener(v -> {
-            adapter.updatePost(position, content.getText().toString(), picture);
+            adapter.updatePost(position, content.getText().toString(), bitmap);
             finishEditVisibility();
             setResult(RESULT_OK);
         });
@@ -99,8 +126,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            picture = imageHandler.handleActivityResult(requestCode, resultCode, data,
-                    binding.lstPosts.findViewById(R.id.iv_pic));
+            bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, prvImg);
             Log.d("DEBUG", "Picture Uri: " + picture); // Log the Uri to verify its correctness
         } else {
             // Handle error or cancellation
@@ -116,6 +142,5 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }
-
 
 }

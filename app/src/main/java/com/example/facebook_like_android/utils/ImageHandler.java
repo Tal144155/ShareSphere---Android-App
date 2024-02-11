@@ -34,37 +34,37 @@ public class ImageHandler {
         activity.startActivityForResult(chooser, REQUEST_CODE_PICK_IMAGE);
     }
 
-    public Uri handleActivityResult(int requestCode, int resultCode, Intent data, ImageView imageView) {
-        Uri photoUri = null;
+    public Bitmap handleActivityResult(int requestCode, int resultCode, Intent data, ImageView imageView) {
+        Uri photoUri;
+        Bitmap bitmap = null;
         if (requestCode == REQUEST_CODE_PICK_IMAGE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
-                if (data.getData() != null) // Image selected from Gallery
+                if (data.getData() != null) { // Image selected from Gallery
                     photoUri = data.getData();
+                    bitmap = loadBitmapFromUri(photoUri);
+                    imageView.setImageBitmap(bitmap);
+                }
                 else if (data.getExtras() != null && data.getExtras().get("data") != null) {
                     // Image captured from the camera
-                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                    bitmap = (Bitmap) data.getExtras().get("data");
                     imageView.setImageBitmap(bitmap);
-                    photoUri = getImageUri(activity, bitmap);
                 }
-                try {
-                    Bitmap bitmap = loadBitmapFromUri(photoUri);
-                    imageView.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (bitmap == null)
                     Toast.makeText(activity, "Failed to load image", Toast.LENGTH_SHORT).show();
-                }
             } else {
                 Toast.makeText(activity, "Image selection canceled", Toast.LENGTH_SHORT).show();
             }
         }
-        return photoUri;
+        return bitmap;
     }
 
-    private Bitmap loadBitmapFromUri(Uri uri) throws IOException {
+    public Bitmap loadBitmapFromUri(Uri uri){
         try (InputStream input = activity.getContentResolver().openInputStream(uri)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
             return BitmapFactory.decodeStream(input, null, options);
+        } catch (IOException e) {
+            return null;
         }
     }
 

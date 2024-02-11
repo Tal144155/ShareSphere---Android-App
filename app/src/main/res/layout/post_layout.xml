@@ -161,6 +161,35 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_facebook"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/facebook" />
+
+            <ImageButton
+                android:id="@+id/btn_insta"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/instagram" />
+
+            <ImageButton
+                android:id="@+id/btn_whatsapp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/whatsapp" />
+
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -187,6 +216,8 @@
                 app:srcCompat="@drawable/ic_delete" />
 
         </LinearLayout>
+
+
 
 
     </LinearLayout>

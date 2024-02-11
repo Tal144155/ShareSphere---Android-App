@@ -40,7 +40,7 @@ public class Feed extends AppCompatActivity {
 
         // Call the method to read and parse the JSON file
         try {
-            JsonParser.parsePosts(getAssets().open("posts.json"));
+            JsonParser.parsePosts(getAssets().open("posts.json"), this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,4 +75,10 @@ public class Feed extends AppCompatActivity {
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
+            adapter.refreshFeed();
+    }
 }

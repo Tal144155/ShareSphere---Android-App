@@ -1,6 +1,7 @@
 package com.example.facebook_like_android.register;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,6 +29,7 @@ public class SignUp extends AppCompatActivity {
     private ImageView imgView;  // ImageView to display the selected profile photo
     // Declare a member variable to store the selected image URI
     private Uri photo;
+    private Bitmap bitmap;
     private final ImageHandler imageHandler = new ImageHandler(this);
     TextWatcher watcher = new TextWatcher() {
         @Override
@@ -85,7 +87,7 @@ public class SignUp extends AppCompatActivity {
 
         binding.btnSignup.setOnClickListener(v -> {
             // Set the selected profile photo to the User object
-            user.setProfilePhoto(photo);
+            user.setProfilePhoto(bitmap);
             // Add the user to the Users collection
             users.addUser(user);
             // Navigate to the login screen
@@ -108,7 +110,7 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        photo = imageHandler.handleActivityResult(requestCode, resultCode, data, binding.ivPrvImg);
+        bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, binding.ivPrvImg);
     }
 
     @Override

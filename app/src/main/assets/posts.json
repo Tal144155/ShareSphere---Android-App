@@ -2,72 +2,72 @@
   "posts": [
     {
       "author": "John Doe",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile1",
+      "authorProfilePhoto": "profile1",
       "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post1",
+      "picture": "post1",
       "username": "John123"
     },
     {
       "author": "Alice Smith",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile2",
+      "authorProfilePhoto": "profile2",
       "content": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post2",
+      "picture": "post2",
       "username": "alice"
     },
     {
       "author": "Bob Johnson",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile3",
+      "authorProfilePhoto": "profile3",
       "content": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post3",
+      "picture": "post3",
       "username": "bobby"
     },
     {
       "author": "Alice Smith",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile4",
+      "authorProfilePhoto": "profile4",
       "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post4",
+      "picture": "post4",
       "username": "alice"
     },
     {
       "author": "Michael Brown",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile5",
+      "authorProfilePhoto": "profile5",
       "content": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post5",
+      "picture": "post5",
       "username": "michaelbb"
     },
     {
       "author": "Sophia Jones",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile6",
+      "authorProfilePhoto": "profile6",
       "content": "Nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post6",
+      "picture": "post6",
       "username": "soph"
     },
     {
       "author": "Daniel Lee",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile7",
+      "authorProfilePhoto": "profile7",
       "content": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post7",
+      "picture": "post7",
       "username": "daniellee11"
     },
     {
       "author": "Olivia Taylor",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile8",
+      "authorProfilePhoto": "profile8",
       "content": "Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post8",
+      "picture": "post8",
       "username": "taylor"
     },
     {
       "author": "William Miller",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile9",
+      "authorProfilePhoto": "profile9",
       "content": "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post9",
+      "picture": "post9",
       "username": "willmill"
     },
     {
       "author": "Ava Wilson",
-      "authorProfilePhoto": "android.resource://com.example.facebook_like_android/drawable/profile10",
+      "authorProfilePhoto": "profile10",
       "content": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
-      "picture": "android.resource://com.example.facebook_like_android/drawable/post10",
+      "picture": "post10",
       "username": "ava"
     }
   ]

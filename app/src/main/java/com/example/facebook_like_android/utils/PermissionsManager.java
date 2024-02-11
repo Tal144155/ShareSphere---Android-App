@@ -1,11 +1,10 @@
 package com.example.facebook_like_android.utils;
 
+import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -13,55 +12,51 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class PermissionsManager {
-    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 158942;
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
-    public static boolean checkPermissionREAD_EXTERNAL_STORAGE(@NonNull Context context) {
-        int currentAPIVersion = Build.VERSION.SDK_INT;
-        Log.d("DEBUG", "current api version: " + currentAPIVersion);
-        Log.d("DEBUG", "min api version: " + Build.VERSION_CODES.M);
-        if (currentAPIVersion >= Build.VERSION_CODES.M) {
-            Log.d("DEBUG", "api version is ok");
-            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                Log.d("DEBUG", "no access");
-                if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    showDialog("External storage", context, android.Manifest.permission.READ_EXTERNAL_STORAGE);
-                } else {
-                    ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                    showDialog("External storage", context, android.Manifest.permission.READ_EXTERNAL_STORAGE);
-                    Log.d("DEBUG", "requesting permissions");
-                }
-                return false;
-            } else {
-                return true;
-            }
+    public static boolean checkPermissionREAD_EXTERNAL_STORAGE(@NonNull Activity activity) {
+
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+            // Permission not granted, request it
+            Log.d("DEBUG", "Permission not granted, requesting it");
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            return false;
         } else {
+            // Permission already granted
+            Log.d("DEBUG", "Permission already granted");
             return true;
         }
-    }
 
-    public static void showDialog(final String msg, final Context context, final String permission) {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-        alertBuilder.setCancelable(true);
-        alertBuilder.setTitle("Permission necessary");
-        alertBuilder.setMessage(msg + " permission is necessary");
-        alertBuilder.setPositiveButton(android.R.string.yes, (dialog, which) ->
-                ActivityCompat.requestPermissions((Activity) context,
-                        new String[]{permission}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE));
-        AlertDialog alert = alertBuilder.create();
-        alert.show();
     }
 
     public static void onRequestPermissionsResult(int requestCode, @NonNull int[] grantResults, Activity activity) {
-        Log.d("DEBUG", "onRequestPermissionsResult: requestCode=" + requestCode);
-        // Handle other permission request results
+        Log.d("DEBUG", "request code = " + requestCode);
+        Log.d("DEBUG", "grant result length = " + grantResults.length);
+        if (grantResults.length > 0 )
+            Log.d("DEBUG", "grant result[0] = " + grantResults[0]);
         if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d("DEBUG", "onRequestPermisssionsResult works");
                 // Permission granted
+                Log.d("DEBUG", "Permission is granted");
             } else {
                 // Permission denied
-                Toast.makeText(activity, "media permission Denied", Toast.LENGTH_SHORT).show();
+                showPermissionDeniedDialog(activity);
+                Log.d("DEBUG", "Permission denied");
             }
         }
+    }
+
+    private static void showPermissionDeniedDialog(final Activity activity) {
+        new AlertDialog.Builder(activity)
+                .setTitle("Permission Denied")
+                .setMessage("Without this permission, the app cannot access media files.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    }
+                })
+                .show();
     }
 }

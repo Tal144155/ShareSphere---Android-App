@@ -1,7 +1,8 @@
 package com.example.facebook_like_android.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +50,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private OnEditClickListener editClickListener;
     private OnEditClickListener.OnDeleteClickListener deleteClickListener;
     private boolean isProfile = false;
+    private Activity activity;
     private String username;
 
     // Constructor to initialize the LayoutInflater
     public PostsListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
+        this.activity = (Activity) context;
     }
 
     // onCreateViewHolder: Inflates the layout for individual posts and creates a ViewHolder
@@ -71,8 +74,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             final Post current = posts.get(position);
             holder.tvAuthor.setText(current.getAuthor());
             holder.tvcontent.setText(current.getContent());
-            holder.ivPic.setImageURI(current.getPic());
-            holder.ivProfile.setImageURI(current.getProfile());
+            if (current.getPicID() == Post.NOT_RES)
+                holder.ivPic.setImageBitmap(current.getPic());
+            else
+                holder.ivPic.setImageResource(current.getPicID());
+            if (current.getProfileID() == Post.NOT_RES)
+                holder.ivProfile.setImageURI(current.getProfile());
+            else
+                holder.ivProfile.setImageResource(current.getProfileID());
             holder.tvLikes.setText(String.valueOf(current.getLikes()));
 
             // Apply circular outline to profile image using the utility class
@@ -140,13 +149,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         notifyDataSetChanged(); // Notify the adapter to update the views
     }
     // Method to update post content
-    public void updatePost(int position, String newContent, Uri newPic) {
+    public void updatePost(int position, String newContent, Bitmap newPic) {
         if (posts != null && position >= 0 && position < posts.size()) {
             Post post = postManager.getPosts().get(position);
             if (!newContent.isEmpty())
                 post.setContent(newContent); // Update the content
             if (newPic != null)
-                post.setPic(Uri.parse(newPic.toString()));
+                post.setPic(newPic);
             postManager.updatePost(position, post);
             notifyItemChanged(position);// Notify adapter of the change at this position
         }
