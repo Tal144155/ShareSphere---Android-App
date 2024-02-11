@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
 import com.example.facebook_like_android.entities.Post;
+import com.example.facebook_like_android.style.ThemeMode;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class Feed extends AppCompatActivity {
     private ActivityFeedBinding binding;
+    private final ThemeMode mode = ThemeMode.getInstance();
     private List<Post> posts = new ArrayList<>();
 
     @Override
@@ -45,6 +47,7 @@ public class Feed extends AppCompatActivity {
 
         binding.btnMenu.setOnClickListener(v -> startActivity(new Intent(this, Menu.class)));
         binding.btnSearch.setOnClickListener(v -> startActivity(new Intent(this, Search.class)));
+        binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
     }
 

@@ -34,6 +34,14 @@
             android:textStyle="bold"/>
 
         <ImageButton
+            android:id="@+id/btn_changeMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/btn_changeMode"
+            app:srcCompat="@drawable/ic_darkmd" />
+
+        <ImageButton
             android:id="@+id/btn_home"
             android:layout_marginStart="10dp"
             android:layout_width="wrap_content"

@@ -17,7 +17,7 @@
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_back" />
 
@@ -29,6 +29,17 @@
             android:ems="10"
             android:inputType="text"
             android:hint="@string/search" />
+
+        <ImageButton
+            android:id="@+id/btn_changeMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@string/btn_changeMode"
+            app:srcCompat="@drawable/ic_darkmd" />
 
 
     </LinearLayout>
