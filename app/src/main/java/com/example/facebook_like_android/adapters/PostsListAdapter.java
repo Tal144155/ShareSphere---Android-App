@@ -47,6 +47,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private List<Post> posts = postManager.getPosts();  // List to store posts
     private int visibility = View.GONE;
     private OnEditClickListener editClickListener;
+    private OnEditClickListener.OnDeleteClickListener deleteClickListener;
     private boolean isProfile = false;
     private String username;
 
@@ -87,6 +88,12 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     holder.itemView.findViewById(R.id.btn_update).setVisibility(View.VISIBLE);
                     holder.itemView.findViewById(R.id.btn_changeImg).setVisibility(View.VISIBLE);
                     editClickListener.onEditClick(position);
+                }
+            });
+
+            holder.itemView.findViewById(R.id.btn_delete).setOnClickListener(v -> {
+                if (deleteClickListener != null) {
+                    deleteClickListener.onDeleteClick(position);
                 }
             });
 
@@ -144,10 +151,20 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             notifyItemChanged(position);// Notify adapter of the change at this position
         }
     }
+    public void deletePost(int position) {
+        if (posts != null && position >= 0 && position < posts.size()) {
+            postManager.removePost(postManager.getPosts().get(position));
+            notifyItemRemoved(position); // Notify adapter this post was removed
+        }
+    }
 
     // Method to set the click listener
     public void setOnEditClickListener(OnEditClickListener listener) {
         this.editClickListener = listener;
+    }
+
+    public void setOnDeleteClickListener(OnEditClickListener.OnDeleteClickListener listener) {
+        this.deleteClickListener = listener;
     }
 
     public void getMyPosts(PostViewHolder holder, int position) {
@@ -165,5 +182,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     public void refreshFeed() {
         notifyDataSetChanged();
     }
+
+
 
 }
