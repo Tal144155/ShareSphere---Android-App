@@ -28,7 +28,7 @@ import com.example.facebook_like_android.utils.ImageHandler;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
-public class Profile extends AppCompatActivity implements OnEditClickListener {
+public class Profile extends AppCompatActivity implements OnEditClickListener, OnEditClickListener.OnDeleteClickListener {
     private ActivityProfileBinding binding;
     private PostsListAdapter adapter;
     private final ImageHandler imageHandler = new ImageHandler(this);
@@ -54,9 +54,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener {
             SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
             adapter.setUsername(preferences.getString("username", ""));
             adapter.setOnEditClickListener(this);
+            adapter.setOnDeleteClickListener(this);
         }
-
-
 
 
         UserInfoManager.setProfile(this, binding.ivProfile);
@@ -88,7 +87,10 @@ public class Profile extends AppCompatActivity implements OnEditClickListener {
 //        });
     }
 
-
+    @Override
+    public void onDeleteClick(int position) {
+        adapter.deletePost(position);
+    }
 
     @Override
     public void onEditClick(int position) {
@@ -142,5 +144,6 @@ public class Profile extends AppCompatActivity implements OnEditClickListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }
+
 
 }

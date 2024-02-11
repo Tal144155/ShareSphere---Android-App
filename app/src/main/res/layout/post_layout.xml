@@ -162,29 +162,38 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/share_options"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_margin="10dp"
+            android:visibility="gone">
 
             <ImageButton
                 android:id="@+id/btn_facebook"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
+                android:background="#00FFFFFF"
                 app:srcCompat="@drawable/facebook" />
 
             <ImageButton
                 android:id="@+id/btn_insta"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
                 android:scaleType="fitCenter"
+                android:background="#00FFFFFF"
                 app:srcCompat="@drawable/instagram" />
 
             <ImageButton
                 android:id="@+id/btn_whatsapp"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
                 android:scaleType="fitCenter"
+                android:background="#00FFFFFF"
                 app:srcCompat="@drawable/whatsapp" />
 
 

@@ -56,6 +56,7 @@ public class Feed extends AppCompatActivity {
         UserInfoManager.setProfile(this, binding.btnProfile);
 
         CircularOutlineUtil.applyCircularOutline(binding.btnProfile);
+
     }
 
     // Handle the result from Profile

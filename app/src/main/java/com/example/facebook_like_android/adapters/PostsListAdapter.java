@@ -106,6 +106,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 }
             });
 
+            holder.itemView.findViewById(R.id.btn_share).setOnClickListener(v ->
+                    holder.itemView.findViewById(R.id.share_options).setVisibility(View.VISIBLE));
+
             getMyPosts(holder, position);
         }
     }
