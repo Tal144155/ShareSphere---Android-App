@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
+import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.style.ThemeMode;
@@ -43,19 +44,16 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
-
-            // Initialize RecyclerView for displaying posts
-            RecyclerView lstPosts = binding.lstPosts;
-            adapter = new PostsListAdapter(this);
-            lstPosts.setAdapter(adapter);
-            lstPosts.setLayoutManager(new LinearLayoutManager(this));
-            adapter.setProfileVisibility();
-            SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
-            adapter.setUsername(preferences.getString("username", ""));
-            adapter.setOnEditClickListener(this);
-            adapter.setOnDeleteClickListener(this);
-        }
+        // Initialize RecyclerView for displaying posts
+        RecyclerView lstPosts = binding.lstPosts;
+        adapter = new PostsListAdapter(this);
+        lstPosts.setAdapter(adapter);
+        lstPosts.setLayoutManager(new LinearLayoutManager(this));
+        adapter.setProfileVisibility();
+        SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+        adapter.setUsername(preferences.getString("username", ""));
+        adapter.setOnEditClickListener(this);
+        adapter.setOnDeleteClickListener(this);
 
 
         UserInfoManager.setProfile(this, binding.ivProfile);
@@ -65,27 +63,35 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.btnHome.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
-//        binding.etCreatePost.setOnClickListener(v -> {
-//            binding.btnImg.setVisibility(View.VISIBLE);
-//            binding.btnCreate.setVisibility(View.VISIBLE);
-//            createPost();
-//        });
+        binding.etCreatePost.setOnClickListener(v -> {
+            binding.btnImg.setVisibility(View.VISIBLE);
+            binding.btnCreate.setVisibility(View.VISIBLE);
+            createPost();
+        });
     }
 
     private void createPost() {
 
-//        binding.btnImg.setOnClickListener(v -> {
-//            prvImg = binding.ivPic;
-////            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
-////                imageHandler.openChooser();
-////                prvImg.setVisibility(View.VISIBLE);
-////            }
-//        });
+        binding.btnImg.setOnClickListener(v -> {
+            prvImg = binding.ivPic;
+            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+                imageHandler.openChooser();
+                prvImg.setVisibility(View.VISIBLE);
+            }
+        });
 
-//        binding.btnCreate.setOnClickListener(v -> {
-//            postManager.addPost(picture, binding.etCreatePost, this);
-//            setResult(RESULT_OK);
-//        });
+        binding.btnCreate.setOnClickListener(v -> {
+            Post post = new Post(UserInfoManager.getUsername(this),
+                    UserInfoManager.getNickname(this),
+                    binding.etCreatePost.getText().toString(),
+                    bitmap,
+                    UserInfoManager.getProfile(this));
+            adapter.addPost(post);
+            prvImg.setVisibility(View.GONE);
+            binding.btnImg.setVisibility(View.GONE);
+            binding.btnCreate.setVisibility(View.GONE);
+            binding.etCreatePost.setText(null);
+        });
     }
 
     @Override

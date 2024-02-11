@@ -79,7 +79,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             else
                 holder.ivPic.setImageResource(current.getPicID());
             if (current.getProfileID() == Post.NOT_RES)
-                holder.ivProfile.setImageURI(current.getProfile());
+                holder.ivProfile.setImageBitmap(current.getProfile());
             else
                 holder.ivProfile.setImageResource(current.getProfileID());
             holder.tvLikes.setText(String.valueOf(current.getLikes()));
@@ -168,6 +168,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             postManager.removePost(postManager.getPosts().get(position));
             notifyItemRemoved(position); // Notify adapter this post was removed
         }
+    }
+    public void addPost(Post post) {
+        postManager.addPost(post);
+        notifyItemInserted(postManager.getPosition(post)); // Notify adapter this post was inserted
     }
 
     // Method to set the click listener

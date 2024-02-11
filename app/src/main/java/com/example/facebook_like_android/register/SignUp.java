@@ -2,7 +2,6 @@ package com.example.facebook_like_android.register;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,7 +27,6 @@ public class SignUp extends AppCompatActivity {
     private InputError inputError;  // Object to handle input validation errors
     private ImageView imgView;  // ImageView to display the selected profile photo
     // Declare a member variable to store the selected image URI
-    private Uri photo;
     private Bitmap bitmap;
     private final ImageHandler imageHandler = new ImageHandler(this);
     TextWatcher watcher = new TextWatcher() {

@@ -57,39 +57,68 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout7"
+        android:id="@+id/shareLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:backgroundTint="#DA74EB"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
-
-        <TextView
-            android:id="@+id/textView"
+        <EditText
+            android:id="@+id/et_createPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:elevation="4dp"
             android:hint="@string/tv_shrur"
             android:outlineProvider="bounds"
-            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:padding="15dp"
             android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/iv_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="300dp"
+            android:minHeight="300dp"
+            android:paddingBottom="15dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:contentDescription="@string/post_picture" />
+
+        <Button
+            android:id="@+id/btn_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:text="@string/pick_a_photo" />
+
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:text="@string/create_post" />
 
 
     </LinearLayout>
 
+
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/myPosts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/my_posts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
+        app:layout_constraintTop_toBottomOf="@+id/shareLayout"
         android:textSize="25sp"/>
 
 
@@ -97,7 +126,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/myPosts"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView

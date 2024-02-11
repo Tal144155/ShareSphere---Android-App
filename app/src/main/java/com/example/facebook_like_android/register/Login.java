@@ -67,10 +67,6 @@ public class Login extends AppCompatActivity {
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
         binding.btnLogin.setOnClickListener(v -> {
-            //TODO: remove those 2 lines!
-//            startActivity(new Intent(this, Feed.class));
-//            saveCurrentUser();
-
             // Check if the provided username and password are valid
             if (users.isSigned(binding.etUsername, binding.etPassword)) {
                 saveCurrentUser();

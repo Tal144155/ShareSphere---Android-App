@@ -35,4 +35,7 @@ public class PostManager {
         if (index >= 0 && index < posts.size())
             posts.set(index, newPost);
     }
+    public int getPosition(Post post) {
+        return posts.indexOf(post);
+    }
 }

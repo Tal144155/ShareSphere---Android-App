@@ -3,6 +3,7 @@ package com.example.facebook_like_android.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,5 +40,14 @@ public class UserInfoManager {
     public static String getUsername(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         return preferences.getString("username", "");
+    }
+    public static String getNickname(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        return preferences.getString("nickname", "");
+    }
+    public static Bitmap getProfile(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        String s = preferences.getString("profile", "");
+        return BitmapUtils.stringToBitmap(s);
     }
 }
