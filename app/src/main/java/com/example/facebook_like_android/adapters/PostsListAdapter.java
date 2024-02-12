@@ -158,8 +158,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     // setupLikeButtonClickListener: Sets onClick listener for the like button
     private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, int position) {
-        LikeButton like = new LikeButton(holder.like);
-        like.setOnClickListener(v -> {
+        LikeButton.updateAppearance(holder.like);
+        holder.like.setOnClickListener(v -> {
+            LikeButton.like(holder.like);
             posts.get(position).like();
             holder.tvLikes.setText(String.valueOf(posts.get(position).getLikes()));
         });
