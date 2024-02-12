@@ -71,20 +71,24 @@
             android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_edit" />
+            app:srcCompat="@drawable/ic_edit"
+            style="@style/tinyRoundButton"/>
 
         <ImageButton
             android:id="@+id/btn_accept"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_accept" />
+            app:srcCompat="@drawable/ic_accept"
+            style="@style/tinyRoundButton"/>
 
         <ImageButton
             android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_delete" />
+            app:srcCompat="@drawable/ic_delete"
+            android:layout_marginTop="5dp"
+            style="@style/tinyRoundButton"/>
 
         </LinearLayout>
 

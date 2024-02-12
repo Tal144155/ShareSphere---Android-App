@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="purple">#CB61DD</color> <!-- Purple -->
+    <color name="pink">#EF5A8D</color> <!-- Pink -->
+    <color name="blue">#4BA7EF</color> <!-- Blue -->
+    <color name="light_pink">#F483CE</color>
+    <color name="dark_pink_red">#BC003D</color>
+    <color name="light_purple">#A95EC9</color>
+    <color name="dark_purple">#42198E</color>
+    <color name="dark_pink">#A6046B</color>
+    <color name="semiTransparent">#90FFFFFF</color>
 </resources>

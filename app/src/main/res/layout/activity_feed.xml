@@ -30,35 +30,29 @@
                 android:id="@+id/btn_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:contentDescription="@string/menu"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                app:srcCompat="@drawable/ic_menu" />
+                app:srcCompat="@drawable/ic_menu"
+                style="@style/smallButton" />
 
             <ImageButton
                 android:id="@+id/btn_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:contentDescription="@string/search"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                app:srcCompat="@drawable/ic_search" />
+                app:srcCompat="@drawable/ic_search"
+                style="@style/smallButton"/>
 
             <ImageButton
                 android:id="@+id/btn_changeMode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:layout_weight="1"
                 android:contentDescription="@string/btn_changeMode"
-                app:srcCompat="@drawable/ic_darkmd" />
+                app:srcCompat="@drawable/ic_darkmd"
+                style="@style/smallButton"/>
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="9"

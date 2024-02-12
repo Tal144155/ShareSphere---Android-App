@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple">#7611A2</color> <!-- Darker shade of Purple -->
+    <color name="pink">#c2185b</color> <!-- Darker shade of Pink -->
+    <color name="blue">#033669</color> <!-- Darker shade of Blue -->
+    <color name="black">#000000</color> <!-- Black (same as light mode) -->
+    <color name="white">#ffffff</color> <!-- White (same as light mode) -->
+    <color name="semiTransparent">#B6000000</color>
+</resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
-        <!-- Customize light theme attributes here -->
+
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat">
@@ -10,5 +10,44 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <!-- Customize default theme attributes here -->
+    </style>
+    <style name="RoundButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:minWidth">60dp</item>
+        <item name="android:minHeight">60dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="color">@color/black</item>
+    </style>
+    <style name="smallRoundButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="color">@color/black</item>
+    </style>
+    <style name="smallButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:backgroundTint">#2685E4</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="color">@color/black</item>
+    </style>
+
+    <style name="tinyRoundButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:padding">8dp</item>
+        <item name="color">@color/black</item>
+    </style>
+    <style name="bigRoundButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:minWidth">70dp</item>
+        <item name="android:minHeight">70dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:padding">10dp</item>
+        <item name="color">@color/black</item>
     </style>
 </resources>

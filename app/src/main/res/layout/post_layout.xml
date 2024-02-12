@@ -132,31 +132,28 @@
                 android:id="@+id/btn_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:minHeight="60dp"
-                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_like"
-                android:contentDescription="@string/btn_like" />
+                android:contentDescription="@string/btn_like"
+                style="@style/smallButton" />
 
             <ImageButton
                 android:id="@+id/btn_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="60dp"
-                android:scaleType="fitCenter"
-                android:layout_weight="1"
                 app:srcCompat="@drawable/ic_comment"
-                android:contentDescription="@string/btn_cmt" />
+                android:contentDescription="@string/btn_cmt"
+                style="@style/smallButton"/>
 
             <ImageButton
                 android:id="@+id/btn_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:minHeight="60dp"
-                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_share"
-                android:contentDescription="@string/btn_shr" />
+                android:contentDescription="@string/btn_shr"
+                style="@style/smallButton"/>
 
 
         </LinearLayout>
@@ -210,19 +207,16 @@
                 android:id="@+id/btn_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="70dp"
-                android:minHeight="70dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_edit" />
+                app:srcCompat="@drawable/ic_edit"
+                style="@style/bigRoundButton"/>
 
             <ImageButton
                 android:id="@+id/btn_delete"
+                android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="70dp"
-                android:minHeight="70dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_delete" />
+                app:srcCompat="@drawable/ic_delete"
+                style="@style/bigRoundButton"/>
 
         </LinearLayout>
 

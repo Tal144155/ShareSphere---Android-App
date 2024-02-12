@@ -36,11 +36,11 @@
             android:id="@+id/btn_changeMode"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:scaleType="fitCenter"
             android:layout_gravity="center"
             android:contentDescription="@string/btn_changeMode"
             android:padding="15dp"
-            app:srcCompat="@drawable/ic_darkmd" />
+            app:srcCompat="@drawable/ic_darkmd"
+            style="@style/smallRoundButton"/>
 
         <ImageButton
             android:id="@+id/btn_home"
@@ -48,10 +48,11 @@
             android:layout_marginEnd="10dp"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:scaleType="fitCenter"
+            android:padding="5dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_home"
-            android:contentDescription="@string/home" />
+            android:contentDescription="@string/home"
+            style="@style/RoundButton"/>
 
 
     </LinearLayout>

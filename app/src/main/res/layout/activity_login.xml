@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".register.Login">
+    tools:context=".register.Login"
+    android:background="@drawable/galaxy">
+
+
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,35 +27,49 @@
             android:layout_gravity="top"
             android:layout_margin="30dp"
             android:contentDescription="@string/btn_changeMode"
-            android:padding="15dp"
-            app:srcCompat="@drawable/ic_darkmd" />
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_darkmd"
+            style="@style/smallRoundButton"/>
+
+
 
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:background="@color/semiTransparent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:srcCompat="@drawable/ic_logo"
+            android:layout_margin="15dp" />
 
     <TextView
         android:id="@+id/tv_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/akaya_telivigala"
         android:text="@string/btn_login"
         android:textSize="40sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout3" />
+        android:textStyle="bold" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="1dp">
 
 
@@ -136,6 +153,7 @@
 
         </LinearLayout>
 
+    </LinearLayout>
     </LinearLayout>
 
 
