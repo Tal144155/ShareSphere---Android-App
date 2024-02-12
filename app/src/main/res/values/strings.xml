@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Facebook-like-Android</string>
+    <string name="app_name">Share Sphere</string>
     <string name="et_username">Username</string>
     <string name="et_password">Password</string>
     <string name="btn_login">Login</string>
