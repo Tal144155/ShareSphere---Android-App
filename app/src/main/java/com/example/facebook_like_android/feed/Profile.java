@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -21,8 +23,8 @@ import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
 import com.example.facebook_like_android.entities.post.Post;
-import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
+import com.example.facebook_like_android.register.InputError;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.ImageHandler;
@@ -36,7 +38,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     private ImageView prvImg;
     private final ThemeMode mode = ThemeMode.getInstance();
     private Bitmap bitmap;
-    private final PostManager postManager = PostManager.getInstance();
+    private InputError inputError;
+    private boolean isPicSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +69,32 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.etCreatePost.setOnClickListener(v -> {
             binding.btnImg.setVisibility(View.VISIBLE);
             binding.btnCreate.setVisibility(View.VISIBLE);
+            inputError = new InputError(binding.etCreatePost);
             createPost();
         });
+
+
     }
 
     private void createPost() {
+
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.btnCreate.setEnabled(isPicSelected && !inputError.isContentEmpty());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.btnCreate.setEnabled(isPicSelected && !inputError.isContentEmpty());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.btnCreate.setEnabled(isPicSelected && !inputError.isContentEmpty());
+            }
+        };
+        binding.etCreatePost.addTextChangedListener(watcher);
 
         binding.btnImg.setOnClickListener(v -> {
             prvImg = binding.ivPic;
@@ -79,6 +103,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
                 prvImg.setVisibility(View.VISIBLE);
             }
         });
+
 
         binding.btnCreate.setOnClickListener(v -> {
             Post post = new Post(UserInfoManager.getUsername(this),
@@ -136,9 +161,12 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, prvImg);
+            isPicSelected = true;
+            binding.btnCreate.setEnabled(!inputError.isContentEmpty());
         } else {
             // Handle error or cancellation
             Toast.makeText(this, "Failed to select image", Toast.LENGTH_SHORT).show();
+            isPicSelected = false;
         }
     }
 

@@ -54,9 +54,6 @@ public class Login extends AppCompatActivity {
         binding.etUsername.addTextChangedListener(watcher);
         binding.etPassword.addTextChangedListener(watcher);
 
-        // Enable or disable the login button based on input validity
-        binding.btnLogin.setEnabled(!inputError.isEmpty());
-
         // Set click listeners for buttons
         binding.btnSignup.setOnClickListener(v -> {
             finish();

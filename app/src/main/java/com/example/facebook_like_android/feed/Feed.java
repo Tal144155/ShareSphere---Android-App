@@ -1,7 +1,5 @@
 package com.example.facebook_like_android.feed;
 
-import static com.example.facebook_like_android.adapters.PostsListAdapter.COMMENTS_REQUEST_CODE;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,13 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
-import com.example.facebook_like_android.parsers.JsonParser;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
-
-import java.io.IOException;
 
 public class Feed extends AppCompatActivity {
     private static final int PROFILE_REQUEST_CODE = 100;
@@ -40,13 +35,7 @@ public class Feed extends AppCompatActivity {
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
-        // Call the method to read and parse the JSON file
-        try {
-            JsonParser.parsePosts(getAssets().open("posts.json"), this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        adapter.initPosts();
         adapter.setFeedVisibility();
 
         // Set click listeners for buttons
@@ -69,9 +58,6 @@ public class Feed extends AppCompatActivity {
         if (requestCode == PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
             if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
                 adapter.refreshFeed();
-        }
-        if (requestCode == COMMENTS_REQUEST_CODE && resultCode == RESULT_OK) {
-            String content = data.getStringExtra("content"); // Get the content of the new comment
         }
     }
     @Override
