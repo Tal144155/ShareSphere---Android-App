@@ -83,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            style="@style/icon"
             app:srcCompat="@drawable/ic_user" />
 
         <EditText
@@ -105,7 +106,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_pwd" />
+            app:srcCompat="@drawable/ic_pwd"
+            style="@style/icon"/>
 
         <EditText
             android:id="@+id/et_password"

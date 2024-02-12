@@ -15,7 +15,8 @@
         android:layout_marginBottom="5dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="5dp">
 
         <ImageButton
             android:id="@+id/btn_changeMode"
@@ -35,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:padding="5dp"
             app:srcCompat="@drawable/ic_back"
             android:contentDescription="@string/home"
             style="@style/RoundButton"/>

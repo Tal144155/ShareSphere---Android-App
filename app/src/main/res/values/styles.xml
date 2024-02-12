@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
-
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat">
@@ -49,5 +48,8 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:padding">10dp</item>
         <item name="color">@color/black</item>
+    </style>
+    <style name="icon">
+        <item name="android:tint">@color/dark_blue</item>
     </style>
 </resources>

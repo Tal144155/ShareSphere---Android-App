@@ -87,7 +87,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_user" />
+                app:srcCompat="@drawable/ic_user"
+                style="@style/icon"/>
 
             <EditText
                 android:id="@+id/et_username"
@@ -118,7 +119,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_pwd" />
+                app:srcCompat="@drawable/ic_pwd"
+                style="@style/icon"/>
 
             <EditText
                 android:id="@+id/et_password_su"
@@ -150,7 +152,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_pwd" />
+                app:srcCompat="@drawable/ic_pwd"
+                style="@style/icon"/>
 
             <EditText
                 android:id="@+id/et_confirmPassword_su"
@@ -182,7 +185,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_user" />
+                app:srcCompat="@drawable/ic_user"
+                style="@style/icon"/>
 
             <EditText
                 android:id="@+id/et_nickname"

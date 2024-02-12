@@ -6,4 +6,5 @@
     <color name="black">#000000</color> <!-- Black (same as light mode) -->
     <color name="white">#ffffff</color> <!-- White (same as light mode) -->
     <color name="semiTransparent">#B6000000</color>
+    <color name="dark_blue">#1273D5</color>
 </resources>
