@@ -17,6 +17,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <ImageButton
+            android:id="@+id/btn_changeMode"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="end"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/btn_changeMode"
+            android:padding="15dp"
+            app:srcCompat="@drawable/ic_darkmd" />
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="end"
+            app:srcCompat="@drawable/ic_back"
+            android:contentDescription="@string/home" />
 
         <TextView
             android:id="@+id/tv_comments"
@@ -30,26 +51,6 @@
             android:textStyle="bold"
             android:text="@string/comments" />
 
-        <ImageButton
-            android:id="@+id/btn_changeMode"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:scaleType="fitCenter"
-            android:layout_gravity="end"
-            android:contentDescription="@string/btn_changeMode"
-            android:padding="15dp"
-            app:srcCompat="@drawable/ic_darkmd" />
-
-        <ImageButton
-            android:id="@+id/btn_home"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:scaleType="fitCenter"
-            android:layout_gravity="end"
-            app:srcCompat="@drawable/ic_home"
-            android:contentDescription="@string/home" />
 
     </LinearLayout>
 

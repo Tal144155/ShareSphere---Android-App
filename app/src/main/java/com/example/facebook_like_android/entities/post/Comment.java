@@ -15,16 +15,8 @@ public class Comment {
         this.content = content;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setProfile(Bitmap profile) {
-        this.profile = profile;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getContent() {
