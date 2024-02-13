@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="purple">#7611A2</color> <!-- Darker shade of Purple -->
-    <color name="pink">#c2185b</color> <!-- Darker shade of Pink -->
+    <color name="pink">#F103CA</color> <!-- Darker shade of Pink -->
     <color name="blue">#033669</color> <!-- Darker shade of Blue -->
     <color name="black">#000000</color> <!-- Black (same as light mode) -->
     <color name="white">#ffffff</color> <!-- White (same as light mode) -->
     <color name="semiTransparent">#B6000000</color>
     <color name="dark_blue">#1273D5</color>
+    <color name="semiTransparentBlue">#A70D4378</color>
+    <color name="grayTransparent">#41989898</color>
+    <color name="dark_pink_red">#F15588</color>
+    <color name="dark_pink">#F824BF</color>
+    <color name="dark_purple">#9B59CF</color>
 </resources>

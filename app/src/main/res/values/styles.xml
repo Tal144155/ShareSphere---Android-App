@@ -17,6 +17,13 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="color">@color/black</item>
     </style>
+    <style name="RoundButtonTrans" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/round_button_trans</item>
+        <item name="android:minWidth">60dp</item>
+        <item name="android:minHeight">60dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="color">@color/black</item>
+    </style>
     <style name="smallRoundButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">@drawable/round_button</item>
         <item name="android:minWidth">48dp</item>
@@ -24,8 +31,16 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="color">@color/black</item>
     </style>
+    <style name="smallRoundButtonTrans" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/round_button_trans</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="color">@color/black</item>
+    </style>
+
     <style name="smallButton" parent="Widget.AppCompat.ImageButton">
-        <item name="android:backgroundTint">#2685E4</item>
+        <item name="android:backgroundTint">@color/semiTransparent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">48dp</item>
@@ -49,6 +64,29 @@
         <item name="android:padding">10dp</item>
         <item name="color">@color/black</item>
     </style>
+
+    <style name="bigRoundButtonTrans" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/round_button_trans</item>
+        <item name="android:minWidth">70dp</item>
+        <item name="android:minHeight">70dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:padding">10dp</item>
+        <item name="color">@color/black</item>
+    </style>
+    <style name="menu">
+        <item name="android:background">@color/bright_purple</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+    <style name="tinyRoundButtonTrans" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/round_button_trans</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:padding">8dp</item>
+        <item name="color">@color/black</item>
+    </style>
+
     <style name="icon">
         <item name="android:tint">@color/dark_blue</item>
     </style>

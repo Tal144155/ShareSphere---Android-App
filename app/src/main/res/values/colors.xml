@@ -3,13 +3,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="purple">#CB61DD</color> <!-- Purple -->
-    <color name="pink">#EF5A8D</color> <!-- Pink -->
-    <color name="blue">#4BA7EF</color> <!-- Blue -->
+    <color name="pink">#EF5AC2</color> <!-- Pink -->
+    <color name="blue">#5EACEA</color> <!-- Blue -->
     <color name="light_pink">#F483CE</color>
     <color name="dark_pink_red">#BC003D</color>
-    <color name="light_purple">#A95EC9</color>
-    <color name="dark_purple">#42198E</color>
+    <color name="light_purple">#C16CE5</color>
+    <color name="dark_purple">#631C9A</color>
     <color name="dark_pink">#A6046B</color>
     <color name="semiTransparent">#90FFFFFF</color>
     <color name="dark_blue">#033465</color>
+    <color name="bright_purple">#50A517D0</color>
+    <color name="semiTransparentBlue">#A282C0FF</color>
+    <color name="grayTransparent">#7FE0D0D0</color>
 </resources>

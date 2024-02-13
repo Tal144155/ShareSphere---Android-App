@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/pink">
 
         <ImageView
             android:id="@+id/iv_profile"
@@ -40,7 +41,8 @@
             android:contentDescription="@string/btn_changeMode"
             android:padding="15dp"
             app:srcCompat="@drawable/ic_darkmd"
-            style="@style/smallRoundButton"/>
+            style="@style/smallRoundButtonTrans"
+            app:tint="@color/dark_pink_red" />
 
         <ImageButton
             android:id="@+id/btn_home"
@@ -52,7 +54,7 @@
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_home"
             android:contentDescription="@string/home"
-            style="@style/RoundButton"/>
+            style="@style/RoundButtonTrans"/>
 
 
     </LinearLayout>
@@ -61,8 +63,7 @@
         android:id="@+id/shareLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:backgroundTint="#DA74EB"
+        android:background="@color/light_pink"
         android:orientation="vertical"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"

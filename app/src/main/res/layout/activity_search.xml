@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="5dp"
+        android:background="@color/semiTransparentBlue"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -20,7 +21,8 @@
             android:layout_marginStart="5dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_back"
-            style="@style/smallButton"/>
+            style="@style/smallButton"
+            app:tint="@color/dark_blue" />
 
         <EditText
             android:id="@+id/et_search"
@@ -41,7 +43,8 @@
             android:layout_marginEnd="5dp"
             android:contentDescription="@string/btn_changeMode"
             app:srcCompat="@drawable/ic_darkmd"
-            style="@style/smallButton"/>
+            style="@style/smallButton"
+            app:tint="@color/dark_blue"/>
 
 
     </LinearLayout>

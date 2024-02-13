@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/white"
+        android:background="@color/semiTransparentBlue"
         android:layout_marginBottom="5dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,8 @@
             android:contentDescription="@string/btn_changeMode"
             android:padding="15dp"
             app:srcCompat="@drawable/ic_darkmd"
-            style="@style/RoundButton"/>
+            style="@style/RoundButtonTrans"
+            app:tint="@color/dark_blue"/>
 
         <ImageButton
             android:id="@+id/btn_back"
@@ -36,10 +37,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:padding="5dp"
+            android:padding="10dp"
             app:srcCompat="@drawable/ic_back"
             android:contentDescription="@string/home"
-            style="@style/RoundButton"/>
+            style="@style/RoundButtonTrans"
+            app:tint="@color/dark_blue" />
 
         <TextView
             android:id="@+id/tv_comments"
@@ -49,7 +51,7 @@
             android:gravity="center"
             android:layout_margin="10dp"
             android:layout_weight="6"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:text="@string/comments" />
 
@@ -72,6 +74,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <LinearLayout
+        android:background="@color/semiTransparentBlue"
         android:id="@+id/add_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,7 +98,8 @@
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_add"
         android:padding="10dp"
-        style="@style/smallRoundButton"/>
+        style="@style/smallRoundButtonTrans"
+        app:tint="@color/dark_blue"/>
     </LinearLayout>
 
 

@@ -32,7 +32,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_darkmd"
-        style="@style/smallRoundButton" />
+        style="@style/smallRoundButton"
+        android:backgroundTint="@color/bright_purple"/>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -222,7 +223,7 @@
                 android:layout_gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/iv_prvImg"
-                android:backgroundTint="#E065D2"
+                android:backgroundTint="@color/bright_purple"
                 android:text="@string/btn_img" />
 
             <!--ImageView to preview the selected image-->

@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:padding="10dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#C570D3">
+        android:background="@color/bright_purple">
 
         <ImageButton
             android:id="@+id/btn_profile"
@@ -45,7 +45,8 @@
             android:layout_marginStart="5dp"
             android:contentDescription="@string/btn_changeMode"
             app:srcCompat="@drawable/ic_darkmd"
-            style="@style/RoundButton"/>
+            style="@style/RoundButtonTrans"
+            app:tint="@color/dark_purple" />
 
         <ImageButton
             android:id="@+id/btn_home"
@@ -57,7 +58,8 @@
             app:srcCompat="@drawable/ic_home"
             android:layout_weight="1"
             android:contentDescription="@string/home"
-            style="@style/RoundButton"/>
+            style="@style/RoundButtonTrans"
+            app:tint="@color/dark_purple" />
 
 
     </LinearLayout>
@@ -77,7 +79,9 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textView9">
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
         <TableRow
             android:layout_width="match_parent"
@@ -90,7 +94,8 @@
             android:layout_height="150dp"
             android:layout_weight="1"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_memories" />
+            app:srcCompat="@drawable/ic_memories"
+            style="@style/menu"/>
 
 
         <ImageButton
@@ -99,7 +104,8 @@
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_friends"
             android:scaleType="fitCenter"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            style="@style/menu"/>
 
         <ImageButton
             android:id="@+id/btn_memories"
@@ -107,7 +113,8 @@
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_events"
             android:scaleType="fitCenter"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            style="@style/menu"/>
 
         </TableRow>
 
@@ -155,7 +162,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_help" />
+                app:srcCompat="@drawable/ic_help"
+                style="@style/menu"/>
 
             <ImageButton
                 android:id="@+id/btn_saved"
@@ -163,7 +171,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_saved" />
+                app:srcCompat="@drawable/ic_saved"
+                style="@style/menu"/>
 
             <ImageButton
                 android:id="@+id/btn_groups"
@@ -171,7 +180,8 @@
                 android:layout_height="150dp"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_groups" />
+                app:srcCompat="@drawable/ic_groups"
+                style="@style/menu"/>
 
         </TableRow>
 

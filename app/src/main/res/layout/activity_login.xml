@@ -29,7 +29,7 @@
             android:contentDescription="@string/btn_changeMode"
             android:padding="10dp"
             app:srcCompat="@drawable/ic_darkmd"
-            style="@style/smallRoundButton"/>
+            style="@style/smallRoundButton" />
 
 
 
