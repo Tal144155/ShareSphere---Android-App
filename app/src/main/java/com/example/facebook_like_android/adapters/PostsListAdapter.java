@@ -77,6 +77,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private boolean isProfile = false;
     private Activity activity;
     private String username;
+    private LikeButton likeButton;
     public final static int COMMENTS_REQUEST_CODE = 123;
 
     // Constructor to initialize the LayoutInflater
@@ -158,11 +159,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     // setupLikeButtonClickListener: Sets onClick listener for the like button
     private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, int position) {
-        LikeButton.updateAppearance(holder.like);
+        likeButton = new LikeButton(posts.get(position).isLiked());
+        likeButton.updateAppearance(holder.like);
         holder.like.setOnClickListener(v -> {
-            LikeButton.like(holder.like);
+            likeButton.like(holder.like);
             posts.get(position).like();
             holder.tvLikes.setText(String.valueOf(posts.get(position).getLikes()));
+            notifyItemChanged(position); // Notify adapter the button should change
         });
     }
 

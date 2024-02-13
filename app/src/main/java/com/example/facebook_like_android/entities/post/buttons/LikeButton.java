@@ -5,14 +5,17 @@ import android.widget.ImageButton;
 import com.example.facebook_like_android.R;
 
 public class LikeButton {
-    private static boolean isLiked = false;  // Initial state is unliked
+    private boolean isLiked;
+    public LikeButton(boolean isLiked) {
+        this.isLiked = isLiked;
+    }
 
-    public static void like(ImageButton imageButton) {
+    public void like(ImageButton imageButton) {
         isLiked = !isLiked;  // Toggle the like status
         updateAppearance(imageButton);
     }
 
-    public static void updateAppearance(ImageButton imageButton) {
+    public void updateAppearance(ImageButton imageButton) {
         // Change the button's appearance based on the like status
         if (isLiked) {
             // Set the button to the "liked" state
