@@ -51,10 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/akaya_telivigala"
             android:text="@string/tv_signup"
-            android:textSize="40sp"
-            android:textStyle="bold" />
+            style="@style/header"/>
 
         <TextView
             android:id="@+id/tv_createAcnt"

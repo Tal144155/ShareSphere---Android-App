@@ -87,6 +87,12 @@
         <item name="color">@color/black</item>
     </style>
 
+    <style name="header">
+        <item name="fontFamily">@font/akaya_telivigala</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">50sp</item>
+    </style>
+
     <style name="icon">
         <item name="android:tint">@color/dark_blue</item>
     </style>
