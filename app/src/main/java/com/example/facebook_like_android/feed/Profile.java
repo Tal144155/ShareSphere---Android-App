@@ -1,5 +1,7 @@
 package com.example.facebook_like_android.feed;
 
+import static com.example.facebook_like_android.adapters.PostsListAdapter.COMMENTS_REQUEST_CODE;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -69,7 +71,6 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.etCreatePost.setOnClickListener(v -> {
             binding.btnImg.setVisibility(View.VISIBLE);
             binding.btnCreate.setVisibility(View.VISIBLE);
-            inputError = new InputError(binding.etCreatePost);
             createPost();
         });
 
@@ -131,6 +132,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         TextView tv = binding.lstPosts.findViewById(R.id.tv_content);
         EditText content = binding.lstPosts.findViewById(R.id.et_content);
         content.setText(tv.getText());
+        inputError = new InputError(content);
+
 
         binding.lstPosts.findViewById(R.id.btn_update).setOnClickListener(v -> {
             adapter.updatePost(position, content.getText().toString(), bitmap);
@@ -159,15 +162,15 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, prvImg);
-            isPicSelected = true;
-            binding.btnCreate.setEnabled(!inputError.isContentEmpty());
-        } else {
-            // Handle error or cancellation
-            Toast.makeText(this, "Failed to select image", Toast.LENGTH_SHORT).show();
-            isPicSelected = false;
-        }
+            if (resultCode == RESULT_OK) {
+                bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, prvImg);
+                isPicSelected = true;
+                binding.btnCreate.setEnabled(!inputError.isContentEmpty());
+            } else if (requestCode != COMMENTS_REQUEST_CODE){
+                // Handle error or cancellation
+                Toast.makeText(this, "Failed to select image", Toast.LENGTH_SHORT).show();
+                isPicSelected = false;
+            }
     }
 
 

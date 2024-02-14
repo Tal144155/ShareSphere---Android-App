@@ -14,3 +14,6 @@ To view hard-coded posts of a specific user, enter the username "alice" upon sig
 
 ### Editing and Deleting Posts
 Editing and deleting posts can only be done through the user's profile, where only their posts are displayed.
+
+### Log out
+Logging out can be done through the menu, by clicking on the button below. 
