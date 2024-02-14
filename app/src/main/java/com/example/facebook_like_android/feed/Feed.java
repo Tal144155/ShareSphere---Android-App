@@ -16,6 +16,10 @@ import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
+/**
+ * The Feed activity displays the main feed of posts in the application.
+ * Users can view posts, access their profile, change theme, and navigate to other screens.
+ */
 public class Feed extends AppCompatActivity {
     private static final int PROFILE_REQUEST_CODE = 100;
     private ActivityFeedBinding binding;
@@ -34,6 +38,7 @@ public class Feed extends AppCompatActivity {
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
+        // Initialize posts and set visibility
         adapter.initPosts();
         adapter.setFeedVisibility();
 
@@ -43,22 +48,27 @@ public class Feed extends AppCompatActivity {
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
         binding.btnProfile.setOnClickListener(v -> startActivityForResult(new Intent(this, Profile.class), PROFILE_REQUEST_CODE));
 
+        // Set profile image and nickname
         UserInfoManager.setProfile(this, binding.btnProfile);
         UserInfoManager.setNickname(this, binding.tvNickname);
 
+        // Apply circular outline to profile image
         CircularOutlineUtil.applyCircularOutline(binding.btnProfile);
-
     }
 
-    // Handle the result from Profile
+    // Handle the result from Profile activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
+            // Refresh feed if permission granted
+            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
                 adapter.refreshFeed();
+            }
         }
     }
+
+    // Handle permission request result
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -66,10 +76,12 @@ public class Feed extends AppCompatActivity {
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }
 
+    // Refresh feed onResume if permission granted
     @Override
     protected void onResume() {
         super.onResume();
-        if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
+        if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
             adapter.refreshFeed();
+        }
     }
 }

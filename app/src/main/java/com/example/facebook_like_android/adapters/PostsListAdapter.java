@@ -32,7 +32,7 @@ import java.util.List;
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
 
     // ViewHolder for holding views of individual posts
-    class PostViewHolder extends RecyclerView.ViewHolder {
+    static class PostViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvAuthor;
         private final TextView tvcontent;
         private final ImageView ivPic;
@@ -69,13 +69,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
 
     private final LayoutInflater mInflater;  // LayoutInflater to inflate views
-    private PostManager postManager = PostManager.getInstance();
-    private List<Post> posts = postManager.getPosts();  // List to store posts
+    private final PostManager postManager = PostManager.getInstance();
+    private final List<Post> posts = postManager.getPosts();  // List to store posts
     private int visibility = View.GONE;
     private OnEditClickListener editClickListener;
     private OnEditClickListener.OnDeleteClickListener deleteClickListener;
     private boolean isProfile = false;
-    private Activity activity;
+    private final Activity activity;
     private String username;
     private LikeButton likeButton;
     public final static int COMMENTS_REQUEST_CODE = 123;
@@ -101,6 +101,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             final Post current = posts.get(position);
             holder.tvAuthor.setText(current.getAuthor());
             holder.tvcontent.setText(current.getContent());
+
+            // Differentiating between hard-coded pics and user-uploaded pics
             if (current.getPicID() == Post.NOT_RES)
                 holder.ivPic.setImageBitmap(current.getPic());
             else
@@ -109,41 +111,57 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 holder.ivProfile.setImageBitmap(current.getProfile());
             else
                 holder.ivProfile.setImageResource(current.getProfileID());
+
             holder.tvLikes.setText(String.valueOf(current.getLikes()));
 
             // Apply circular outline to profile image using the utility class
             CircularOutlineUtil.applyCircularOutline(holder.ivProfile);
 
-            // Set onClick listener for like button
+            // Set onClick listener for buttons
             setupLikeButtonClickListener(holder, position);
+            setOnEditClickListener(holder, position);
+            setOnShareClickListener(holder, position);
+            setOnDeleteClickListener(holder, position);
+            setOnCommentClickListener(holder, position);
 
             setVisibility(holder);
-
-            holder.edit.setOnClickListener(v -> {
-                if (editClickListener != null) {
-                    holder.update.setVisibility(View.VISIBLE);
-                    holder.changeImg.setVisibility(View.VISIBLE);
-                    editClickListener.onEditClick(position);
-                }
-            });
-
-            holder.delete.setOnClickListener(v -> {
-                if (deleteClickListener != null) {
-                    deleteClickListener.onDeleteClick(position);
-                }
-            });
-
-            holder.share.setOnClickListener(v ->
-                    holder.shareOptions.setVisibility(View.VISIBLE));
-
-            holder.comment.setOnClickListener(v -> {
-                Intent comment = new Intent(activity, Comments.class);
-                comment.putExtra("position", position);
-                activity.startActivityForResult(comment, COMMENTS_REQUEST_CODE);
-            });
-
             getMyPosts(holder, position);
         }
+    }
+
+    // Sets onClick listener for the share button
+    private void setOnShareClickListener(@NonNull PostViewHolder holder, int position) {
+        holder.share.setOnClickListener(v ->
+                holder.shareOptions.setVisibility(View.VISIBLE));
+    }
+
+    // Sets onClick listener for the delete button
+    private void setOnDeleteClickListener(@NonNull PostViewHolder holder, int position) {
+        holder.delete.setOnClickListener(v -> {
+            if (deleteClickListener != null) {
+                deleteClickListener.onDeleteClick(position);
+            }
+        });
+    }
+
+    // Sets onClick listener for the comment button
+    private void setOnCommentClickListener(@NonNull PostViewHolder holder, int position) {
+        holder.comment.setOnClickListener(v -> {
+            Intent comment = new Intent(activity, Comments.class);
+            comment.putExtra("position", position);
+            activity.startActivityForResult(comment, COMMENTS_REQUEST_CODE);
+        });
+    }
+
+    // Sets onClick listener for the edit button
+    private void setOnEditClickListener(@NonNull PostViewHolder holder, int position) {
+        holder.edit.setOnClickListener(v -> {
+            if (editClickListener != null) {
+                holder.update.setVisibility(View.VISIBLE);
+                holder.changeImg.setVisibility(View.VISIBLE);
+                editClickListener.onEditClick(position);
+            }
+        });
     }
 
     private void setVisibility(PostViewHolder holder) {
@@ -219,6 +237,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         this.deleteClickListener = listener;
     }
 
+    // Shows only the posts of a given user (used in Profile)
     public void getMyPosts(PostViewHolder holder, int position) {
         if (!isProfile)
             return;
@@ -235,6 +254,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         notifyDataSetChanged();
     }
 
+    // Initialising the list of posts from the JSON file
     public void initPosts() {
         if (posts.size() == 0) {
             // Call the method to read and parse the JSON file

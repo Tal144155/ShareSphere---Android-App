@@ -27,7 +27,6 @@ public class SignUp extends AppCompatActivity {
     private final Users users = Users.getInstance();  // Singleton instance for managing user data
     private InputError inputError;  // Object to handle input validation errors
     private ImageView imgView;  // ImageView to display the selected profile photo
-    // Declare a member variable to store the selected image URI
     private Bitmap bitmap = null;
     private final ImageHandler imageHandler = new ImageHandler(this);
     TextWatcher watcher = new TextWatcher() {

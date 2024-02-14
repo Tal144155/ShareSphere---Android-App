@@ -32,6 +32,7 @@ public class Menu extends AppCompatActivity {
         binding.btnHome.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
+        // Set profile image and nickname
         UserInfoManager.setProfile(this, binding.btnProfile);
         UserInfoManager.setNickname(this, binding.tvNickname);
         CircularOutlineUtil.applyCircularOutline(binding.btnProfile);

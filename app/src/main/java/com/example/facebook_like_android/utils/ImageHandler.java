@@ -12,14 +12,25 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Utility class for handling image selection and retrieval.
+ */
 public class ImageHandler {
     private final Activity activity;
     private static final int REQUEST_CODE_PICK_IMAGE = 1001;
 
+    /**
+     * Constructor for ImageHandler.
+     *
+     * @param activity The activity context.
+     */
     public ImageHandler(Activity activity) {
         this.activity = activity;
     }
 
+    /**
+     * Opens a chooser for selecting an image from the gallery or capturing a new image from the camera.
+     */
     public void openChooser() {
         Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -33,6 +44,15 @@ public class ImageHandler {
         activity.startActivityForResult(chooser, REQUEST_CODE_PICK_IMAGE);
     }
 
+    /**
+     * Handles the result of the image selection or capture operation.
+     *
+     * @param requestCode The request code.
+     * @param resultCode  The result code.
+     * @param data        The Intent containing the result data.
+     * @param imageView   The ImageView to display the selected image.
+     * @return The Bitmap representing the selected image.
+     */
     public Bitmap handleActivityResult(int requestCode, int resultCode, Intent data, ImageView imageView) {
         Uri photoUri;
         Bitmap bitmap = null;
@@ -57,6 +77,12 @@ public class ImageHandler {
         return bitmap;
     }
 
+    /**
+     * Loads a Bitmap from the given Uri.
+     *
+     * @param uri The Uri of the image.
+     * @return The loaded Bitmap.
+     */
     public Bitmap loadBitmapFromUri(Uri uri){
         try (InputStream input = activity.getContentResolver().openInputStream(uri)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -66,6 +92,4 @@ public class ImageHandler {
             return null;
         }
     }
-
 }
-

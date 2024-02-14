@@ -3,7 +3,6 @@ package com.example.facebook_like_android.feed;
 import static com.example.facebook_like_android.adapters.PostsListAdapter.COMMENTS_REQUEST_CODE;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
@@ -32,6 +31,11 @@ import com.example.facebook_like_android.utils.ImageHandler;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
+/**
+ * The Profile activity displays the user's profile information and posts.
+ * Users can create, edit, and delete posts from their profile.
+ */
+
 public class Profile extends AppCompatActivity implements OnEditClickListener, OnEditClickListener.OnDeleteClickListener {
     private ActivityProfileBinding binding;
     private PostsListAdapter adapter;
@@ -54,19 +58,20 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
         adapter.setProfileVisibility();
-        SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
-        adapter.setUsername(preferences.getString("username", ""));
+        adapter.setUsername(UserInfoManager.getUsername(this));
         adapter.setOnEditClickListener(this);
         adapter.setOnDeleteClickListener(this);
 
-
+        // Set profile information
         UserInfoManager.setProfile(this, binding.ivProfile);
         CircularOutlineUtil.applyCircularOutline(binding.ivProfile);
         UserInfoManager.setNickname(this, binding.tvNickname);
 
+        // Set click listeners for buttons
         binding.btnHome.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
+        // Set listener for creating a new post
         binding.etCreatePost.setOnClickListener(v -> {
             binding.btnImg.setVisibility(View.VISIBLE);
             binding.btnCreate.setVisibility(View.VISIBLE);
@@ -76,8 +81,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 
     }
 
+    // Method to handle creating a new post
     private void createPost() {
-
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -96,6 +101,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         };
         binding.etCreatePost.addTextChangedListener(watcher);
 
+        // Uploading an image
         binding.btnImg.setOnClickListener(v -> {
             prvImg = binding.ivPic;
             if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
@@ -104,7 +110,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
             }
         });
 
-
+        // Clicking on Create Post button
         binding.btnCreate.setOnClickListener(v -> {
             Post post = new Post(UserInfoManager.getUsername(this),
                     UserInfoManager.getNickname(this),
@@ -124,6 +130,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         adapter.deletePost(position);
     }
 
+    // Method to handle edit click event for a post
     @Override
     public void onEditClick(int position) {
         startEditVisibility();
@@ -133,13 +140,14 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         content.setText(tv.getText());
         inputError = new InputError(content);
 
-
+        // Clicking on update post
         binding.lstPosts.findViewById(R.id.btn_update).setOnClickListener(v -> {
             adapter.updatePost(position, content.getText().toString(), bitmap);
             finishEditVisibility();
             setResult(RESULT_OK);
         });
 
+        // Clicking on change image
         binding.lstPosts.findViewById(R.id.btn_changeImg).setOnClickListener(v -> {
             if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
                 imageHandler.openChooser();
@@ -172,7 +180,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
             }
     }
 
-
+    // Handle permission result
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
