@@ -43,8 +43,6 @@ public class JsonParser {
                 String username = postObject.getString("username");
                 String author = postObject.getString("author");
                 String content = postObject.getString("content");
-                String picture = postObject.getString("picture");
-                String profile = postObject.getString("authorProfilePhoto");
                 // Pass the context to getResourceId method
                 int pictureResourceId = getResourceId(context, postObject.getString("picture"), "drawable");
                 int profilePhotoResourceId = getResourceId(context, postObject.getString("authorProfilePhoto"), "drawable");
