@@ -16,10 +16,15 @@ import com.example.facebook_like_android.entities.post.Comment;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
+/**
+ * The Comments activity displays comments for a particular post.
+ * Users can view, add, and interact with comments here.
+ */
 public class Comments extends AppCompatActivity {
     private ActivityCommentsBinding binding;
     private CommentsListAdapter adapter;
     private final ThemeMode mode = ThemeMode.getInstance();
+    // TextWatcher to enable/disable the comment button based on input
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -53,8 +58,10 @@ public class Comments extends AppCompatActivity {
         lstComments.setAdapter(adapter);
         lstComments.setLayoutManager(new LinearLayoutManager(this));
 
-         binding.etContent.addTextChangedListener(watcher);
+        // Add text changed listener to the comment EditText
+        binding.etContent.addTextChangedListener(watcher);
 
+        // Add click listener to the comment button to add a new comment
         binding.btnComment.setOnClickListener(v -> {
             Comment comment = new Comment(UserInfoManager.getUsername(this),
                     UserInfoManager.getNickname(this),
@@ -64,8 +71,10 @@ public class Comments extends AppCompatActivity {
             binding.etContent.setText(null);
         });
 
+        // Add click listener to the back button to finish the activity
         binding.btnBack.setOnClickListener(v -> finish());
 
+        // Add click listener to the theme change button to change the app theme
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
     }
 }

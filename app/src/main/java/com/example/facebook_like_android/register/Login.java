@@ -85,6 +85,7 @@ public class Login extends AppCompatActivity {
         binding.etPassword.setText(null);
     }
 
+    // Saving the logged in user's info for future use
     private void saveCurrentUser() {
         SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
