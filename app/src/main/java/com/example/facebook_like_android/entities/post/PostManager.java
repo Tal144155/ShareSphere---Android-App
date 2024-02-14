@@ -15,10 +15,6 @@ public class PostManager {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
     public static synchronized PostManager getInstance() {
         if (instance == null) {
             instance = new PostManager();

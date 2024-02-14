@@ -44,11 +44,6 @@ public class Post {
         this.username = username;
     }
 
-    // Setter method to set the author of the post
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     // Getter method to retrieve the content of the post
     public String getContent() {
         return content;
@@ -132,7 +127,4 @@ public class Post {
         return comments;
     }
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-    }
 }

@@ -3,9 +3,9 @@ package com.example.facebook_like_android.entities.post;
 import android.graphics.Bitmap;
 
 public class Comment {
-    private String username;
-    private String author;
-    private Bitmap profile;
+    private final String username;
+    private final String author;
+    private final Bitmap profile;
     private String content;
 
     public Comment(String username, String author, Bitmap profile, String content) {

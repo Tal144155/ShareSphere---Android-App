@@ -17,7 +17,7 @@ import com.example.facebook_like_android.users.Users;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
-    private Users users = Users.getInstance();  // Singleton instance for managing user data
+    private final Users users = Users.getInstance();  // Singleton instance for managing user data
     private ActivityLoginBinding binding;  // View binding instance for the activity
     private final ThemeMode mode = ThemeMode.getInstance();  // ThemeMode singleton instance for theme management
     private InputError inputError;  // Object to handle input validation errors

@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -177,7 +176,6 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d("DEBUG", "onRequestPermissionsResult: requestCode=" + requestCode);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }

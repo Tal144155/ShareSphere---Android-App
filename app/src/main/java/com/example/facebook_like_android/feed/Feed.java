@@ -2,7 +2,6 @@ package com.example.facebook_like_android.feed;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,7 +62,6 @@ public class Feed extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d("DEBUG", "onRequestPermissionsResult: requestCode=" + requestCode);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }

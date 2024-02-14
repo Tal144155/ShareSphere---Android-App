@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -68,14 +67,5 @@ public class ImageHandler {
         }
     }
 
-    private Uri getImageUri(Activity activity, Bitmap bitmap) {
-        if (bitmap == null) {
-            return null;
-        }
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(), bitmap, "Title", null);
-        return Uri.parse(path);
-    }
 }
 
