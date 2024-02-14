@@ -3,6 +3,21 @@
     <style name="Base.Theme.FacebooklikeAndroid" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/dark_purple</item>
+        <item name="colorError">@color/dark_pink</item>
+        <!-- Primary branding color -->
+
+        <!-- Secondary branding color -->
+        <item name="colorSecondary">@color/pink</item>
+        <!-- Button color in its normal state -->
+        <item name="colorButtonNormal">@color/blue</item>
+        <!-- Background color of views -->
+        <item name="android:windowBackground">@color/white</item>
+        <!-- Text color of primary content -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <!-- Text color of secondary content -->
+        <item name="android:textColorSecondary">@color/purple</item>
+
     </style>
 
     <style name="Theme.FacebooklikeAndroid" parent="Base.Theme.FacebooklikeAndroid" />

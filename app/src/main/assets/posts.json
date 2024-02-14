@@ -1,0 +1,74 @@
+{
+  "posts": [
+    {
+      "author": "John Doe",
+      "authorProfilePhoto": "profile1",
+      "content": " Exciting news! Enjoy a special Valentine's Day discount today only! Use code LOVE15 for 15% off your purchase. Don't miss out on spreading the love! Shop now: ",
+      "picture": "post1",
+      "username": "John123"
+    },
+    {
+      "author": "Alice Smith",
+      "authorProfilePhoto": "profile3",
+      "content": "💌 Spread some virtual love! Tag a friend or loved one in the comments below and let them know why they're special to you. Let's make this Valentine's Day extra bright! 💕 #SpreadLove ",
+      "picture": "post2",
+      "username": "alice"
+    },
+    {
+      "author": "Bob Johnson",
+      "authorProfilePhoto": "profile4",
+      "content": "🎁 Valentine's Day Giveaway Alert! Want to win a special gift for your loved one? Simply like this post, tag a friend, and tell us what love means to you in the comments below for a chance to win! Winner announced [date]. Good luck! 🍀 #Giveaway #ValentinesDay",
+      "picture": "post3",
+      "username": "bobby"
+    },
+    {
+      "author": "Alice Smith",
+      "authorProfilePhoto": "profile3",
+      "content": "Roses are red, violets are blue, sugar is sweet, and so are you! But let's be real, we all know the real MVP of Valentine's Day is chocolate. 😂🍫 Who's with us? #ValentinesDay #ChocolateLover",
+      "picture": "post4",
+      "username": "alice"
+    },
+    {
+      "author": "Michael Brown",
+      "authorProfilePhoto": "profile5",
+      "content": "Love knows no bounds. Whether you're celebrating with a partner, friends, family, or yourself, remember that love comes in many forms. Wishing everyone a day filled with love, joy, and warmth. Happy Valentine's Day! 💝 #LoveIsLove #ValentinesDay",
+      "picture": "post5",
+      "username": "michaelbb"
+    },
+    {
+      "author": "Sophia Jones",
+      "authorProfilePhoto": "profile6",
+      "content": "Curious about how our products are made? Take a peek behind the scenes in our workshop! 🛠️ Swipe through to see our skilled artisans crafting each piece with love and care. #BehindTheScenes #Craftsmanship",
+      "picture": "post6",
+      "username": "soph"
+    },
+    {
+      "author": "Daniel Lee",
+      "authorProfilePhoto": "profile7",
+      "content": "Our customers are the heart of our business! Share a photo of yourself with your favorite product from our store in the comments below. We love seeing you shine! ✨ #CustomerLove #ValentinesDay",
+      "picture": "post7",
+      "username": "daniellee11"
+    },
+    {
+      "author": "Olivia Taylor",
+      "authorProfilePhoto": "profile8",
+      "content": "💌 Spread some virtual love! Tag a friend or loved one in the comments below and let them know why they're special to you. Let's make this Valentine's Day extra bright! 💕 #SpreadLove #ValentinesDay",
+      "picture": "post8",
+      "username": "taylor"
+    },
+    {
+      "author": "William Miller",
+      "authorProfilePhoto": "profile9",
+      "content": "Did you know? Valentine's Day originated from ancient Roman traditions and was originally called Lupercalia. It wasn't until the 14th century that it became associated with romantic love. Learn more about the history of Valentine's Day here: [Link] #ValentinesDay #History",
+      "picture": "post9",
+      "username": "willmill"
+    },
+    {
+      "author": "Ava Wilson",
+      "authorProfilePhoto": "profile10",
+      "content": "❤️ Valentine's Day is here! Share with us your favorite love story or memory in the comments below. Let's celebrate love together! 💑 #ValentinesDay #LoveStories",
+      "picture": "post10",
+      "username": "ava"
+    }
+  ]
+}
