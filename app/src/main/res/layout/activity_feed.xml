@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout8"
-        android:background="@color/white"
+        android:background="@color/pink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,39 +30,34 @@
                 android:id="@+id/btn_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:contentDescription="@string/menu"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                app:srcCompat="@drawable/ic_menu" />
+                app:srcCompat="@drawable/ic_menu"
+                style="@style/smallButton" />
 
             <ImageButton
                 android:id="@+id/btn_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:contentDescription="@string/search"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                app:srcCompat="@drawable/ic_search" />
+                app:srcCompat="@drawable/ic_search"
+                style="@style/smallButton"/>
 
             <ImageButton
                 android:id="@+id/btn_changeMode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:layout_weight="1"
                 android:contentDescription="@string/btn_changeMode"
-                app:srcCompat="@drawable/ic_darkmd" />
+                app:srcCompat="@drawable/ic_darkmd"
+                style="@style/smallButton"
+                app:tint="@color/dark_pink_red" />
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_weight="9"
-                app:srcCompat="@android:drawable/btn_star" />
+                app:srcCompat="@drawable/ic_logo" />
 
 
         </LinearLayout>
@@ -73,11 +68,11 @@
         android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#DA74EB"
         android:padding="10dp"
-        android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout8"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/light_pink">
+
 
         <ImageButton
             android:id="@+id/btn_profile"
@@ -95,10 +90,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="20sp"
-            android:outlineProvider="bounds"
-            android:elevation="4dp"
-            android:padding="10dp"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            style="@style/header"
             android:text="@string/welcome_back"/>
 
 

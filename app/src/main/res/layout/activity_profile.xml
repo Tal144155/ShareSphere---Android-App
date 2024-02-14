@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/pink">
 
         <ImageView
             android:id="@+id/iv_profile"
@@ -36,11 +37,12 @@
             android:id="@+id/btn_changeMode"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:scaleType="fitCenter"
             android:layout_gravity="center"
             android:contentDescription="@string/btn_changeMode"
             android:padding="15dp"
-            app:srcCompat="@drawable/ic_darkmd" />
+            app:srcCompat="@drawable/ic_darkmd"
+            style="@style/smallRoundButtonTrans"
+            app:tint="@color/dark_pink_red" />
 
         <ImageButton
             android:id="@+id/btn_home"
@@ -48,10 +50,11 @@
             android:layout_marginEnd="10dp"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:scaleType="fitCenter"
+            android:padding="5dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_home"
-            android:contentDescription="@string/home" />
+            android:contentDescription="@string/home"
+            style="@style/RoundButtonTrans"/>
 
 
     </LinearLayout>
@@ -60,8 +63,7 @@
         android:id="@+id/shareLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:backgroundTint="#DA74EB"
+        android:background="@color/light_pink"
         android:orientation="vertical"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,6 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone"
+            android:enabled="false"
             android:text="@string/create_post" />
 
 
@@ -119,7 +122,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shareLayout"
-        android:textSize="25sp"/>
+        style="@style/header"/>
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

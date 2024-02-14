@@ -17,7 +17,7 @@ import com.example.facebook_like_android.users.Users;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
-    private Users users = Users.getInstance();  // Singleton instance for managing user data
+    private final Users users = Users.getInstance();  // Singleton instance for managing user data
     private ActivityLoginBinding binding;  // View binding instance for the activity
     private final ThemeMode mode = ThemeMode.getInstance();  // ThemeMode singleton instance for theme management
     private InputError inputError;  // Object to handle input validation errors
@@ -53,9 +53,6 @@ public class Login extends AppCompatActivity {
         // Add TextWatcher to input fields for dynamic validation
         binding.etUsername.addTextChangedListener(watcher);
         binding.etPassword.addTextChangedListener(watcher);
-
-        // Enable or disable the login button based on input validity
-        binding.btnLogin.setEnabled(!inputError.isEmpty());
 
         // Set click listeners for buttons
         binding.btnSignup.setOnClickListener(v -> {

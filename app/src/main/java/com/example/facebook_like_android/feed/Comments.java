@@ -64,12 +64,7 @@ public class Comments extends AppCompatActivity {
             binding.etContent.setText(null);
         });
 
-        binding.btnBack.setOnClickListener(v -> {
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("content", binding.etContent.getText().toString());
-            setResult(RESULT_OK, resultIntent);
-            finish();
-        });
+        binding.btnBack.setOnClickListener(v -> finish());
 
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
     }

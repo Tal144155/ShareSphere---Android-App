@@ -64,12 +64,6 @@ public class Users {
         return !users.containsKey(username.getText().toString());
     }
 
-    public List<Post> getPosts(User user) {
-        if (userPosts.containsKey(user.getUsername().getText().toString()))
-            return userPosts.get(user.getUsername().getText().toString());
-        return null;
-    }
-
     public Map<FIELD, String> getUserByUsername(String username) {
         return users.get(username);
     }

@@ -5,40 +5,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/galaxy">
 
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".register.SignUp">
+    android:layout_gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".register.SignUp"
+    android:layout_margin="30dp"
+    android:background="@color/semiTransparent">
+
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
     <ImageButton
         android:id="@+id/btn_changeMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:layout_margin="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
         android:layout_marginBottom="40dp"
         android:contentDescription="@string/btn_changeMode"
         android:padding="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_darkmd" />
+        app:srcCompat="@drawable/ic_darkmd"
+        style="@style/smallRoundButton"
+        android:backgroundTint="@color/bright_purple"/>
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="15dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/top"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/tv_signup"
@@ -46,10 +68,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/akaya_telivigala"
             android:text="@string/tv_signup"
-            android:textSize="40sp"
-            android:textStyle="bold" />
+            style="@style/header"/>
 
         <TextView
             android:id="@+id/tv_createAcnt"
@@ -71,7 +91,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,7 +103,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_user" />
+                app:srcCompat="@drawable/ic_user"
+                style="@style/icon"/>
 
             <EditText
                 android:id="@+id/et_username"
@@ -114,7 +135,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_pwd" />
+                app:srcCompat="@drawable/ic_pwd"
+                style="@style/icon"/>
 
             <EditText
                 android:id="@+id/et_password_su"
@@ -146,7 +168,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_pwd" />
+                app:srcCompat="@drawable/ic_pwd"
+                style="@style/icon"/>
 
             <EditText
                 android:id="@+id/et_confirmPassword_su"
@@ -178,7 +201,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_user" />
+                app:srcCompat="@drawable/ic_user"
+                style="@style/icon"/>
 
             <EditText
                 android:id="@+id/et_nickname"
@@ -214,7 +238,7 @@
                 android:layout_gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/iv_prvImg"
-                android:backgroundTint="#E065D2"
+                android:backgroundTint="@color/bright_purple"
                 android:text="@string/btn_img" />
 
             <!--ImageView to preview the selected image-->
@@ -237,6 +261,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:enabled="false"
             android:text="@string/btn_signup" />
 
 

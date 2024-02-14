@@ -9,12 +9,19 @@ import com.example.facebook_like_android.users.Users;
 public class InputError {
 
     private final EditText[] fields;  // Array to store EditText fields for input validation
+    private final EditText content;
+
+    public InputError(EditText content) {
+        this.content = content;
+        this.fields = null;
+    }
 
     // Constructor for handling validation of username and password during registration
     public InputError(EditText username, EditText password) {
         this.fields = new EditText[2];
         fields[Users.FIELD.Username.ordinal()] = username;
         fields[Users.FIELD.Password.ordinal()] = password;
+        this.content = null;
     }
 
     // Constructor for handling validation of various fields during user creation
@@ -24,6 +31,7 @@ public class InputError {
         this.fields[Users.FIELD.Password.ordinal()] = user.getPassword();
         this.fields[Users.FIELD.ConfirmPassword.ordinal()] = user.getRe_password();
         this.fields[Users.FIELD.Nickname.ordinal()] = user.getNickname();
+        this.content = null;
     }
 
     // Method to check if any input field is empty and display an error if so
@@ -71,4 +79,9 @@ public class InputError {
     public boolean arePwdSame() {
         return fields[Users.FIELD.Password.ordinal()].getText().toString().equals(fields[Users.FIELD.ConfirmPassword.ordinal()].getText().toString());
     }
+
+    public boolean isContentEmpty() {
+        return TextUtils.isEmpty(content.getText());
+    }
+
 }

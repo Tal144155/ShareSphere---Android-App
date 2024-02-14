@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +28,7 @@ public class SignUp extends AppCompatActivity {
     private InputError inputError;  // Object to handle input validation errors
     private ImageView imgView;  // ImageView to display the selected profile photo
     // Declare a member variable to store the selected image URI
-    private Bitmap bitmap;
+    private Bitmap bitmap = null;
     private final ImageHandler imageHandler = new ImageHandler(this);
     TextWatcher watcher = new TextWatcher() {
         @Override
@@ -36,7 +37,7 @@ public class SignUp extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             // Enable or disable the signup button based on input validity
-            binding.btnSignup.setEnabled(!inputError.checkEmpty());
+            binding.btnSignup.setEnabled(!inputError.checkEmpty() && bitmap != null);
         }
 
         @Override
@@ -47,7 +48,7 @@ public class SignUp extends AppCompatActivity {
             if (!inputError.arePwdSame())
                 binding.etConfirmPasswordSu.setError("Passwords must match!");
             // Enable or disable the signup button based on overall input validity
-            binding.btnSignup.setEnabled(inputError.isValid());
+            binding.btnSignup.setEnabled(inputError.isValid() && bitmap != null);
         }
     };
 
@@ -71,9 +72,6 @@ public class SignUp extends AppCompatActivity {
         binding.etPasswordSu.addTextChangedListener(watcher);
         binding.etConfirmPasswordSu.addTextChangedListener(watcher);
         binding.etNickname.addTextChangedListener(watcher);
-
-        // Disable the signup button upon entering
-        binding.btnSignup.setEnabled(inputError.isValid());
 
         // Set click listeners for buttons
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
@@ -108,7 +106,15 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, binding.ivPrvImg);
+        if (resultCode == RESULT_OK) {
+            bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, binding.ivPrvImg);
+            binding.btnSignup.setEnabled(inputError.isValid());
+        }
+        else {
+            Toast.makeText(this, "Failed to select image", Toast.LENGTH_SHORT).show();
+            binding.btnSignup.setEnabled(bitmap != null && inputError.isValid());
+        }
+
     }
 
     @Override
