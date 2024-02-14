@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.facebook_like_android.register.Login;
 import com.example.facebook_like_android.databinding.ActivityMenuBinding;
 import com.example.facebook_like_android.style.ThemeMode;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
+import com.example.facebook_like_android.utils.UserInfoManager;
 
 public class Menu extends AppCompatActivity {
     private ActivityMenuBinding binding;  // View binding instance for the activity
@@ -29,5 +31,9 @@ public class Menu extends AppCompatActivity {
         });
         binding.btnHome.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
+
+        UserInfoManager.setProfile(this, binding.btnProfile);
+        UserInfoManager.setNickname(this, binding.tvNickname);
+        CircularOutlineUtil.applyCircularOutline(binding.btnProfile);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.facebook_like_android.users;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.widget.EditText;
 
 // Class representing a user entity with registration information
@@ -9,7 +9,7 @@ public class User {
     private final EditText password;  // User's password input field
     private final EditText re_password;  // User's re-entered password input field
     private final EditText nickname;  // User's nickname input field
-    private Uri profilePhoto;  // URI for the user's profile photo
+    private Bitmap profilePhoto;  // URI for the user's profile photo
 
     // Constructor to initialize user attributes
     public User(EditText username, EditText password, EditText re_password, EditText nickname) {
@@ -21,12 +21,12 @@ public class User {
     }
 
     // Method to set the user's profile photo URI
-    public void setProfilePhoto(Uri profilePhoto) {
+    public void setProfilePhoto(Bitmap profilePhoto) {
         this.profilePhoto = profilePhoto;
     }
 
     // Method to get the user's profile photo URI
-    public Uri getProfilePhoto() {
+    public Bitmap getProfilePhoto() {
         return profilePhoto;
     }
 

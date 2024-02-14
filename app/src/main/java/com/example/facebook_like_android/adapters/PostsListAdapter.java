@@ -1,11 +1,13 @@
 package com.example.facebook_like_android.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Outline;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,8 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
-import com.example.facebook_like_android.entities.post.buttons.LikeButton;
 import com.example.facebook_like_android.entities.post.Post;
+import com.example.facebook_like_android.entities.post.PostManager;
+import com.example.facebook_like_android.entities.post.buttons.LikeButton;
+import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
+import com.example.facebook_like_android.feed.Comments;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
 
 import java.util.List;
 
@@ -40,11 +46,20 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
 
     private final LayoutInflater mInflater;  // LayoutInflater to inflate views
-    private List<Post> posts;  // List to store posts
+    private PostManager postManager = PostManager.getInstance();
+    private List<Post> posts = postManager.getPosts();  // List to store posts
+    private int visibility = View.GONE;
+    private OnEditClickListener editClickListener;
+    private OnEditClickListener.OnDeleteClickListener deleteClickListener;
+    private boolean isProfile = false;
+    private Activity activity;
+    private String username;
+    public final static int COMMENTS_REQUEST_CODE = 123;
 
     // Constructor to initialize the LayoutInflater
     public PostsListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
+        this.activity = (Activity) context;
     }
 
     // onCreateViewHolder: Inflates the layout for individual posts and creates a ViewHolder
@@ -62,36 +77,68 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             final Post current = posts.get(position);
             holder.tvAuthor.setText(current.getAuthor());
             holder.tvcontent.setText(current.getContent());
-            holder.ivPic.setImageResource(current.getPic());
-            holder.ivProfile.setImageResource(current.getProfile());
+            if (current.getPicID() == Post.NOT_RES)
+                holder.ivPic.setImageBitmap(current.getPic());
+            else
+                holder.ivPic.setImageResource(current.getPicID());
+            if (current.getProfileID() == Post.NOT_RES)
+                holder.ivProfile.setImageBitmap(current.getProfile());
+            else
+                holder.ivProfile.setImageResource(current.getProfileID());
             holder.tvLikes.setText(String.valueOf(current.getLikes()));
 
-            // Apply circular outline to profile image
-            setupCircularOutline(holder);
+            // Apply circular outline to profile image using the utility class
+            CircularOutlineUtil.applyCircularOutline(holder.itemView.findViewById(R.id.iv_profile));
 
             // Set onClick listener for like button
-            setupLikeButtonClickListener(holder, current);
+            setupLikeButtonClickListener(holder, position);
+
+            setVisibility(holder);
+
+            holder.itemView.findViewById(R.id.btn_edit).setOnClickListener(v -> {
+                if (editClickListener != null) {
+                    holder.itemView.findViewById(R.id.btn_update).setVisibility(View.VISIBLE);
+                    holder.itemView.findViewById(R.id.btn_changeImg).setVisibility(View.VISIBLE);
+                    editClickListener.onEditClick(position);
+                }
+            });
+
+            holder.itemView.findViewById(R.id.btn_delete).setOnClickListener(v -> {
+                if (deleteClickListener != null) {
+                    deleteClickListener.onDeleteClick(position);
+                }
+            });
+
+            holder.itemView.findViewById(R.id.btn_share).setOnClickListener(v ->
+                    holder.itemView.findViewById(R.id.share_options).setVisibility(View.VISIBLE));
+
+            holder.itemView.findViewById(R.id.btn_comment).setOnClickListener(v -> {
+                Intent comment = new Intent(activity, Comments.class);
+                comment.putExtra("position", position);
+                activity.startActivityForResult(comment, COMMENTS_REQUEST_CODE);
+            });
+
+            getMyPosts(holder, position);
         }
     }
 
-    // setupCircularOutline: Applies circular outline to the profile image
-    private void setupCircularOutline(@NonNull PostViewHolder holder) {
-        ImageView circularProfile = holder.itemView.findViewById(R.id.iv_profile);
-        circularProfile.setClipToOutline(true);
-        circularProfile.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 100f);
-            }
-        });
+    private void setVisibility(PostViewHolder holder) {
+        // Set the visibility of edit and delete
+        ImageButton edit = holder.itemView.findViewById(R.id.btn_edit);
+        edit.setVisibility(visibility);
+        ImageButton delete = holder.itemView.findViewById(R.id.btn_delete);
+        delete.setVisibility(visibility);
+        holder.itemView.findViewById(R.id.et_content).setVisibility(View.GONE);
+        holder.itemView.findViewById(R.id.btn_update).setVisibility(View.GONE);
+        holder.itemView.findViewById(R.id.btn_changeImg).setVisibility(View.GONE);
     }
 
     // setupLikeButtonClickListener: Sets onClick listener for the like button
-    private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, final Post current) {
+    private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, int position) {
         LikeButton like = new LikeButton(holder.itemView.findViewById(R.id.btn_like));
         like.setOnClickListener(v -> {
-            current.like();
-            holder.tvLikes.setText(String.valueOf(current.getLikes()));
+            posts.get(position).like();
+            holder.tvLikes.setText(String.valueOf(posts.get(position).getLikes()));
         });
     }
 
@@ -104,14 +151,63 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         return 0;
     }
 
-    // setPosts: Updates the dataset and notifies the adapter of the change
-    public void setPosts(List<Post> list) {
-        posts = list;
+    public void setFeedVisibility() {
+        this.visibility = View.GONE;
+        notifyDataSetChanged(); // Notify the adapter to update the views
+    }
+    public void setProfileVisibility() {
+        this.visibility = View.VISIBLE;
+        this.isProfile = true;
+        notifyDataSetChanged(); // Notify the adapter to update the views
+    }
+    // Method to update post content
+    public void updatePost(int position, String newContent, Bitmap newPic) {
+        if (posts != null && position >= 0 && position < posts.size()) {
+            Post post = postManager.getPosts().get(position);
+            if (!newContent.isEmpty())
+                post.setContent(newContent); // Update the content
+            if (newPic != null)
+                post.setPic(newPic);
+            postManager.updatePost(position, post);
+            notifyItemChanged(position);// Notify adapter of the change at this position
+        }
+    }
+    public void deletePost(int position) {
+        if (posts != null && position >= 0 && position < posts.size()) {
+            postManager.removePost(postManager.getPosts().get(position));
+            notifyItemRemoved(position); // Notify adapter this post was removed
+        }
+    }
+    public void addPost(Post post) {
+        postManager.addPost(post);
+        notifyItemInserted(postManager.getPosition(post)); // Notify adapter this post was inserted
+    }
+
+    // Method to set the click listener
+    public void setOnEditClickListener(OnEditClickListener listener) {
+        this.editClickListener = listener;
+    }
+
+    public void setOnDeleteClickListener(OnEditClickListener.OnDeleteClickListener listener) {
+        this.deleteClickListener = listener;
+    }
+
+    public void getMyPosts(PostViewHolder holder, int position) {
+        if (!isProfile)
+            return;
+        if (!posts.get(position).getUsername().equals(this.username))
+            holder.itemView.findViewById(R.id.post).setVisibility(View.GONE);
+        else
+            holder.itemView.findViewById(R.id.post).setVisibility(View.VISIBLE);
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void refreshFeed() {
         notifyDataSetChanged();
     }
 
-    // getPosts: Returns the current list of posts
-    public List<Post> getPosts() {
-        return posts;
-    }
+
+
 }

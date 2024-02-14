@@ -1,32 +1,32 @@
 package com.example.facebook_like_android.feed;
 
+import static com.example.facebook_like_android.adapters.PostsListAdapter.COMMENTS_REQUEST_CODE;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
-import com.example.facebook_like_android.entities.post.Post;
+import com.example.facebook_like_android.parsers.JsonParser;
 import com.example.facebook_like_android.style.ThemeMode;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
+import com.example.facebook_like_android.utils.PermissionsManager;
+import com.example.facebook_like_android.utils.UserInfoManager;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Feed extends AppCompatActivity {
+    private static final int PROFILE_REQUEST_CODE = 100;
     private ActivityFeedBinding binding;
     private final ThemeMode mode = ThemeMode.getInstance();
-    private List<Post> posts = new ArrayList<>();
+    private PostsListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,63 +36,56 @@ public class Feed extends AppCompatActivity {
 
         // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;
-        final PostsListAdapter adapter = new PostsListAdapter(this);
+        adapter = new PostsListAdapter(this);
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
         // Call the method to read and parse the JSON file
-        parseJsonFile();
+        try {
+            JsonParser.parsePosts(getAssets().open("posts.json"), this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // Set the parsed posts to the adapter
-        adapter.setPosts(posts);
+        adapter.setFeedVisibility();
 
         // Set click listeners for buttons
         binding.btnMenu.setOnClickListener(v -> startActivity(new Intent(this, Menu.class)));
         binding.btnSearch.setOnClickListener(v -> startActivity(new Intent(this, Search.class)));
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
+        binding.btnProfile.setOnClickListener(v -> startActivityForResult(new Intent(this, Profile.class), PROFILE_REQUEST_CODE));
+
+        UserInfoManager.setProfile(this, binding.btnProfile);
+        UserInfoManager.setNickname(this, binding.tvNickname);
+
+        CircularOutlineUtil.applyCircularOutline(binding.btnProfile);
+
     }
 
-    // Method to read and parse the JSON file containing posts
-    private void parseJsonFile() {
-        try (InputStream inputStream = getAssets().open("posts.json")) {
-            // Read the JSON file from the assets folder
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-
-            // Read the file line by line
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line).append('\n');
-            }
-
-            String json = stringBuilder.toString();
-
-            // Parse the data
-            JSONObject jsonData = new JSONObject(json);
-            JSONArray postsArray = jsonData.getJSONArray("posts");
-
-            // Parse each post in the array
-            for (int i = 0; i < postsArray.length(); i++) {
-                JSONObject postObject = postsArray.getJSONObject(i);
-
-                // Extract post details from JSON
-                String author = postObject.getString("author");
-                String content = postObject.getString("content");
-
-                // Create a Post object and add it to the list
-                Post post = new Post(author, content,
-                        getResourceId(postObject.getString("picture"), "drawable"),
-                        getResourceId(postObject.getString("authorProfilePhoto"), "drawable"));
-                posts.add(post);
-            }
-
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
+    // Handle the result from Profile
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
+                adapter.refreshFeed();
+        }
+        if (requestCode == COMMENTS_REQUEST_CODE && resultCode == RESULT_OK) {
+            String content = data.getStringExtra("content"); // Get the content of the new comment
         }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d("DEBUG", "onRequestPermissionsResult: requestCode=" + requestCode);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
+    }
 
-    // Method to get the resource ID based on the resource name and type
-    private int getResourceId(String resourceName, String resourceType) {
-        return getResources().getIdentifier(resourceName, resourceType, getPackageName());
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
+            adapter.refreshFeed();
     }
 }

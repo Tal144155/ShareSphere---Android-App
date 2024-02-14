@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -51,19 +52,52 @@
             android:textSize="19sp"
             android:paddingBottom="15dp" />
 
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:textSize="19sp"
+            android:inputType="text"
+            android:paddingBottom="15dp" />
+
         <ImageView
             android:id="@+id/iv_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="300dp"
+            android:minHeight="300dp"
             android:paddingBottom="15dp"
             android:layout_gravity="center"
             android:contentDescription="@string/post_picture" />
 
-    <LinearLayout
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end">
+
+            <Button
+                android:id="@+id/btn_changeImg"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_image"/>
+
+            <Button
+                android:layout_margin="10dp"
+                android:id="@+id/btn_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_update_post"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/iv_likes"
@@ -71,6 +105,9 @@
             android:layout_height="wrap_content"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            android:minHeight="60dp"
+            android:minWidth="60dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_likes"
             android:contentDescription="@string/post_picture" />
 
@@ -96,7 +133,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:minHeight="48dp"
+                android:minHeight="60dp"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_like"
                 android:contentDescription="@string/btn_like" />
 
@@ -104,7 +142,8 @@
                 android:id="@+id/btn_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
+                android:minHeight="60dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_comment"
                 android:contentDescription="@string/btn_cmt" />
@@ -114,12 +153,80 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:minHeight="48dp"
-
+                android:minHeight="60dp"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_share"
                 android:contentDescription="@string/btn_shr" />
 
+
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/share_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_margin="10dp"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/btn_facebook"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:background="#00FFFFFF"
+                app:srcCompat="@drawable/facebook" />
+
+            <ImageButton
+                android:id="@+id/btn_insta"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:scaleType="fitCenter"
+                android:background="#00FFFFFF"
+                app:srcCompat="@drawable/instagram" />
+
+            <ImageButton
+                android:id="@+id/btn_whatsapp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:scaleType="fitCenter"
+                android:background="#00FFFFFF"
+                app:srcCompat="@drawable/whatsapp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <ImageButton
+                android:id="@+id/btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="70dp"
+                android:minHeight="70dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_edit" />
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="70dp"
+                android:minHeight="70dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_delete" />
+
+        </LinearLayout>
+
+
 
 
     </LinearLayout>

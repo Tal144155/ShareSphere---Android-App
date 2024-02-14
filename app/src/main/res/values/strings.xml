@@ -36,4 +36,13 @@
     <string name="events">Events</string>
     <string name="friends">Friends</string>
     <string name="memories">Memories</string>
+    <string name="my_posts">My Posts</string>
+    <string name="btn_update_post">Update Post</string>
+    <string name="change_image">Change Image</string>
+    <string name="welcome_back">"Welcome back, "</string>
+    <string name="create_post">Create Post</string>
+    <string name="pick_a_photo">Pick a photo</string>
+    <string name="comments">Comments</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="write_a_comment">Write your comment</string>
 </resources>
