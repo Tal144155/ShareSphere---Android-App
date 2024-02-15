@@ -80,8 +80,4 @@ public class InputError {
         return fields[Users.FIELD.Password.ordinal()].getText().toString().equals(fields[Users.FIELD.ConfirmPassword.ordinal()].getText().toString());
     }
 
-    public boolean isContentEmpty() {
-        return TextUtils.isEmpty(content.getText());
-    }
-
 }

@@ -44,7 +44,7 @@ public class PostManager {
      * @param post The post to add.
      */
     public void addPost(Post post) {
-        posts.add(post);
+        posts.add(0, post);
     }
 
     /**

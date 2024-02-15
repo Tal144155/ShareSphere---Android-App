@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -24,7 +25,6 @@ import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
-import com.example.facebook_like_android.register.InputError;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.ImageHandler;
@@ -43,8 +43,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     private ImageView prvImg;
     private final ThemeMode mode = ThemeMode.getInstance();
     private Bitmap bitmap;
-    private InputError inputError;
     private boolean isPicSelected = false;
+    private EditText content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,20 +86,21 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                binding.btnCreate.setEnabled(isPicSelected && !inputError.isContentEmpty());
+                binding.btnCreate.setEnabled(isContentValid());
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.btnCreate.setEnabled(isPicSelected && !inputError.isContentEmpty());
+                binding.btnCreate.setEnabled(isContentValid());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                binding.btnCreate.setEnabled(isPicSelected && !inputError.isContentEmpty());
+                binding.btnCreate.setEnabled(isContentValid());
             }
         };
-        binding.etCreatePost.addTextChangedListener(watcher);
+        content = binding.etCreatePost;
+        content.addTextChangedListener(watcher);
 
         // Uploading an image
         binding.btnImg.setOnClickListener(v -> {
@@ -114,7 +115,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.btnCreate.setOnClickListener(v -> {
             Post post = new Post(UserInfoManager.getUsername(this),
                     UserInfoManager.getNickname(this),
-                    binding.etCreatePost.getText().toString(),
+                    content.getText().toString(),
                     bitmap,
                     UserInfoManager.getProfile(this));
             adapter.addPost(post);
@@ -138,7 +139,6 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         TextView tv = binding.lstPosts.findViewById(R.id.tv_content);
         EditText content = binding.lstPosts.findViewById(R.id.et_content);
         content.setText(tv.getText());
-        inputError = new InputError(content);
 
         // Clicking on update post
         binding.lstPosts.findViewById(R.id.btn_update).setOnClickListener(v -> {
@@ -172,7 +172,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
             if (resultCode == RESULT_OK) {
                 bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, prvImg);
                 isPicSelected = true;
-                binding.btnCreate.setEnabled(!inputError.isContentEmpty());
+                binding.btnCreate.setEnabled(isContentValid());
             } else if (requestCode != COMMENTS_REQUEST_CODE){
                 // Handle error or cancellation
                 Toast.makeText(this, "Failed to select image", Toast.LENGTH_SHORT).show();
@@ -188,5 +188,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }
 
-
+    // Checking if the content for the new post is valid
+    private boolean isContentValid() {
+        return isPicSelected && !TextUtils.isEmpty(content.getText());
+    }
 }

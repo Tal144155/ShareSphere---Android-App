@@ -225,6 +225,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
     public void addPost(Post post) {
         postManager.addPost(post);
+        refreshFeed();
         notifyItemInserted(postManager.getPosition(post)); // Notify adapter this post was inserted
     }
 
