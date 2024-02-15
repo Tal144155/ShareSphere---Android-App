@@ -23,10 +23,10 @@ public class PermissionsManager {
      * @return True if the permission is granted, false otherwise.
      */
     public static boolean checkPermissionREAD_EXTERNAL_STORAGE(@NonNull Activity activity) {
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
             // Permission not granted, request it
             Log.d("PermissionsManager", "Permission not granted, requesting it");
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
             return false;
         } else {
             // Permission already granted
@@ -67,7 +67,7 @@ public class PermissionsManager {
                 .setMessage("Without this permission, the app cannot access media files.")
                 .setPositiveButton("OK", (dialog, which) -> {
                     dialog.dismiss();
-                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                 })
                 .show();
     }
