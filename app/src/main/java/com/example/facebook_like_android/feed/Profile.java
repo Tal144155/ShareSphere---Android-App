@@ -157,6 +157,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     private void startEditVisibility() {
         binding.lstPosts.findViewById(R.id.tv_content).setVisibility(View.GONE);
         binding.lstPosts.findViewById(R.id.et_content).setVisibility(View.VISIBLE);
+        bitmap = null;
     }
     private void finishEditVisibility() {
         binding.lstPosts.findViewById(R.id.et_content).setVisibility(View.GONE);
@@ -190,6 +191,6 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 
     // Checking if the content for the new post is valid
     private boolean isContentValid() {
-        return isPicSelected && !TextUtils.isEmpty(content.getText());
+        return isPicSelected && content != null && !TextUtils.isEmpty(content.getText());
     }
 }
