@@ -15,11 +15,11 @@ import java.util.Objects;
 public class Users {
     // Enum representing user registration fields
     public enum FIELD {
-        Username, Password, ConfirmPassword, Nickname, ProfilePhoto
+        Username, Password, ConfirmPassword, FirstName, LastName, ProfilePhoto
     }
 
     private final Map<String, Map<FIELD, String>> users;  // Map to store user data
-    private Map<String, List<Post>> userPosts;
+    private final Map<String, List<Post>> userPosts;
 
     private static Users instance = null;  // Singleton instance
 
@@ -43,7 +43,8 @@ public class Users {
         map.put(FIELD.Username, user.getUsername().getText().toString());
         map.put(FIELD.Password, user.getPassword().getText().toString());
         map.put(FIELD.ConfirmPassword, user.getRe_password().getText().toString());
-        map.put(FIELD.Nickname, user.getNickname().getText().toString());
+        map.put(FIELD.FirstName, user.getFirstname().getText().toString());
+        map.put(FIELD.LastName, user.getLastname().getText().toString());
         String bitmap = BitmapUtils.bitmapToString(user.getProfilePhoto());
         map.put(FIELD.ProfilePhoto, bitmap);
         users.put(user.getUsername().getText().toString(), map);

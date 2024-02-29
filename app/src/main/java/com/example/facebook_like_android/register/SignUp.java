@@ -62,7 +62,9 @@ public class SignUp extends AppCompatActivity {
         binding.ivPrvImg.setVisibility(View.GONE);
 
         // Initialize User object for storing registration information
-        user = new User(findViewById(R.id.et_username), findViewById(R.id.et_password_su), findViewById(R.id.et_confirmPassword_su), findViewById(R.id.et_nickname));
+        user = new User(findViewById(R.id.et_username), findViewById(R.id.et_password_su),
+                findViewById(R.id.et_confirmPassword_su), findViewById(R.id.et_firstname),
+                findViewById(R.id.et_lastname));
         // Initialize InputError object for handling input validation
         inputError = new InputError(user);
 
@@ -70,7 +72,8 @@ public class SignUp extends AppCompatActivity {
         binding.etUsername.addTextChangedListener(watcher);
         binding.etPasswordSu.addTextChangedListener(watcher);
         binding.etConfirmPasswordSu.addTextChangedListener(watcher);
-        binding.etNickname.addTextChangedListener(watcher);
+        binding.etFirstname.addTextChangedListener(watcher);
+        binding.etLastname.addTextChangedListener(watcher);
 
         // Set click listeners for buttons
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
@@ -123,7 +126,8 @@ public class SignUp extends AppCompatActivity {
         binding.etUsername.setText(null);
         binding.etPasswordSu.setText(null);
         binding.etConfirmPasswordSu.setText(null);
-        binding.etNickname.setText(null);
+        binding.etFirstname.setText(null);
+        binding.etLastname.setText(null);
         imgView.setImageBitmap(null);
     }
 

@@ -47,6 +47,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         private final LinearLayout shareOptions;
         private final ImageButton edit;
         private final ImageButton delete;
+        private final TextView date;
 
         // Constructor to initialize views
         private PostViewHolder(View itemView) {
@@ -65,6 +66,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             shareOptions = itemView.findViewById(R.id.share_options);
             edit = itemView.findViewById(R.id.btn_edit);
             delete = itemView.findViewById(R.id.btn_delete);
+            date = itemView.findViewById(R.id.tv_date);
         }
     }
 
@@ -101,6 +103,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             final Post current = posts.get(position);
             holder.tvAuthor.setText(current.getAuthor());
             holder.tvcontent.setText(current.getContent());
+            holder.date.setText(current.getPublishDate());
 
             // Differentiating between hard-coded pics and user-uploaded pics
             if (current.getPicID() == Post.NOT_RES)

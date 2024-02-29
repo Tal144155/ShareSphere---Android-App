@@ -91,7 +91,8 @@ public class Login extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         Map<Users.FIELD, String> user = users.getUserByUsername(binding.etUsername.getText().toString());
         editor.putString("username", user.get(Users.FIELD.Username));
-        editor.putString("nickname", user.get(Users.FIELD.Nickname));
+        String nickname = user.get(Users.FIELD.FirstName) + " " + user.get(Users.FIELD.LastName);
+        editor.putString("nickname", nickname);
         editor.putString("profile", user.get(Users.FIELD.ProfilePhoto));
         editor.apply();
     }

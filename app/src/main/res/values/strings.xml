@@ -45,4 +45,6 @@
     <string name="comments">Comments</string>
     <string name="add_comment">Add Comment</string>
     <string name="write_a_comment">Write your comment</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
 </resources>

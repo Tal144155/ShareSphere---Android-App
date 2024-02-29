@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,12 +21,18 @@ public class Post {
     private int likes;  // Number of likes on the post
     private Bitmap pic;
     private Bitmap profile;
+    private String publishDate;
     private boolean isLiked;  // Flag to indicate whether the post is liked
     private String username;
     private List<Comment> comments;
     private int picID;
     private int profileID;
     public static final int NOT_RES = -1;
+    public SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM HH:mm");
+
+    public String getPublishDate() {
+        return publishDate;
+    }
 
 
     // Getter method to check if the post is liked
@@ -91,6 +100,22 @@ public class Post {
         this.comments = new ArrayList<>();
         this.picID = NOT_RES;
         this.profileID = NOT_RES;
+        Date now = Calendar.getInstance().getTime();
+        this.publishDate = dateFormat.format(now);
+    }
+
+    // Constructor to initialize a new post with essential information
+    public Post(String username, String author, String content, Bitmap pic, Bitmap profile, Date publishDate) {
+        this.username = username;
+        this.author = author;
+        this.content = content;
+        this.pic = pic;
+        this.profile = profile;
+        this.likes = 0;  // Initial likes count is set to 0
+        this.comments = new ArrayList<>();
+        this.picID = NOT_RES;
+        this.profileID = NOT_RES;
+        this.publishDate = dateFormat.format(publishDate);
     }
 
     // Constructor to initialize a new post with essential information
@@ -102,6 +127,8 @@ public class Post {
         this.profileID = profile;
         this.likes = 0;  // Initial likes count is set to 0
         this.comments = new ArrayList<>();
+        Date now = Calendar.getInstance().getTime();
+        this.publishDate = dateFormat.format(now);
     }
 
     public int getProfileID() {

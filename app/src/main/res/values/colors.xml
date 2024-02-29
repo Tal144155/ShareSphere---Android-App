@@ -15,4 +15,5 @@
     <color name="bright_purple">#50A517D0</color>
     <color name="semiTransparentBlue">#A282C0FF</color>
     <color name="grayTransparent">#7FE0D0D0</color>
+    <color name="post">#F1F9F9</color>
 </resources>

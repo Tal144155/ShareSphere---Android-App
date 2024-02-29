@@ -26,11 +26,12 @@ public class InputError {
 
     // Constructor for handling validation of various fields during user creation
     public InputError(User user) {
-        this.fields = new EditText[4];
+        this.fields = new EditText[5];
         this.fields[Users.FIELD.Username.ordinal()] = user.getUsername();
         this.fields[Users.FIELD.Password.ordinal()] = user.getPassword();
         this.fields[Users.FIELD.ConfirmPassword.ordinal()] = user.getRe_password();
-        this.fields[Users.FIELD.Nickname.ordinal()] = user.getNickname();
+        this.fields[Users.FIELD.FirstName.ordinal()] = user.getFirstname();
+        this.fields[Users.FIELD.LastName.ordinal()] = user.getLastname();
         this.content = null;
     }
 
