@@ -19,12 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.entities.post.Post;
+import com.example.facebook_like_android.entities.post.PostDao;
 import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.entities.post.buttons.LikeButton;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.feed.Comments;
 import com.example.facebook_like_android.parsers.JsonParser;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
+import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -72,7 +74,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     private final LayoutInflater mInflater;  // LayoutInflater to inflate views
     private final PostManager postManager = PostManager.getInstance();
-    private final List<Post> posts = postManager.getPosts();  // List to store posts
+    //private final List<Post> posts = postManager.getPosts();  // List to store posts
+    private List<Post> posts;
     private int visibility = View.GONE;
     private OnEditClickListener editClickListener;
     private OnEditClickListener.OnDeleteClickListener deleteClickListener;
@@ -80,12 +83,15 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private final Activity activity;
     private String username;
     private LikeButton likeButton;
+    private PostDao postDao;
     public final static int COMMENTS_REQUEST_CODE = 123;
 
     // Constructor to initialize the LayoutInflater
-    public PostsListAdapter(Context context) {
+    public PostsListAdapter(Context context, PostDao postDao) {
         mInflater = LayoutInflater.from(context);
         this.activity = (Activity) context;
+        this.postDao = postDao;
+        this.posts = postDao.index();
     }
 
     // onCreateViewHolder: Inflates the layout for individual posts and creates a ViewHolder
@@ -107,11 +113,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             // Differentiating between hard-coded pics and user-uploaded pics
             if (current.getPicID() == Post.NOT_RES)
-                holder.ivPic.setImageBitmap(current.getPic());
+                holder.ivPic.setImageBitmap(current.getPicBitmap());
             else
                 holder.ivPic.setImageResource(current.getPicID());
             if (current.getProfileID() == Post.NOT_RES)
-                holder.ivProfile.setImageBitmap(current.getProfile());
+                holder.ivProfile.setImageBitmap(current.getProfileBitmap());
             else
                 holder.ivProfile.setImageResource(current.getProfileID());
 
@@ -184,7 +190,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         likeButton.updateAppearance(holder.like);
         holder.like.setOnClickListener(v -> {
             likeButton.like(holder.like);
-            posts.get(position).like();
+            posts.get(position).like(UserInfoManager.getUsername(activity));
             holder.tvLikes.setText(String.valueOf(posts.get(position).getLikes()));
             notifyItemChanged(position); // Notify adapter the button should change
         });
@@ -211,25 +217,30 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     // Method to update post content
     public void updatePost(int position, String newContent, Bitmap newPic) {
         if (posts != null && position >= 0 && position < posts.size()) {
-            Post post = postManager.getPosts().get(position);
+            Post post = posts.get(position);
             if (!newContent.isEmpty())
                 post.setContent(newContent); // Update the content
             if (newPic != null)
                 post.setPic(newPic);
-            postManager.updatePost(position, post);
+            postDao.update(post);
+            //postManager.updatePost(position, post);
             notifyItemChanged(position);// Notify adapter of the change at this position
         }
     }
     public void deletePost(int position) {
         if (posts != null && position >= 0 && position < posts.size()) {
-            postManager.removePost(postManager.getPosts().get(position));
+            Post post = posts.remove(position);
+            postDao.delete(post);
+            //postManager.removePost(postManager.getPosts().get(position));
             notifyItemRemoved(position); // Notify adapter this post was removed
         }
     }
     public void addPost(Post post) {
-        postManager.addPost(post);
-        refreshFeed();
-        notifyItemInserted(postManager.getPosition(post)); // Notify adapter this post was inserted
+        //postManager.addPost(post);
+        postDao.insert(post);
+        posts.add(post);
+        //refreshFeed();
+        notifyItemInserted(posts.indexOf(post)); // Notify adapter this post was inserted
     }
 
     // Method to set the click listener
@@ -255,6 +266,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
 
     public void refreshFeed() {
+        posts.clear();
+        posts.addAll(postDao.index());
         notifyDataSetChanged();
     }
 
@@ -269,5 +282,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             }
         }
     }
+
 
 }

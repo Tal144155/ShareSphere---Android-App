@@ -77,10 +77,21 @@ public class UserInfoManager {
      * @param context The context to access SharedPreferences.
      * @return The profile picture as a Bitmap.
      */
-    public static Bitmap getProfile(Context context) {
+    public static Bitmap getProfileBitmap(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String s = preferences.getString("profile", "");
         return BitmapUtils.stringToBitmap(s);
+    }
+
+    /**
+     * Retrieves the profile picture as a String from SharedPreferences.
+     *
+     * @param context The context to access SharedPreferences.
+     * @return The profile picture as a String.
+     */
+    public static String getProfile(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        return preferences.getString("profile", "");
     }
 
 }

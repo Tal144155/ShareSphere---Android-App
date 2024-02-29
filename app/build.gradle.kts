@@ -18,6 +18,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
+            }
+        }
     }
 
     buildTypes {
@@ -67,6 +73,8 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))
     implementation("androidx.room:room-common:2.6.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("com.google.code.gson:gson:2.10")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -76,6 +84,7 @@ dependencies {
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

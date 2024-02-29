@@ -8,9 +8,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
+import com.example.facebook_like_android.entities.post.AppDB;
+import com.example.facebook_like_android.entities.post.PostDao;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;
@@ -25,6 +28,8 @@ public class Feed extends AppCompatActivity {
     private ActivityFeedBinding binding;
     private final ThemeMode mode = ThemeMode.getInstance();
     private PostsListAdapter adapter;
+    private AppDB db;
+    private PostDao postDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +37,13 @@ public class Feed extends AppCompatActivity {
         binding = ActivityFeedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
+                .allowMainThreadQueries().build();
+        postDao = db.postDao();
+
         // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;
-        adapter = new PostsListAdapter(this);
+        adapter = new PostsListAdapter(this, postDao);
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 

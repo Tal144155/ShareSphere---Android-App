@@ -19,11 +19,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
+import com.example.facebook_like_android.entities.post.AppDB;
 import com.example.facebook_like_android.entities.post.Post;
+import com.example.facebook_like_android.entities.post.PostDao;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
@@ -45,6 +48,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     private Bitmap bitmap;
     private boolean isPicSelected = false;
     private EditText content;
+    private AppDB db;
+    private PostDao postDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +57,17 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
+                .allowMainThreadQueries().build();
+        postDao = db.postDao();
+
+
         // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;
-        adapter = new PostsListAdapter(this);
+        adapter = new PostsListAdapter(this, postDao);
         lstPosts.setAdapter(adapter);
+
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
         adapter.setProfileVisibility();
         adapter.setUsername(UserInfoManager.getUsername(this));
@@ -117,7 +129,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
                     UserInfoManager.getNickname(this),
                     content.getText().toString(),
                     bitmap,
-                    UserInfoManager.getProfile(this));
+                    UserInfoManager.getProfileBitmap(this));
             adapter.addPost(post);
             prvImg.setVisibility(View.GONE);
             binding.btnImg.setVisibility(View.GONE);

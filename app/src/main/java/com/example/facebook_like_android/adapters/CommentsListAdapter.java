@@ -73,7 +73,7 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         if (comments != null) {
             Comment current = comments.get(position); // Get current comment
-            holder.profile.setImageBitmap(current.getProfile()); // Set profile image
+            holder.profile.setImageBitmap(current.getProfileBitmap()); // Set profile image
             holder.content.setText(current.getContent()); // Set content text
             holder.author.setText(current.getAuthor()); // Set author text
 
