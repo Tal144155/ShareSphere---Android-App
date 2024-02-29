@@ -9,10 +9,14 @@ import android.text.TextWatcher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.example.facebook_like_android.adapters.CommentsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityCommentsBinding;
+import com.example.facebook_like_android.entities.post.AppDB;
 import com.example.facebook_like_android.entities.post.Comment;
+import com.example.facebook_like_android.entities.post.CommentDao;
+import com.example.facebook_like_android.entities.post.PostDao;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
@@ -24,6 +28,9 @@ public class Comments extends AppCompatActivity {
     private ActivityCommentsBinding binding;
     private CommentsListAdapter adapter;
     private final ThemeMode mode = ThemeMode.getInstance();
+    private AppDB db;
+    private PostDao postDao;
+    private CommentDao commentDao;
     // TextWatcher to enable/disable the comment button based on input
     TextWatcher watcher = new TextWatcher() {
         @Override
@@ -48,6 +55,11 @@ public class Comments extends AppCompatActivity {
         binding = ActivityCommentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
+                .allowMainThreadQueries().build();
+        postDao = db.postDao();
+        commentDao = db.commentDao();
+
         // Retrieve the Intent that started this activity and the extra info (the post position)
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", 0);
@@ -67,6 +79,7 @@ public class Comments extends AppCompatActivity {
                     UserInfoManager.getNickname(this),
                     UserInfoManager.getProfile(this),
                     binding.etContent.getText().toString());
+            commentDao.insert(comment);
             adapter.addComment(comment);
             binding.etContent.setText(null);
         });

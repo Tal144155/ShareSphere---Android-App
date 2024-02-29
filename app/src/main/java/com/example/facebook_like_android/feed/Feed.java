@@ -13,6 +13,7 @@ import androidx.room.Room;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
 import com.example.facebook_like_android.entities.post.AppDB;
+import com.example.facebook_like_android.entities.post.CommentDao;
 import com.example.facebook_like_android.entities.post.PostDao;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
@@ -30,6 +31,7 @@ public class Feed extends AppCompatActivity {
     private PostsListAdapter adapter;
     private AppDB db;
     private PostDao postDao;
+    private CommentDao commentDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class Feed extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
                 .allowMainThreadQueries().build();
         postDao = db.postDao();
+        commentDao = db.commentDao();
 
         // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;

@@ -25,6 +25,7 @@ import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
 import com.example.facebook_like_android.entities.post.AppDB;
+import com.example.facebook_like_android.entities.post.CommentDao;
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.PostDao;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
@@ -50,6 +51,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     private EditText content;
     private AppDB db;
     private PostDao postDao;
+    private CommentDao commentDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
                 .allowMainThreadQueries().build();
         postDao = db.postDao();
+        commentDao = db.commentDao();
 
 
         // Initialize RecyclerView for displaying posts
