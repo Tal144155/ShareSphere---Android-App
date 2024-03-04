@@ -7,8 +7,6 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,9 +38,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         private final ImageView ivPic;
         private final ImageView ivProfile;
         private final TextView tvLikes;
-        private final EditText etContent;
-        private final Button changeImg;
-        private final Button update;
         private final ImageButton like;
         private final ImageButton comment;
         private final ImageButton share;
@@ -59,9 +54,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             ivPic = itemView.findViewById(R.id.iv_pic);
             ivProfile = itemView.findViewById(R.id.iv_profile);
             tvLikes = itemView.findViewById(R.id.tv_likes);
-            etContent = itemView.findViewById(R.id.et_content);
-            changeImg = itemView.findViewById(R.id.btn_changeImg);
-            update = itemView.findViewById(R.id.btn_update);
             like = itemView.findViewById(R.id.btn_like);
             comment = itemView.findViewById(R.id.btn_comment);
             share = itemView.findViewById(R.id.btn_share);
@@ -166,8 +158,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private void setOnEditClickListener(@NonNull PostViewHolder holder, int position) {
         holder.edit.setOnClickListener(v -> {
             if (editClickListener != null) {
-                holder.update.setVisibility(View.VISIBLE);
-                holder.changeImg.setVisibility(View.VISIBLE);
                 editClickListener.onEditClick(position);
             }
         });
@@ -179,9 +169,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         edit.setVisibility(visibility);
         ImageButton delete = holder.delete;
         delete.setVisibility(visibility);
-        holder.etContent.setVisibility(View.GONE);
-        holder.update.setVisibility(View.GONE);
-        holder.changeImg.setVisibility(View.GONE);
     }
 
     // setupLikeButtonClickListener: Sets onClick listener for the like button

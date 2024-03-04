@@ -1,18 +1,10 @@
 package com.example.facebook_like_android.feed;
 
-import static com.example.facebook_like_android.adapters.PostsListAdapter.COMMENTS_REQUEST_CODE;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,7 +23,6 @@ import com.example.facebook_like_android.entities.post.PostDao;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
-import com.example.facebook_like_android.utils.ImageHandler;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
@@ -43,15 +34,12 @@ import com.example.facebook_like_android.utils.UserInfoManager;
 public class Profile extends AppCompatActivity implements OnEditClickListener, OnEditClickListener.OnDeleteClickListener {
     private ActivityProfileBinding binding;
     private PostsListAdapter adapter;
-    private final ImageHandler imageHandler = new ImageHandler(this);
-    private ImageView prvImg;
     private final ThemeMode mode = ThemeMode.getInstance();
-    private Bitmap bitmap;
-    private boolean isPicSelected = false;
-    private EditText content;
     private AppDB db;
     private PostDao postDao;
     private CommentDao commentDao;
+    public static int CREATE_POST = 789;
+    public static int EDIT_POST = 837;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,59 +74,62 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.btnHome.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
-        // Set listener for creating a new post
-        binding.etCreatePost.setOnClickListener(v -> {
-            binding.btnImg.setVisibility(View.VISIBLE);
-            binding.btnCreate.setVisibility(View.VISIBLE);
-            createPost();
+//        // Set listener for creating a new post
+//        binding.btnCreatePost.setOnClickListener(v -> {
+//            binding.btnImg.setVisibility(View.VISIBLE);
+//            binding.btnCreate.setVisibility(View.VISIBLE);
+//            createPost();
+//        });
+
+
+        // Going to the activity that creates a new post
+        binding.btnCreatePost.setOnClickListener(v -> {
+            Intent i = new Intent(this, CreatePost.class);
+            startActivityForResult(i, CREATE_POST);
         });
 
 
     }
 
+
     // Method to handle creating a new post
-    private void createPost() {
-        TextWatcher watcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                binding.btnCreate.setEnabled(isContentValid());
-            }
+    private void createPost(String content, Bitmap bitmap) {
+//        TextWatcher watcher = new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                binding.btnCreate.setEnabled(isContentValid());
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                binding.btnCreate.setEnabled(isContentValid());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                binding.btnCreate.setEnabled(isContentValid());
+//            }
+//        };
+//        content = binding.etCreatePost;
+//        content.addTextChangedListener(watcher);
+//
+//        // Uploading an image
+//        binding.btnImg.setOnClickListener(v -> {
+//            prvImg = binding.ivPic;
+//            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+//                imageHandler.openChooser();
+//                prvImg.setVisibility(View.VISIBLE);
+//            }
+//        });
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.btnCreate.setEnabled(isContentValid());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                binding.btnCreate.setEnabled(isContentValid());
-            }
-        };
-        content = binding.etCreatePost;
-        content.addTextChangedListener(watcher);
-
-        // Uploading an image
-        binding.btnImg.setOnClickListener(v -> {
-            prvImg = binding.ivPic;
-            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
-                imageHandler.openChooser();
-                prvImg.setVisibility(View.VISIBLE);
-            }
-        });
-
-        // Clicking on Create Post button
-        binding.btnCreate.setOnClickListener(v -> {
-            Post post = new Post(UserInfoManager.getUsername(this),
-                    UserInfoManager.getNickname(this),
-                    content.getText().toString(),
-                    bitmap,
-                    UserInfoManager.getProfileBitmap(this));
-            adapter.addPost(post);
-            prvImg.setVisibility(View.GONE);
-            binding.btnImg.setVisibility(View.GONE);
-            binding.btnCreate.setVisibility(View.GONE);
-            binding.etCreatePost.setText(null);
-        });
+        Post post = new Post(UserInfoManager.getUsername(this),
+                UserInfoManager.getNickname(this),
+                content, bitmap,
+                UserInfoManager.getProfileBitmap(this));
+        adapter.addPost(post);
+//        prvImg.setVisibility(View.GONE);
+//        binding.btnImg.setVisibility(View.GONE);
+//        binding.btnCreate.setVisibility(View.GONE);
     }
 
     @Override
@@ -149,51 +140,69 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     // Method to handle edit click event for a post
     @Override
     public void onEditClick(int position) {
-        startEditVisibility();
-        prvImg = binding.lstPosts.findViewById(R.id.iv_pic);
-        TextView tv = binding.lstPosts.findViewById(R.id.tv_content);
-        EditText content = binding.lstPosts.findViewById(R.id.et_content);
-        content.setText(tv.getText());
 
-        // Clicking on update post
-        binding.lstPosts.findViewById(R.id.btn_update).setOnClickListener(v -> {
-            adapter.updatePost(position, content.getText().toString(), bitmap);
-            finishEditVisibility();
-            setResult(RESULT_OK);
-        });
+        Intent i = new Intent(this, EditPost.class);
+        TextView tvContent = binding.lstPosts.findViewById(R.id.tv_content);
+        ImageView prvImg = binding.lstPosts.findViewById(R.id.iv_pic);
+        prvImg.setDrawingCacheEnabled(true);
+        prvImg.buildDrawingCache();
+        Bitmap image = prvImg.getDrawingCache();
+        i.putExtra("content", tvContent.getText())
+                .putExtra("pic", image)
+                .putExtra("position", position);
+        startActivityForResult(i, EDIT_POST);
 
-        // Clicking on change image
-        binding.lstPosts.findViewById(R.id.btn_changeImg).setOnClickListener(v -> {
-            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
-                imageHandler.openChooser();
-        });
+        /** OLD CODE **/
+//        startEditVisibility();
+//        prvImg = binding.lstPosts.findViewById(R.id.iv_pic);
+//        TextView tv = binding.lstPosts.findViewById(R.id.tv_content);
+//        EditText content = binding.lstPosts.findViewById(R.id.et_content);
+//        content.setText(tv.getText());
+//
+//        // Clicking on update post
+//        binding.lstPosts.findViewById(R.id.btn_update).setOnClickListener(v -> {
+//            adapter.updatePost(position, content.getText().toString(), bitmap);
+//            finishEditVisibility();
+//            setResult(RESULT_OK);
+//        });
+//
+//        // Clicking on change image
+//        binding.lstPosts.findViewById(R.id.btn_changeImg).setOnClickListener(v -> {
+//            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this))
+//                imageHandler.openChooser();
+//        });
     }
 
-    private void startEditVisibility() {
-        binding.lstPosts.findViewById(R.id.tv_content).setVisibility(View.GONE);
-        binding.lstPosts.findViewById(R.id.et_content).setVisibility(View.VISIBLE);
-        bitmap = null;
+    private void editPost(String content, Bitmap pic) {
+        adapter.updatePost(getIntent().getIntExtra("position", 0), content, pic);
     }
-    private void finishEditVisibility() {
-        binding.lstPosts.findViewById(R.id.et_content).setVisibility(View.GONE);
-        binding.lstPosts.findViewById(R.id.tv_content).setVisibility(View.VISIBLE);
-        binding.lstPosts.findViewById(R.id.btn_update).setVisibility(View.GONE);
-        binding.lstPosts.findViewById(R.id.btn_changeImg).setVisibility(View.GONE);
-    }
+
+//    private void startEditVisibility() {
+//        binding.lstPosts.findViewById(R.id.tv_content).setVisibility(View.GONE);
+//        binding.lstPosts.findViewById(R.id.et_content).setVisibility(View.VISIBLE);
+//        bitmap = null;
+//    }
+//
+//    private void finishEditVisibility() {
+//        binding.lstPosts.findViewById(R.id.et_content).setVisibility(View.GONE);
+//        binding.lstPosts.findViewById(R.id.tv_content).setVisibility(View.VISIBLE);
+//        binding.lstPosts.findViewById(R.id.btn_update).setVisibility(View.GONE);
+//        binding.lstPosts.findViewById(R.id.btn_changeImg).setVisibility(View.GONE);
+//    }
 
     // Handle activity result using onActivityResult
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == RESULT_OK) {
-                bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, prvImg);
-                isPicSelected = true;
-                binding.btnCreate.setEnabled(isContentValid());
-            } else if (requestCode != COMMENTS_REQUEST_CODE){
-                // Handle error or cancellation
-                Toast.makeText(this, "Failed to select image", Toast.LENGTH_SHORT).show();
-                isPicSelected = false;
+        if (resultCode == RESULT_OK && data != null) {
+            String content = data.getStringExtra("content");
+            Bitmap pic = data.getParcelableExtra("pic");
+            if (requestCode == CREATE_POST) {
+                createPost(content, pic);
+            } else if (requestCode == EDIT_POST) {
+                editPost(content, pic);
             }
+        }
     }
 
     // Handle permission result
@@ -204,8 +213,4 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }
 
-    // Checking if the content for the new post is valid
-    private boolean isContentValid() {
-        return isPicSelected && content != null && !TextUtils.isEmpty(content.getText());
-    }
 }
