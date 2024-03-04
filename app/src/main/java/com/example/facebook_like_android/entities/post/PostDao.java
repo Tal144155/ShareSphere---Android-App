@@ -35,6 +35,15 @@ public interface PostDao {
     @Query("DELETE FROM comment WHERE postId = :postId")
     void deleteCommentsForPost(int postId);
 
+    // Delete all posts
+    @Transaction
+    @Query("DELETE FROM post")
+    void clear();
+
+    // Insert multiple posts
+    @Insert
+    void insertList(List<Post> posts);
+
 
     @Insert
     void insert(Post... posts);
