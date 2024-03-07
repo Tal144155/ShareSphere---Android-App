@@ -93,6 +93,8 @@ public class Login extends AppCompatActivity {
         editor.putString("username", user.get(Users.FIELD.Username));
         String nickname = user.get(Users.FIELD.FirstName) + " " + user.get(Users.FIELD.LastName);
         editor.putString("nickname", nickname);
+        editor.putString("firstname", user.get(Users.FIELD.FirstName));
+        editor.putString("lastname", user.get(Users.FIELD.LastName));
         editor.putString("profile", user.get(Users.FIELD.ProfilePhoto));
         editor.apply();
     }

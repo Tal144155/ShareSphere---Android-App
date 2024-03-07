@@ -22,6 +22,7 @@ import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.PostDao;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.style.ThemeMode;
+import com.example.facebook_like_android.utils.BitmapUtils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
@@ -61,14 +62,14 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
         adapter.setProfileVisibility();
-        adapter.setUsername(UserInfoManager.getUsername(this));
+        adapter.setUsername(UserInfoManager.getUsername());
         adapter.setOnEditClickListener(this);
         adapter.setOnDeleteClickListener(this);
 
         // Set profile information
-        UserInfoManager.setProfile(this, binding.ivProfile);
+        UserInfoManager.setProfile(binding.ivProfile);
         CircularOutlineUtil.applyCircularOutline(binding.ivProfile);
-        UserInfoManager.setNickname(this, binding.tvNickname);
+        UserInfoManager.setNickname(binding.tvNickname);
 
         // Set click listeners for buttons
         binding.btnHome.setOnClickListener(v -> finish());
@@ -122,10 +123,10 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 //            }
 //        });
 
-        Post post = new Post(UserInfoManager.getUsername(this),
-                UserInfoManager.getNickname(this),
+        Post post = new Post(UserInfoManager.getUsername(),
+                UserInfoManager.getNickname(),
                 content, bitmap,
-                UserInfoManager.getProfileBitmap(this));
+                UserInfoManager.getProfileBitmap());
         adapter.addPost(post);
 //        prvImg.setVisibility(View.GONE);
 //        binding.btnImg.setVisibility(View.GONE);
@@ -148,7 +149,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         prvImg.buildDrawingCache();
         Bitmap image = prvImg.getDrawingCache();
         i.putExtra("content", tvContent.getText())
-                .putExtra("pic", image)
+                .putExtra("pic", BitmapUtils.bitmapToString(image))
                 .putExtra("position", position);
         startActivityForResult(i, EDIT_POST);
 
@@ -196,7 +197,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null) {
             String content = data.getStringExtra("content");
-            Bitmap pic = data.getParcelableExtra("pic");
+            Bitmap pic = BitmapUtils.stringToBitmap(data.getStringExtra("pic"));
             if (requestCode == CREATE_POST) {
                 createPost(content, pic);
             } else if (requestCode == EDIT_POST) {

@@ -2,27 +2,24 @@ package com.example.facebook_like_android.utils.converters;
 
 import androidx.room.TypeConverter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.example.facebook_like_android.entities.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class UserConverter {
+
     @TypeConverter
-    public static List<String> fromString(String value) {
-        return value == null ? null : new ArrayList<>(Arrays.asList(value.split(",")));
+    public static List<User> fromString(String value) {
+        Type listType = new TypeToken<List<User>>() {}.getType();
+        return new Gson().fromJson(value, listType);
     }
 
     @TypeConverter
-    public static String fromList(List<String> list) {
-        if (list == null) {
-            return null;
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (String item : list) {
-            sb.append(item);
-            sb.append(",");
-        }
-        return sb.toString();
+    public static String fromArrayList(List<User> list) {
+        Gson gson = new Gson();
+        return gson.toJson(list);
     }
 }

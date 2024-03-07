@@ -7,7 +7,9 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.utils.Base64Utils;
+import com.example.facebook_like_android.utils.UserInfoManager;
 import com.example.facebook_like_android.utils.converters.CommentConverter;
 import com.example.facebook_like_android.utils.converters.UserConverter;
 
@@ -21,7 +23,7 @@ import java.util.List;
 public class Post {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;  // Unique identifier for the post
+    private String id;  // Unique identifier for the post
     private String author;  // Author of the post
     private String content;  // Content of the post
     private int likes;  // Number of likes on the post
@@ -33,15 +35,15 @@ public class Post {
     private String pic;
     private final String publishDate;
     @TypeConverters(UserConverter.class)
-    private List<String> likedBy;
+    private List<User> likedBy;
     private boolean isLiked;  // Flag to indicate whether the post is liked
     private String username;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -58,11 +60,11 @@ public class Post {
         this.pic = pic;
     }
 
-    public List<String> getLikedBy() {
+    public List<User> getLikedBy() {
         return likedBy;
     }
 
-    public void setLikedBy(List<String> likedBy) {
+    public void setLikedBy(List<User> likedBy) {
         this.likedBy = likedBy;
     }
 
@@ -149,7 +151,7 @@ public class Post {
     }
 
     public Post(String username, String author, String content, String pic, String profile,
-                int likes, List<String> likedBy, String publishDate) {
+                int likes, List<User> likedBy, String publishDate) {
         this.username = username;
         this.author = author;
         this.content = content;
@@ -158,8 +160,18 @@ public class Post {
         this.profile = profile;
         this.profileBitmap = Base64Utils.decodeBase64ToBitmap(profile);
         this.likedBy = likedBy;
+        if (likedBy == null)
+            this.likedBy = new ArrayList<>();
         this.likes = likes;
-        this.isLiked = likedBy.contains(username);
+        this.isLiked = false;
+        if (likedBy != null) {
+            for (User user : likedBy) {
+                if (user.getUsername().equals(username)) {
+                    this.isLiked = true;
+                    break;
+                }
+            }
+        }
         this.comments = new ArrayList<>();
         this.publishDate = publishDate;
     }
@@ -174,11 +186,13 @@ public class Post {
         this.content = content;
         this.pic = Base64Utils.encodeBitmapToBase64(pic);
         this.profile = Base64Utils.encodeBitmapToBase64(profile);
-
+        this.picBitmap = pic;
+        this.profileBitmap = profile;
         this.likes = 0;  // Initial likes count is set to 0
         this.comments = new ArrayList<>();
         Date now = Calendar.getInstance().getTime();
         this.publishDate = dateFormat.format(now);
+        this.likedBy = new ArrayList<>();
     }
     @Ignore
     // Constructor to initialize a new post with essential information
@@ -191,6 +205,7 @@ public class Post {
         this.likes = 0;  // Initial likes count is set to 0
         this.comments = new ArrayList<>();
         this.publishDate = dateFormat.format(publishDate);
+        this.likedBy = new ArrayList<>();
     }
 
     @Ignore
@@ -205,6 +220,7 @@ public class Post {
         this.comments = new ArrayList<>();
         Date now = Calendar.getInstance().getTime();
         this.publishDate = dateFormat.format(now);
+        this.likedBy = new ArrayList<>();
     }
     @Ignore
     public int getProfileID() {
@@ -216,16 +232,17 @@ public class Post {
     }
 
     // Method to handle the liking of the post
-    public void like(String username) {
+    public void like() {
+        User user = UserInfoManager.getUser();
         // Toggle the like status
         isLiked = !isLiked;
         // Adjust the number of likes based on the like status
         if (isLiked) {
             likes++;
-            likedBy.add(username);
+            likedBy.add(user);
         } else {
             likes--;
-            likedBy.remove(username);
+            likedBy.remove(user);
         }
     }
     public List<Comment> getComments() {

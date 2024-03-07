@@ -98,7 +98,6 @@ public class SignUp extends AppCompatActivity {
         // Set click listener for the image selection button
         binding.btnImg.setOnClickListener(v -> {
             imageHandler.openChooser();
-            binding.ivPrvImg.setVisibility(View.VISIBLE);
         });
 
         CircularOutlineUtil.applyCircularOutline(binding.ivPrvImg);
@@ -111,6 +110,7 @@ public class SignUp extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             bitmap = imageHandler.handleActivityResult(requestCode, resultCode, data, binding.ivPrvImg);
             binding.btnSignup.setEnabled(inputError.isValid());
+            binding.ivPrvImg.setVisibility(View.VISIBLE);
         }
         else {
             Toast.makeText(this, "Failed to select image", Toast.LENGTH_SHORT).show();

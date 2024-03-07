@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebook_like_android.databinding.ActivityEditPostBinding;
 import com.example.facebook_like_android.style.ThemeMode;
+import com.example.facebook_like_android.utils.BitmapUtils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.ImageHandler;
 import com.example.facebook_like_android.utils.PermissionsManager;
@@ -45,10 +46,10 @@ public class EditPost extends AppCompatActivity {
 
         // Setting the original post's data
         CircularOutlineUtil.applyCircularOutline(binding.ivProfile);
-        binding.ivProfile.setImageBitmap(UserInfoManager.getProfileBitmap(this));
-        binding.tvAuthor.setText(UserInfoManager.getNickname(this));
+        binding.ivProfile.setImageBitmap(UserInfoManager.getProfileBitmap());
+        binding.tvAuthor.setText(UserInfoManager.getNickname());
         binding.etContent.setText(getIntent().getStringExtra("content"));
-        binding.ivPic.setImageBitmap(getIntent().getParcelableExtra("pic"));
+        binding.ivPic.setImageBitmap(BitmapUtils.stringToBitmap(getIntent().getStringExtra("pic")));
 
 
         TextWatcher watcher = new TextWatcher() {
@@ -82,7 +83,7 @@ public class EditPost extends AppCompatActivity {
         binding.btnUpdate.setOnClickListener(v -> {
             setResult(RESULT_OK, new Intent()
                     .putExtra("content", content.getText().toString())
-                    .putExtra("pic", bitmap)
+                    .putExtra("pic", BitmapUtils.bitmapToString(bitmap))
                     .putExtra("position", getIntent().getIntExtra("position", 0)));
             finish();
         });

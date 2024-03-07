@@ -24,7 +24,6 @@ import com.example.facebook_like_android.entities.post.buttons.OnEditClickListen
 import com.example.facebook_like_android.feed.Comments;
 import com.example.facebook_like_android.parsers.JsonParser;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
-import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -83,7 +82,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         mInflater = LayoutInflater.from(context);
         this.activity = (Activity) context;
         this.postDao = postDao;
-        this.posts = postDao.index();
+        this.posts = postManager.getPosts();
+        //this.posts = postDao.index();
     }
 
     // onCreateViewHolder: Inflates the layout for individual posts and creates a ViewHolder
@@ -177,7 +177,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         likeButton.updateAppearance(holder.like);
         holder.like.setOnClickListener(v -> {
             likeButton.like(holder.like);
-            posts.get(position).like(UserInfoManager.getUsername(activity));
+            posts.get(position).like();
             holder.tvLikes.setText(String.valueOf(posts.get(position).getLikes()));
             notifyItemChanged(position); // Notify adapter the button should change
         });
@@ -210,7 +210,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             if (newPic != null)
                 post.setPic(newPic);
             postDao.update(post);
-            //postManager.updatePost(position, post);
+            postManager.updatePost(position, post);
             notifyItemChanged(position);// Notify adapter of the change at this position
         }
     }
@@ -223,10 +223,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         }
     }
     public void addPost(Post post) {
-        //postManager.addPost(post);
+        postManager.addPost(post);
         postDao.insert(post);
         posts.add(post);
-        //refreshFeed();
+        refreshFeed();
         notifyItemInserted(posts.indexOf(post)); // Notify adapter this post was inserted
     }
 
@@ -253,14 +253,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
 
     public void refreshFeed() {
-        posts.clear();
-        posts.addAll(postDao.index());
+        //posts.clear();
+        //posts.addAll(postDao.index());
         notifyDataSetChanged();
     }
 
     // Initialising the list of posts from the JSON file
     public void initPosts() {
-        if (posts.size() == 0) {
+        if (posts.isEmpty()) {
             // Call the method to read and parse the JSON file
             try {
                 JsonParser.parsePosts(activity.getAssets().open("posts.json"), activity);

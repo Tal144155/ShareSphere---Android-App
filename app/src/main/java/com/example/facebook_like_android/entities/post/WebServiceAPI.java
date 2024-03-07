@@ -5,6 +5,7 @@ import com.example.facebook_like_android.entities.User;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
@@ -63,7 +64,9 @@ public interface WebServiceAPI {
     Call<List<Post>> getUsersPosts(@Path("id") String id);
 
     @POST("users/{id}/posts")
-    Call<Post> createPost(@Path("id") String id);
+    Call<Post> createPost(@Path("id") String id, @Body String user_name, @Body String first_name,
+                          @Body String last_name, @Body String pic, @Body String profile,
+                          @Body String content, @Body String publish_date);
 
     // Users
     @GET("users/{id}")

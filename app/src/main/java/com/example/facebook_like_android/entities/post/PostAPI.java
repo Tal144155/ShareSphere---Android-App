@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.ShareSphere;
+import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.util.List;
 
@@ -50,5 +51,44 @@ public class PostAPI {
         });
     }
 
+    public void add(final Post post) {
+        Call<Post> call = webServiceAPI.createPost(UserInfoManager.getUsername(), post.getUsername(),
+                UserInfoManager.getFirstName(), UserInfoManager.getLastName(), post.getPic(),
+                post.getProfile(), post.getContent(), post.getPublishDate());
 
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                new Thread(() -> {
+                    dao.insert(response.body());
+                    postListData.postValue(dao.index());
+                }).start();
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    public void delete(Post post) {
+        Call<Void> call = webServiceAPI.deletePost(post.getUsername(), post.getId());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                new Thread(() -> {
+                    dao.delete(post);
+                    postListData.postValue(dao.index());
+                }).start();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
 }

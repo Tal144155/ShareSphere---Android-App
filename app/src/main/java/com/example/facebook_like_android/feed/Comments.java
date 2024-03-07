@@ -75,9 +75,9 @@ public class Comments extends AppCompatActivity {
 
         // Add click listener to the comment button to add a new comment
         binding.btnComment.setOnClickListener(v -> {
-            Comment comment = new Comment(UserInfoManager.getUsername(this),
-                    UserInfoManager.getNickname(this),
-                    UserInfoManager.getProfile(this),
+            Comment comment = new Comment(UserInfoManager.getUsername(),
+                    UserInfoManager.getNickname(),
+                    UserInfoManager.getProfile(),
                     binding.etContent.getText().toString());
             commentDao.insert(comment);
             adapter.addComment(comment);
