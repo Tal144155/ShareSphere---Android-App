@@ -38,6 +38,8 @@ public class PostRepository {
             // Get static posts
             setValue(posts);
 
+
+            // This shouldn't be here!!
             Log.d("REPO", "postAPI is null: " + (postAPI == null));
             postAPI = new PostAPI(postListData, postDao);
 
