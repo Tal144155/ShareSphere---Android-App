@@ -53,4 +53,5 @@ public interface PostDao {
 
     @Delete
     void delete(Post... posts);
+
 }

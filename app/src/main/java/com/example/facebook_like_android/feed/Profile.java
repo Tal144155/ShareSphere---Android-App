@@ -11,11 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
+import com.example.facebook_like_android.entities.DatabaseHolder;
 import com.example.facebook_like_android.entities.post.AppDB;
 import com.example.facebook_like_android.entities.post.CommentDao;
 import com.example.facebook_like_android.entities.post.Post;
@@ -49,8 +49,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         setContentView(binding.getRoot());
 
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
-                .allowMainThreadQueries().build();
+        db = DatabaseHolder.getDatabase();
         postDao = db.postDao();
         commentDao = db.commentDao();
 

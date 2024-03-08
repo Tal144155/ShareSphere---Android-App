@@ -225,7 +225,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     public void addPost(Post post) {
         postManager.addPost(post);
         postDao.insert(post);
-        posts.add(post);
+        //posts.add(post);
         refreshFeed();
         notifyItemInserted(posts.indexOf(post)); // Notify adapter this post was inserted
     }
@@ -268,6 +268,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+        postManager.setPosts(posts);
     }
 
 

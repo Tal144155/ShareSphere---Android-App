@@ -80,7 +80,7 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
             CircularOutlineUtil.applyCircularOutline(holder.profile); // Apply circular outline to profile image
 
             // Show action buttons if current user is the author of the comment
-            if (UserInfoManager.getUsername(context).equals(current.getUsername()))
+            if (UserInfoManager.getUsername().equals(current.getUsername()))
                 holder.actionBtns.setVisibility(View.VISIBLE);
 
             // Set onClickListener for delete button

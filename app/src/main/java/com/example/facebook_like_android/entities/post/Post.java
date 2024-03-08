@@ -23,8 +23,10 @@ import java.util.List;
 public class Post {
 
     @PrimaryKey(autoGenerate = true)
-    private String id;  // Unique identifier for the post
+    private int postId;  // Unique identifier for the post
+    private String id;
     private String author;  // Author of the post
+
     private String content;  // Content of the post
     private int likes;  // Number of likes on the post
     @Ignore
@@ -45,6 +47,14 @@ public class Post {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
+
+    public int getPostId() {
+        return postId;
     }
 
 

@@ -12,22 +12,17 @@ import com.example.facebook_like_android.utils.Base64Utils;
 
 @Entity(
         foreignKeys = @ForeignKey(entity = Post.class,
-                parentColumns = "id",
+                parentColumns = "postId",
                 childColumns = "postId",
                 onDelete = ForeignKey.CASCADE),
         indices = {@Index("postId")}
 )
 public class Comment {
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+
+    private String commentId;
     private int postId; // Foreign key referencing the Post entity
     private final String username;
     private final String author;
@@ -42,6 +37,22 @@ public class Comment {
         this.profile = profile;
         this.content = content;
         this.profileBitmap = Base64Utils.decodeBase64ToBitmap(profile);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
     }
 
     public Bitmap getProfileBitmap() {

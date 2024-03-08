@@ -6,12 +6,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
+import com.example.facebook_like_android.entities.DatabaseHolder;
 import com.example.facebook_like_android.entities.post.AppDB;
 import com.example.facebook_like_android.entities.post.CommentDao;
 import com.example.facebook_like_android.entities.post.PostDao;
@@ -19,6 +20,7 @@ import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
+import com.example.facebook_like_android.viewmodels.PostsViewModel;
 
 /**
  * The Feed activity displays the main feed of posts in the application.
@@ -32,6 +34,7 @@ public class Feed extends AppCompatActivity {
     private AppDB db;
     private PostDao postDao;
     private CommentDao commentDao;
+    private PostsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +42,12 @@ public class Feed extends AppCompatActivity {
         binding = ActivityFeedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "PostsDB")
-                .allowMainThreadQueries().build();
-        postDao = db.postDao();
+        db = DatabaseHolder.getDatabase();
         commentDao = db.commentDao();
+
+        // View Model
+        viewModel = new ViewModelProvider(this).get(PostsViewModel.class);
+        viewModel.get().observe(this, posts -> adapter.setPosts(posts));
 
         // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;

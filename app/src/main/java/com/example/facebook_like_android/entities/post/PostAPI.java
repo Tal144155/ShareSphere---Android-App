@@ -7,6 +7,7 @@ import com.example.facebook_like_android.ShareSphere;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +27,7 @@ public class PostAPI {
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(ShareSphere.context.getString(R.string.BaseUrl))
+                .callbackExecutor(Executors.newSingleThreadExecutor())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -33,7 +35,7 @@ public class PostAPI {
     }
 
     public void get() {
-        Call<List<Post>> call = webServiceAPI.getFeed();
+        Call<List<Post>> call = webServiceAPI.getFeed(UserInfoManager.getUsername());
         call.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
