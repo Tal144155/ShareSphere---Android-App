@@ -33,9 +33,9 @@
             android:layout_marginEnd="10dp"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:padding="5dp"
+            android:padding="10dp"
             android:layout_gravity="end"
-            app:srcCompat="@drawable/ic_home"
+            app:srcCompat="@drawable/ic_back"
             android:contentDescription="@string/home"
             style="@style/RoundButtonTrans"/>
 
