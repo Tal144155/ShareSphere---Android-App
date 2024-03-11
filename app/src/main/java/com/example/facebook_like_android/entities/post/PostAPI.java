@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.ShareSphere;
+import com.example.facebook_like_android.responses.DefaultResponse;
+import com.example.facebook_like_android.retrofit.RetrofitClient;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.util.List;
@@ -25,11 +27,7 @@ public class PostAPI {
         this.postListData = postListData;
         this.dao = dao;
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ShareSphere.context.getString(R.string.BaseUrl))
-                .callbackExecutor(Executors.newSingleThreadExecutor())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        retrofit = RetrofitClient.getRetrofit();
 
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
@@ -76,11 +74,11 @@ public class PostAPI {
 
 
     public void delete(Post post) {
-        Call<Void> call = webServiceAPI.deletePost(post.getUsername(), post.getId());
+        Call<DefaultResponse> call = webServiceAPI.deletePost(post.getUsername(), post.getId());
 
-        call.enqueue(new Callback<Void>() {
+        call.enqueue(new Callback<DefaultResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 new Thread(() -> {
                     dao.delete(post);
                     postListData.postValue(dao.index());
@@ -88,7 +86,7 @@ public class PostAPI {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
 
             }
         });

@@ -4,14 +4,13 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.room.Room;
 
-import com.example.facebook_like_android.ShareSphere;
 import com.example.facebook_like_android.entities.post.AppDB;
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.PostAPI;
 import com.example.facebook_like_android.entities.post.PostDao;
 import com.example.facebook_like_android.entities.post.PostManager;
+import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.util.List;
 
@@ -20,10 +19,12 @@ public class PostRepository {
     private PostDao postDao;
     private PostListData postListData;
     private PostAPI postAPI;
+    private String username;
 
     public PostRepository() {
-        AppDB db = Room.databaseBuilder(ShareSphere.context, AppDB.class, "local-database").build();
+        AppDB db = AppDB.getDatabase();
         postDao = db.postDao();
+        this.username = UserInfoManager.getUsername();
         postListData = new PostListData();
         postAPI = new PostAPI(postListData, postDao);
     }

@@ -10,6 +10,7 @@ public class InputError {
 
     private final EditText[] fields;  // Array to store EditText fields for input validation
     private final EditText content;
+    private boolean unique = true;
 
     public InputError(EditText content) {
         this.content = content;
@@ -57,18 +58,35 @@ public class InputError {
     }
 
     // Method to check if the username is unique and display an error if not
+//    public boolean isUnique() {
+//        Users users = Users.getInstance();
+//        if (!users.isUnique(fields[Users.FIELD.Username.ordinal()])) {
+//            fields[Users.FIELD.Username.ordinal()].setError("This username already exists!");
+//            return false;
+//        }
+//        return true;
+//    }
+
+
     public boolean isUnique() {
-        Users users = Users.getInstance();
-        if (!users.isUnique(fields[Users.FIELD.Username.ordinal()])) {
+        if (!unique) {
             fields[Users.FIELD.Username.ordinal()].setError("This username already exists!");
-            return false;
+        } else {
+            // If unique is true, clear the error message
+            fields[Users.FIELD.Username.ordinal()].setError(null);
         }
-        return true;
+        return unique;
     }
+
+    public void setUnique(boolean unique) {
+        this.unique = unique;
+        isUnique();
+    }
+
 
     // Method to check if all input fields are valid
     public boolean isValid() {
-        return !isEmpty() && isPwdValid() && arePwdSame() && isUnique();
+        return !isEmpty() && isPwdValid() && arePwdSame() && unique;
     }
 
     // Method to check if the password meets the specified criteria
@@ -80,5 +98,6 @@ public class InputError {
     public boolean arePwdSame() {
         return fields[Users.FIELD.Password.ordinal()].getText().toString().equals(fields[Users.FIELD.ConfirmPassword.ordinal()].getText().toString());
     }
+
 
 }

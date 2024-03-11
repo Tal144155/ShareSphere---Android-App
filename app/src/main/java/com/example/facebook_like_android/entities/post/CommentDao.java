@@ -1,5 +1,6 @@
 package com.example.facebook_like_android.entities.post;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,7 +16,7 @@ public interface CommentDao {
 
     // Retrieve comments for a specific post by post id
     @Query("SELECT * FROM comment WHERE postId = :postId")
-    List<Comment> getCommentsForPost(int postId);
+    LiveData<List<Comment>> getCommentsForPost(int postId);
 
     @Insert
     void insert(Comment... comments);

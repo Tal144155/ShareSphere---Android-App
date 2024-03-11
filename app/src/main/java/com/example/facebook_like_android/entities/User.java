@@ -2,19 +2,23 @@ package com.example.facebook_like_android.entities;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.utils.Base64Utils;
+import com.example.facebook_like_android.utils.converters.PostConverter;
+import com.example.facebook_like_android.utils.converters.UserConverter;
 
 import java.util.List;
 
 @Entity
 
 public class User {
-    @PrimaryKey
+    @PrimaryKey @NonNull
     private String username;
     private String firstname;
     private String lastname;
@@ -22,8 +26,11 @@ public class User {
     private String profile;
     @Ignore
     private Bitmap profileBitmap;
+    @TypeConverters(PostConverter.class)
     private List<Post> posts;
+    @TypeConverters(UserConverter.class)
     private List<User> friends;
+    @TypeConverters(UserConverter.class)
     private List<User> friendRequests;
 
     public User(String username, String firstname, String lastname, String password, String profile, List<Post> posts, List<User> friends, List<User> friendRequests) {

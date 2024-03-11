@@ -11,14 +11,17 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.databinding.ActivitySignUpBinding;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.users.User;
 import com.example.facebook_like_android.users.Users;
+import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.ImageHandler;
+import com.example.facebook_like_android.viewmodels.SignUpViewModel;
 
 public class SignUp extends AppCompatActivity {
     private ActivitySignUpBinding binding;  // View binding instance for the activity
@@ -29,6 +32,7 @@ public class SignUp extends AppCompatActivity {
     private ImageView imgView;  // ImageView to display the selected profile photo
     private Bitmap bitmap = null;
     private final ImageHandler imageHandler = new ImageHandler(this);
+    private SignUpViewModel viewModel;
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -51,6 +55,21 @@ public class SignUp extends AppCompatActivity {
         }
     };
 
+    TextWatcher usernameUnique = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            viewModel.unique(binding.etUsername.getText().toString());
+            // Enable or disable the signup button based on overall input validity
+            binding.btnSignup.setEnabled(inputError.isValid() && bitmap != null);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +79,8 @@ public class SignUp extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.ivPrvImg.setVisibility(View.GONE);
+
+        viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
         // Initialize User object for storing registration information
         user = new User(findViewById(R.id.et_username), findViewById(R.id.et_password_su),
@@ -74,6 +95,20 @@ public class SignUp extends AppCompatActivity {
         binding.etConfirmPasswordSu.addTextChangedListener(watcher);
         binding.etFirstname.addTextChangedListener(watcher);
         binding.etLastname.addTextChangedListener(watcher);
+        binding.etUsername.addTextChangedListener(usernameUnique);
+
+        viewModel.getAdded().observe(this, isAdded -> {
+            if (isAdded) {
+                // Set the selected profile photo to the User object
+                user.setProfilePhoto(bitmap);
+                // Navigate to the login screen
+                startActivity(new Intent(getApplicationContext(), Login.class));
+            } else {
+                Toast.makeText(getApplicationContext(), "Failed to sign up!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        viewModel.getUnique().observe(this, isUnique -> inputError.setUnique(isUnique));
 
         // Set click listeners for buttons
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
@@ -84,13 +119,16 @@ public class SignUp extends AppCompatActivity {
         });
 
         binding.btnSignup.setOnClickListener(v -> {
-            // Set the selected profile photo to the User object
-            user.setProfilePhoto(bitmap);
-            // Add the user to the Users collection
-            users.addUser(user);
-            // Navigate to the login screen
-            Intent i = new Intent(this, Login.class);
-            startActivity(i);
+//            // Set the selected profile photo to the User object
+//            user.setProfilePhoto(bitmap);
+//            // Add the user to the Users collection
+//            users.addUser(user);
+//            // Navigate to the login screen
+//            Intent i = new Intent(this, Login.class);
+//            startActivity(i);
+            viewModel.signup(binding.etUsername.getText().toString(), binding.etPasswordSu.getText().toString(),
+                    binding.etFirstname.getText().toString(), binding.etLastname.getText().toString(),
+                    Base64Utils.encodeBitmapToBase64(bitmap));
         });
 
         imgView = binding.ivPrvImg;
@@ -130,6 +168,7 @@ public class SignUp extends AppCompatActivity {
         binding.etLastname.setText(null);
         imgView.setImageBitmap(null);
     }
+
 
 
 }

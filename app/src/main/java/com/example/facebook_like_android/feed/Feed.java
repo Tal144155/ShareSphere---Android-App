@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
-import com.example.facebook_like_android.entities.DatabaseHolder;
 import com.example.facebook_like_android.entities.post.AppDB;
 import com.example.facebook_like_android.entities.post.CommentDao;
 import com.example.facebook_like_android.entities.post.PostDao;
@@ -42,7 +41,7 @@ public class Feed extends AppCompatActivity {
         binding = ActivityFeedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        db = DatabaseHolder.getDatabase();
+        db = AppDB.getDatabase();
         commentDao = db.commentDao();
 
         // View Model
