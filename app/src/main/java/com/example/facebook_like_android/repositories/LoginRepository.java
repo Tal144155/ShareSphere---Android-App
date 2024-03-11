@@ -22,7 +22,7 @@ public class LoginRepository {
     }
 
 
-    public void getUser(String username, MutableLiveData<User> user) {
-        loginAPI.getUser(username, user);
+    public void getUser(String username, MutableLiveData<User> user, String token) {
+        loginAPI.getUser(username, user, token);
     }
 }

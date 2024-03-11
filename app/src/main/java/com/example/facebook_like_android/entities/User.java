@@ -13,6 +13,7 @@ import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.converters.PostConverter;
 import com.example.facebook_like_android.utils.converters.UserConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,9 +40,18 @@ public class User {
         this.lastname = lastname;
         this.password = password;
         this.profile = profile;
-        this.posts = posts;
-        this.friends = friends;
-        this.friendRequests = friendRequests;
+        if (posts != null)
+            this.posts = posts;
+        else
+            this.posts = new ArrayList<>();
+        if (friends != null)
+            this.friends = friends;
+        else
+            this.friends = new ArrayList<>();
+        if (friendRequests != null)
+            this.friendRequests = friendRequests;
+        else
+            this.friendRequests = new ArrayList<>();
         profileBitmap = Base64Utils.decodeBase64ToBitmap(profile);
     }
 

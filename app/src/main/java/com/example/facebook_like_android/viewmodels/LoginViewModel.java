@@ -24,8 +24,8 @@ public class LoginViewModel extends ViewModel {
         loginRepository.login(username, password, isLoggedIn, loginResult);
     }
 
-    public void getUser(String username) {
-        loginRepository.getUser(username, user);
+    public void getUser(String username, String token) {
+        loginRepository.getUser(username, user, token);
     }
 
     public LiveData<User> getUserInfo() { return user; }

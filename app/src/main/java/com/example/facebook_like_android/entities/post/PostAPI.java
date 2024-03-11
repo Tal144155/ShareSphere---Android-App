@@ -2,20 +2,16 @@ package com.example.facebook_like_android.entities.post;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.facebook_like_android.R;
-import com.example.facebook_like_android.ShareSphere;
 import com.example.facebook_like_android.responses.DefaultResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PostAPI {
     private MutableLiveData<List<Post>> postListData;
@@ -37,11 +33,13 @@ public class PostAPI {
         call.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                new Thread(() -> {
-                    dao.clear();
-                    dao.insertList(response.body());
-                    postListData.postValue(dao.index());
-                }).start();
+                if (response.isSuccessful()) {
+                    new Thread(() -> {
+                        dao.clear();
+                        dao.insertList(response.body());
+                        postListData.postValue(dao.index());
+                    }).start();
+                }
             }
 
             @Override

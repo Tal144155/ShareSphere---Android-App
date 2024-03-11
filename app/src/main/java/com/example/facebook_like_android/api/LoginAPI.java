@@ -7,7 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.entities.post.WebServiceAPI;
 import com.example.facebook_like_android.responses.LoginResponse;
+import com.example.facebook_like_android.responses.UserResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +38,6 @@ public class LoginAPI {
                     new Thread(() -> {
                         loginResponse.postValue(true);
                         loginResult.postValue(response.body().getToken());
-                        //Log.d("DEBUG", "token: " + response.body().getToken());
                     }).start();
                 } else {
                     new Thread(() -> loginResponse.postValue(false)).start();
@@ -48,19 +51,27 @@ public class LoginAPI {
         });
     }
 
-    public void getUser(String username, MutableLiveData<User> user) {
-        Call<User> call = webServiceAPI.getUser(username);
+    public void getUser(String username, MutableLiveData<User> user, String token) {
+        Call<UserResponse> call = webServiceAPI.getUser(username, token);
 
-        call.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
+                        User loggedIn;
                         Log.d("DEBUG", "got user from server!");
-                        user.postValue(new User(response.body().getUsername(), response.body().getFirstname(),
-                                response.body().getLastname(), response.body().getPassword(),
-                                response.body().getProfile(), response.body().getPosts(),
-                                response.body().getFriends(), response.body().getFriendRequests()));
+                        Log.d("DEBUG", "username: " + response.body().getUser_name());
+                        List<User> friends, requests;
+                        requests = response.body().getFriend_requests();
+
+                        if (requests == null) requests = new ArrayList<>();
+
+                        loggedIn = new User(response.body().getUser_name(), response.body().getFirst_name(),
+                                response.body().getLast_name(), "",
+                                response.body().getPic(), null, null, requests);
+                        user.postValue(loggedIn);
+
                     }).start();
                 } else {
                     new Thread(() -> user.postValue(null)).start();
@@ -68,7 +79,7 @@ public class LoginAPI {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<UserResponse> call, Throwable t) {
                 new Thread(() -> user.postValue(null)).start();
             }
         });

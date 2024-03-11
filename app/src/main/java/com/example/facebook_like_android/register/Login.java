@@ -75,7 +75,7 @@ public class Login extends AppCompatActivity {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("token", token);
             editor.apply();
-            viewModel.getUser(binding.etUsername.getText().toString());
+            viewModel.getUser(binding.etUsername.getText().toString(), token);
         });
 
         viewModel.getUserInfo().observe(this, user -> {

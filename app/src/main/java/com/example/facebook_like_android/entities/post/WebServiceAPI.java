@@ -3,6 +3,7 @@ package com.example.facebook_like_android.entities.post;
 import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.responses.DefaultResponse;
 import com.example.facebook_like_android.responses.LoginResponse;
+import com.example.facebook_like_android.responses.UserResponse;
 
 import java.util.List;
 
@@ -81,7 +82,7 @@ public interface WebServiceAPI {
 
     // Users
     @GET("users/{id}")
-    Call<User> getUser(@Path("id") String id);
+    Call<UserResponse> getUser(@Path("id") String id, @Header("authorization") String token);
 
     @DELETE("users/{id}")
     Call<DefaultResponse> deleteUser(@Path("id") String id);
