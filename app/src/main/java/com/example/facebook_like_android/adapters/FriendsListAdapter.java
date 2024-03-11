@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
+import com.example.facebook_like_android.db.AppDB;
 import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.viewmodels.FriendsViewModel;
 
@@ -40,9 +41,10 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     private List<User> friends;
     private FriendsViewModel viewModel;
 
-    public FriendsListAdapter(Context context, FriendsViewModel viewModel) {
+    public FriendsListAdapter(Context context, FriendsViewModel viewModel, String username) {
         mInflater = LayoutInflater.from(context);
         this.viewModel = viewModel;
+        this.friends = AppDB.getDatabase().userDao().getFriends(username);
     }
 
     @NonNull

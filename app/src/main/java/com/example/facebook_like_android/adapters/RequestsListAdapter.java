@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
+import com.example.facebook_like_android.db.AppDB;
 import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.viewmodels.RequestsViewModel;
 
@@ -41,9 +42,10 @@ public class RequestsListAdapter extends RecyclerView.Adapter<RequestsListAdapte
     private RequestsViewModel viewModel;
     private boolean isMyProfile = false;
 
-    public RequestsListAdapter(Context context, RequestsViewModel viewModel) {
+    public RequestsListAdapter(Context context, RequestsViewModel viewModel, String username) {
         mInflater = LayoutInflater.from(context);
         this.viewModel = viewModel;
+        this.requests = AppDB.getDatabase().userDao().getFriendRequests(username);
     }
 
     @NonNull

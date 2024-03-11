@@ -38,7 +38,7 @@ public class Requests extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(RequestsViewModel.class);
 
         RecyclerView lstFriends = binding.lstUsers;
-        adapter = new RequestsListAdapter(this, viewModel);
+        adapter = new RequestsListAdapter(this, viewModel, getIntent().getStringExtra("username"));
         lstFriends.setAdapter(adapter);
         lstFriends.setLayoutManager(new LinearLayoutManager(this));
 

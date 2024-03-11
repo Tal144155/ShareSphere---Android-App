@@ -39,7 +39,7 @@ public class Friends extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(FriendsViewModel.class);
 
         RecyclerView lstFriends = binding.lstUsers;
-        adapter = new FriendsListAdapter(this, viewModel);
+        adapter = new FriendsListAdapter(this, viewModel, getIntent().getStringExtra("username"));
         lstFriends.setAdapter(adapter);
         lstFriends.setLayoutManager(new LinearLayoutManager(this));
 

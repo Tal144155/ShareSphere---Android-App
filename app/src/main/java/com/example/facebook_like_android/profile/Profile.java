@@ -83,13 +83,17 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
                 someProfile();
         }
 
-        binding.btnFriends.setOnClickListener(v -> startActivity(new Intent(this, Friends.class)));
+        binding.btnFriends.setOnClickListener(v -> {
+            Intent i = new Intent(this, Friends.class);
+            i.putExtra("username", username);
+            startActivity(i);
+        });
 
         binding.btnRequests.setOnClickListener(v -> {
             Intent i = new Intent(this, Requests.class);
-            i.putExtra("isMyProfile", isMyProfile);
+            i.putExtra("isMyProfile", isMyProfile)
+                    .putExtra("username", username);
             startActivity(i);
-
         });
 
         // Initialize RecyclerView for displaying posts
