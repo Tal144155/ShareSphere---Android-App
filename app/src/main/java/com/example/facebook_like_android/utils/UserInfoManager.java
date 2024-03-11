@@ -110,4 +110,9 @@ public class UserInfoManager {
         return preferences.getString("lastname", "");
     }
 
+    public static String getToken() {
+        SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        return preferences.getString("token", "");
+    }
+
 }

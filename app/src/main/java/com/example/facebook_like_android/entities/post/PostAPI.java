@@ -29,7 +29,7 @@ public class PostAPI {
     }
 
     public void get() {
-        Call<List<Post>> call = webServiceAPI.getFeed(UserInfoManager.getUsername());
+        Call<List<Post>> call = webServiceAPI.getFeed(UserInfoManager.getUsername(), UserInfoManager.getToken());
         call.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
@@ -52,7 +52,7 @@ public class PostAPI {
     public void add(final Post post) {
         Call<Post> call = webServiceAPI.createPost(UserInfoManager.getUsername(), post.getUsername(),
                 UserInfoManager.getFirstName(), UserInfoManager.getLastName(), post.getPic(),
-                post.getProfile(), post.getContent(), post.getPublishDate());
+                post.getProfile(), post.getContent(), post.getPublishDate(), UserInfoManager.getToken());
 
         call.enqueue(new Callback<Post>() {
             @Override
@@ -72,7 +72,7 @@ public class PostAPI {
 
 
     public void delete(Post post) {
-        Call<DefaultResponse> call = webServiceAPI.deletePost(post.getUsername(), post.getId());
+        Call<DefaultResponse> call = webServiceAPI.deletePost(post.getUsername(), post.getId(), UserInfoManager.getToken());
 
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
