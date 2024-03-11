@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
-import com.example.facebook_like_android.entities.post.AppDB;
-import com.example.facebook_like_android.entities.post.CommentDao;
-import com.example.facebook_like_android.entities.post.PostDao;
+import com.example.facebook_like_android.db.AppDB;
+import com.example.facebook_like_android.daos.CommentDao;
+import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;

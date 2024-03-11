@@ -1,6 +1,8 @@
-package com.example.facebook_like_android.entities.post;
+package com.example.facebook_like_android.api;
 
 import com.example.facebook_like_android.entities.User;
+import com.example.facebook_like_android.entities.Comment;
+import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.responses.DefaultResponse;
 import com.example.facebook_like_android.responses.LoginResponse;
 import com.example.facebook_like_android.responses.UserResponse;

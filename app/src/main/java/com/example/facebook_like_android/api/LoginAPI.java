@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.facebook_like_android.entities.User;
-import com.example.facebook_like_android.entities.post.WebServiceAPI;
 import com.example.facebook_like_android.responses.LoginResponse;
 import com.example.facebook_like_android.responses.UserResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;

@@ -1,4 +1,4 @@
-package com.example.facebook_like_android.entities.post;
+package com.example.facebook_like_android.entities;
 
 import android.graphics.Bitmap;
 
@@ -8,6 +8,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.utils.Base64Utils;
 
 @Entity(

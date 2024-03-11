@@ -1,5 +1,7 @@
 package com.example.facebook_like_android.entities.post;
 
+import com.example.facebook_like_android.entities.Comment;
+
 import java.util.ArrayList;
 import java.util.List;
 

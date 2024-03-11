@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.example.facebook_like_android.entities.Comment;
 import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.UserInfoManager;

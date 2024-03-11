@@ -1,4 +1,4 @@
-package com.example.facebook_like_android.entities;
+package com.example.facebook_like_android.daos;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.facebook_like_android.entities.User;
 
 import java.util.List;
 
@@ -49,6 +51,8 @@ public interface UserDao {
     // Removes the specified friend-request from the friend requests list
     @Query("UPDATE user SET friendRequests = REPLACE(friendRequests, :friendToRemove, '') WHERE username = :currentUser")
     void deleteFriendRequest(String currentUser, String friendToRemove);
+
+
     @Insert
     void insert(User... users);
 

@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
-import com.example.facebook_like_android.entities.post.Comment;
+import com.example.facebook_like_android.entities.Comment;
 import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.UserInfoManager;

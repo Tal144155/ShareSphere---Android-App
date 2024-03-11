@@ -2,7 +2,7 @@ package com.example.facebook_like_android.utils.converters;
 
 import androidx.room.TypeConverter;
 
-import com.example.facebook_like_android.entities.post.Comment;
+import com.example.facebook_like_android.entities.Comment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

@@ -3,11 +3,10 @@
 //import androidx.lifecycle.LiveData;
 //import androidx.lifecycle.MutableLiveData;
 //
+//import com.example.facebook_like_android.daos.UserDao;
+//import com.example.facebook_like_android.db.AppDB;
+//import com.example.facebook_like_android.entities.FriendsAPI;
 //import com.example.facebook_like_android.entities.User;
-//import com.example.facebook_like_android.entities.UserAPI;
-//import com.example.facebook_like_android.entities.UserDao;
-//import com.example.facebook_like_android.entities.post.AppDB;
-//import com.example.facebook_like_android.responses.LoginResponse;
 //import com.example.facebook_like_android.utils.UserInfoManager;
 //
 //import java.util.List;
@@ -16,7 +15,7 @@
 //    private UserDao userDao;
 //    private UserListData friends;
 //    private UserListData friendRequests;
-//    private UserAPI userAPI;
+//    private FriendsAPI userAPI;
 //    private String username;
 //
 //    public UserRepository() {
@@ -25,7 +24,7 @@
 //        this.username = UserInfoManager.getUsername();
 //        friends = new UserListData("friends");
 //        friendRequests = new UserListData("friendRequests");
-//        userAPI = new UserAPI(friends, friendRequests, userDao);
+//        userAPI = new FriendsAPI(friends, friendRequests, userDao);
 //    }
 //
 //

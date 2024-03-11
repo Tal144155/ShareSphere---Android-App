@@ -1,28 +1,39 @@
 package com.example.facebook_like_android.repositories;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.facebook_like_android.api.LoginAPI;
 import com.example.facebook_like_android.entities.User;
-import com.example.facebook_like_android.entities.UserDao;
-import com.example.facebook_like_android.entities.post.AppDB;
 
 public class LoginRepository {
-    private UserDao userDao;
     private LoginAPI loginAPI;
+    private MutableLiveData<User> user;
+    private MutableLiveData<Boolean> isLoggedIn;
+    private MutableLiveData<String> loginResult;
 
     public LoginRepository() {
-        AppDB db = AppDB.getDatabase();
-        userDao = db.userDao();
+        isLoggedIn = new MutableLiveData<>();
+        loginResult = new MutableLiveData<>();
+        user = new MutableLiveData<>(null);
         loginAPI = new LoginAPI();
     }
 
-    public void login(String username, String password, MutableLiveData<Boolean> isLoggedIn, MutableLiveData<String> loginResult) {
+    public void login(String username, String password) {
         loginAPI.login(username, password, isLoggedIn, loginResult);
     }
 
 
-    public void getUser(String username, MutableLiveData<User> user, String token) {
+    public void getUser(String username, String token) {
         loginAPI.getUser(username, user, token);
     }
+
+    public LiveData<User> getUserInfo() { return user; }
+
+    public LiveData<Boolean> getIsLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public LiveData<String> getLoginResult() {
+        return loginResult; }
 }

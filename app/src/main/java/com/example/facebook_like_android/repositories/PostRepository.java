@@ -5,10 +5,10 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.facebook_like_android.entities.post.AppDB;
+import com.example.facebook_like_android.db.AppDB;
 import com.example.facebook_like_android.entities.post.Post;
-import com.example.facebook_like_android.entities.post.PostAPI;
-import com.example.facebook_like_android.entities.post.PostDao;
+import com.example.facebook_like_android.api.PostAPI;
+import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 

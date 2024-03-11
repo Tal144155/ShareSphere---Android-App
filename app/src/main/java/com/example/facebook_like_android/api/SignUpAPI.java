@@ -2,7 +2,6 @@ package com.example.facebook_like_android.api;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.facebook_like_android.entities.post.WebServiceAPI;
 import com.example.facebook_like_android.responses.DefaultResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
 

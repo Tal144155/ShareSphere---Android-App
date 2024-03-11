@@ -13,10 +13,10 @@ import androidx.room.Room;
 
 import com.example.facebook_like_android.adapters.CommentsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityCommentsBinding;
-import com.example.facebook_like_android.entities.post.AppDB;
-import com.example.facebook_like_android.entities.post.Comment;
-import com.example.facebook_like_android.entities.post.CommentDao;
-import com.example.facebook_like_android.entities.post.PostDao;
+import com.example.facebook_like_android.db.AppDB;
+import com.example.facebook_like_android.entities.Comment;
+import com.example.facebook_like_android.daos.CommentDao;
+import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.UserInfoManager;
 

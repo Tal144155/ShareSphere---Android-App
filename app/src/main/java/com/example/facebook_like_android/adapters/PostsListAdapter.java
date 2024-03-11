@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.entities.post.Post;
-import com.example.facebook_like_android.entities.post.PostDao;
+import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.entities.post.buttons.LikeButton;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
