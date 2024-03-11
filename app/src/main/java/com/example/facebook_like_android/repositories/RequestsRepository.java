@@ -28,13 +28,13 @@ public class RequestsRepository {
     public LiveData<List<User>> getRequests() { return requests; }
 
     public LiveData<String> getMessage() { return message; }
-    public void add(User user) {
-        requestsAPI.addFriendRequest(user, requests, message);
+    public void add(String requestUsername) {
+        requestsAPI.addFriendRequest(requestUsername, requests, message);
     }
     public void reload() {
         requestsAPI.getFriendRequests(requests, message);
     }
-    public void delete(User user) {
-        requestsAPI.deleteFriendRequest(user, requests, message);
+    public void delete(String requestUsername) {
+        requestsAPI.deleteFriendRequest(requestUsername, requests, message);
     }
 }

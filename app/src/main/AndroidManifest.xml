@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <permission android:name="READ_EXTERNAL_STORAGE" />
 
@@ -20,12 +20,18 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FacebooklikeAndroid"
-        tools:targetApi="31"
-        android:networkSecurityConfig="@xml/network_security_config">
+        tools:targetApi="31">
+        <activity
+            android:name=".profile.Friends"
+            android:exported="false" />
+        <activity
+            android:name=".profile.Friends"
+            android:exported="false" />
         <activity
             android:name=".feed.EditPost"
             android:exported="false" />
@@ -36,7 +42,7 @@
             android:name=".feed.Comments"
             android:exported="false" />
         <activity
-            android:name=".feed.Profile"
+            android:name=".profile.Profile"
             android:exported="false" />
         <activity
             android:name=".feed.Search"

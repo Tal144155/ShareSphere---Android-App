@@ -1,30 +1,37 @@
-package com.example.facebook_like_android.feed;
+package com.example.facebook_like_android.profile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
+import com.example.facebook_like_android.daos.CommentDao;
+import com.example.facebook_like_android.daos.PostDao;
+import com.example.facebook_like_android.daos.UserDao;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
 import com.example.facebook_like_android.db.AppDB;
-import com.example.facebook_like_android.daos.CommentDao;
 import com.example.facebook_like_android.entities.post.Post;
-import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
+import com.example.facebook_like_android.feed.CreatePost;
+import com.example.facebook_like_android.feed.EditPost;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.BitmapUtils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
+import com.example.facebook_like_android.viewmodels.FriendsViewModel;
+import com.example.facebook_like_android.viewmodels.RequestsViewModel;
 
 /**
  * The Profile activity displays the user's profile information and posts.
@@ -38,6 +45,11 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     private AppDB db;
     private PostDao postDao;
     private CommentDao commentDao;
+    private UserDao userDao;
+    private FriendsViewModel friendsViewModel;
+    private RequestsViewModel requestsViewModel;
+    private String username;
+    private boolean isMyProfile = false;
     public static int CREATE_POST = 789;
     public static int EDIT_POST = 837;
 
@@ -51,7 +63,34 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         db = AppDB.getDatabase();
         postDao = db.postDao();
         commentDao = db.commentDao();
+        userDao = db.userDao();
 
+        friendsViewModel = new ViewModelProvider(this).get(FriendsViewModel.class);
+        requestsViewModel = new ViewModelProvider(this).get(RequestsViewModel.class);
+
+        // Returns the specific username whose profile we are watching
+        username = getIntent().getStringExtra("username");
+        // Set the proper visibilities accordingly
+        if (username.equals(UserInfoManager.getUsername())) {
+            myProfile();
+            isMyProfile = true;
+        }
+        else {
+            // check if friend
+            if (userDao.areFriends(username, UserInfoManager.getUsername()) > 0)
+                friendProfile();
+            else
+                someProfile();
+        }
+
+        binding.btnFriends.setOnClickListener(v -> startActivity(new Intent(this, Friends.class)));
+
+        binding.btnRequests.setOnClickListener(v -> {
+            Intent i = new Intent(this, Requests.class);
+            i.putExtra("isMyProfile", isMyProfile);
+            startActivity(i);
+
+        });
 
         // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;
@@ -90,6 +129,29 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 
     }
 
+    private void myProfile() {
+        binding.btnRequests.setVisibility(View.VISIBLE);
+        binding.btnFriends.setVisibility(View.VISIBLE);
+        binding.btnCreatePost.setVisibility(View.VISIBLE);
+        binding.btnFriendRequest.setVisibility(View.GONE);
+        binding.lstPosts.setVisibility(View.VISIBLE);
+    }
+
+    private void friendProfile() {
+        binding.btnRequests.setVisibility(View.GONE);
+        binding.btnFriends.setVisibility(View.VISIBLE);
+        binding.btnCreatePost.setVisibility(View.GONE);
+        binding.btnFriendRequest.setVisibility(View.GONE);
+        binding.lstPosts.setVisibility(View.VISIBLE);
+    }
+
+    private void someProfile() {
+        binding.btnRequests.setVisibility(View.GONE);
+        binding.btnFriends.setVisibility(View.GONE);
+        binding.btnCreatePost.setVisibility(View.GONE);
+        binding.btnFriendRequest.setVisibility(View.VISIBLE);
+        binding.lstPosts.setVisibility(View.GONE);
+    }
 
     // Method to handle creating a new post
     private void createPost(String content, Bitmap bitmap) {

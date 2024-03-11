@@ -15,11 +15,11 @@ public class RequestsViewModel extends ViewModel {
         mRepository = new RequestsRepository();
     }
 
-    public void add(User user) {
-        mRepository.add(user);
+    public void add(String requestUsername) {
+        mRepository.add(requestUsername);
     }
 
-    public void delete(User user) { mRepository.delete(user); }
+    public void delete(String requestUsername) { mRepository.delete(requestUsername); }
 
     public void reload() { mRepository.reload(); }
 

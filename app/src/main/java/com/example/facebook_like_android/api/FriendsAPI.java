@@ -1,11 +1,11 @@
-package com.example.facebook_like_android.entities;
+package com.example.facebook_like_android.api;
 
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.facebook_like_android.api.WebServiceAPI;
 import com.example.facebook_like_android.daos.UserDao;
+import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.responses.DefaultResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
 import com.example.facebook_like_android.utils.UserInfoManager;
@@ -77,8 +77,8 @@ public class FriendsAPI {
 //        });
 //    }
 
-    public void addFriend(User user, MutableLiveData<List<User>> friends, MutableLiveData<String> message) {
-        Call<DefaultResponse> call = webServiceAPI.approveFriendRequest(username, user.getUsername(), token);
+    public void addFriend(String friend, MutableLiveData<List<User>> friends, MutableLiveData<String> message) {
+        Call<DefaultResponse> call = webServiceAPI.approveFriendRequest(username, friend, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
@@ -87,8 +87,8 @@ public class FriendsAPI {
                     Log.d("DEBUG", "friend added successfully");
                     // update list of friends
                     new Thread(() -> {
-                        userDao.addFriend(username, user.getUsername());
-                        userDao.addFriend(user.getUsername(), username);
+                        userDao.addFriend(username, friend);
+                        userDao.addFriend(friend, username);
                         friends.postValue(userDao.getFriends(username));
                         message.postValue("friend added successfully");
                     }).start();
@@ -106,8 +106,8 @@ public class FriendsAPI {
 
 
 
-    public void deleteFriend(User user, MutableLiveData<List<User>> friends, MutableLiveData<String> message) {
-        Call<DefaultResponse> call = webServiceAPI.deleteFriend(username, user.getUsername(), token);
+    public void deleteFriend(String friend, MutableLiveData<List<User>> friends, MutableLiveData<String> message) {
+        Call<DefaultResponse> call = webServiceAPI.deleteFriend(username, friend, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
@@ -116,8 +116,8 @@ public class FriendsAPI {
                     Log.d("DEBUG", "friend deleted successfully");
                     new Thread(() -> {
                         // update list of friends
-                        userDao.deleteFriend(username, user.getUsername());
-                        userDao.deleteFriend(user.getUsername(), username);
+                        userDao.deleteFriend(username, friend);
+                        userDao.deleteFriend(friend, username);
                         friends.postValue(userDao.getFriends(username));
                         message.postValue("friend deleted successfully");
                     }).start();

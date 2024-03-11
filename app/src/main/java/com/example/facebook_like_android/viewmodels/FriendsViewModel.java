@@ -16,11 +16,11 @@ public class FriendsViewModel extends ViewModel {
         mRepository = new FriendsRepository();
     }
 
-    public void add(User user) {
-        mRepository.add(user);
+    public void add(String friend) {
+        mRepository.add(friend);
     }
 
-    public void delete(User user) { mRepository.delete(user); }
+    public void delete(String friend) { mRepository.delete(friend); }
 
     public void reload() { mRepository.reload(); }
 

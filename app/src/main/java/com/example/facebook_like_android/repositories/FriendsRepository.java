@@ -3,9 +3,9 @@ package com.example.facebook_like_android.repositories;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.facebook_like_android.api.FriendsAPI;
 import com.example.facebook_like_android.daos.UserDao;
 import com.example.facebook_like_android.db.AppDB;
-import com.example.facebook_like_android.entities.FriendsAPI;
 import com.example.facebook_like_android.entities.User;
 
 import java.util.ArrayList;
@@ -28,13 +28,13 @@ public class FriendsRepository {
     public LiveData<List<User>> getFriends() { return friends; }
 
     public LiveData<String> getMessage() { return message; }
-    public void add(User user) {
-        friendsAPI.addFriend(user, friends, message);
+    public void add(String friend) {
+        friendsAPI.addFriend(friend, friends, message);
     }
     public void reload() {
         friendsAPI.getFriends(friends, message);
     }
-    public void delete(User user) {
-        friendsAPI.deleteFriend(user, friends, message);
+    public void delete(String friend) {
+        friendsAPI.deleteFriend(friend, friends, message);
     }
 }

@@ -33,8 +33,8 @@ public class RequestsAPI {
     }
 
 
-    public void addFriendRequest(User user, MutableLiveData<List<User>> requests, MutableLiveData<String> message) {
-        Call<DefaultResponse> call = webServiceAPI.friendRequest(username, user.getUsername(), token);
+    public void addFriendRequest(String requestUsername, MutableLiveData<List<User>> requests, MutableLiveData<String> message) {
+        Call<DefaultResponse> call = webServiceAPI.friendRequest(username, requestUsername, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
@@ -42,7 +42,7 @@ public class RequestsAPI {
                 if (response.isSuccessful()) {
                     // update list of requests
                     new Thread(() -> {
-                        userDao.addFriendRequest(username, user.getUsername());
+                        userDao.addFriendRequest(username, requestUsername);
                         requests.postValue(userDao.getFriendRequests(username));
                         message.postValue("request added successfully");
                     }).start();
@@ -60,8 +60,8 @@ public class RequestsAPI {
 
 
 
-    public void deleteFriendRequest(User user, MutableLiveData<List<User>> requests, MutableLiveData<String> message) {
-        Call<DefaultResponse> call = webServiceAPI.deleteFriend(username, user.getUsername(), token);
+    public void deleteFriendRequest(String requestUsername, MutableLiveData<List<User>> requests, MutableLiveData<String> message) {
+        Call<DefaultResponse> call = webServiceAPI.deleteFriend(username, requestUsername, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
@@ -69,7 +69,7 @@ public class RequestsAPI {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
                         // update list of requests
-                        userDao.deleteFriendRequest(username, user.getUsername());
+                        userDao.deleteFriendRequest(username, requestUsername);
                         requests.postValue(userDao.getFriendRequests(username));
                         message.postValue("friend request deleted successfully");
                     }).start();
