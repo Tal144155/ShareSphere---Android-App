@@ -45,8 +45,12 @@ public class Requests extends AppCompatActivity {
         if (getIntent().getBooleanExtra("isMyProfile", false))
             adapter.myProfile();
 
-        viewModel.reload();
-        viewModel.getRequests().observe(this, requests -> adapter.setRequests(requests));
+        binding.refreshLayout.setOnRefreshListener(() -> viewModel.reload());
+
+        viewModel.getRequests().observe(this, requests -> {
+            adapter.setRequests(requests);
+            binding.refreshLayout.setRefreshing(false);
+        });
 
         binding.btnBack.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));

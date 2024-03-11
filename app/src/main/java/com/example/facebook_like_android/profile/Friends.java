@@ -43,8 +43,12 @@ public class Friends extends AppCompatActivity {
         lstFriends.setAdapter(adapter);
         lstFriends.setLayoutManager(new LinearLayoutManager(this));
 
-        viewModel.reload();
-        viewModel.getFriends().observe(this, users -> adapter.setFriends(users));
+        binding.refreshLayout.setOnRefreshListener(() -> viewModel.reload());
+
+        viewModel.getFriends().observe(this, friends -> {
+            adapter.setFriends(friends);
+            binding.refreshLayout.setRefreshing(false);
+        });
 
         binding.btnBack.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
