@@ -1,6 +1,7 @@
 package com.example.facebook_like_android.profile;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,10 @@ public class Friends extends AppCompatActivity {
         viewModel.getFriends().observe(this, friends -> {
             adapter.setFriends(friends);
             binding.refreshLayout.setRefreshing(false);
+        });
+
+        viewModel.getMessage().observe(this, message -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         });
 
         binding.btnBack.setOnClickListener(v -> finish());
