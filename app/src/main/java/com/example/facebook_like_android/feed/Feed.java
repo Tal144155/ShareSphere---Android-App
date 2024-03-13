@@ -15,6 +15,7 @@ import com.example.facebook_like_android.daos.CommentDao;
 import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
 import com.example.facebook_like_android.db.AppDB;
+import com.example.facebook_like_android.profile.IProfile;
 import com.example.facebook_like_android.profile.Profile;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
@@ -27,7 +28,7 @@ import com.example.facebook_like_android.viewmodels.PostsViewModel;
  * The Feed activity displays the main feed of posts in the application.
  * Users can view posts, access their profile, change theme, and navigate to other screens.
  */
-public class Feed extends AppCompatActivity {
+public class Feed extends AppCompatActivity implements IProfile {
     private static final int PROFILE_REQUEST_CODE = 100;
     private ActivityFeedBinding binding;
     private final ThemeMode mode = ThemeMode.getInstance();
@@ -73,6 +74,7 @@ public class Feed extends AppCompatActivity {
         // Initialize posts and set visibility
 //        adapter.initPosts();
         adapter.setFeedVisibility();
+        adapter.setOnProfileClickListener(this);
 
         // Set click listeners for buttons
         binding.btnMenu.setOnClickListener(v -> startActivity(new Intent(this, Menu.class)));
@@ -112,6 +114,15 @@ public class Feed extends AppCompatActivity {
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
+    }
+
+    @Override
+    public void viewProfile(String username, String profile, String nickname) {
+        Intent i = new Intent(this, Profile.class);
+        i.putExtra("username", username)
+                .putExtra("profile", profile)
+                .putExtra("nickname", nickname);
+        startActivity(i);
     }
 
     // Refresh feed onResume if permission granted

@@ -23,6 +23,7 @@ import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.entities.post.buttons.LikeButton;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.feed.Comments;
+import com.example.facebook_like_android.profile.IProfile;
 import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.UserInfoManager;
@@ -36,8 +37,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     static class PostViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvAuthor;
         private final TextView tvcontent;
+        private final TextView tvUsername;
         private final ImageView ivPic;
-        private final ImageView ivProfile;
+        private final ImageButton ivProfile;
         private final TextView tvLikes;
         private final ImageButton like;
         private final ImageButton comment;
@@ -51,6 +53,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         private PostViewHolder(View itemView) {
             super(itemView);
             tvAuthor = itemView.findViewById(R.id.tv_author);
+            tvUsername = itemView.findViewById(R.id.tv_username);
             tvcontent = itemView.findViewById(R.id.tv_content);
             ivPic = itemView.findViewById(R.id.iv_pic);
             ivProfile = itemView.findViewById(R.id.iv_profile);
@@ -72,6 +75,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private int visibility = View.GONE;
     private OnEditClickListener editClickListener;
     private OnEditClickListener.OnDeleteClickListener deleteClickListener;
+    private IProfile profileListener;
     private boolean isProfile = false;
     private final Activity activity;
     private String username;
@@ -107,7 +111,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             holder.date.setText(current.getPublishDate());
             holder.ivPic.setImageBitmap(Base64Utils.decodeBase64ToBitmap(current.getPic()));
             holder.ivProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(current.getProfile()));
-
+            holder.tvUsername.setText(current.getUsername());
             holder.tvLikes.setText(String.valueOf(current.getLikes()));
 
             // Apply circular outline to profile image using the utility class
@@ -119,9 +123,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             setOnShareClickListener(holder, position);
             setOnDeleteClickListener(holder, position);
             setOnCommentClickListener(holder, position);
+            setOnProfileClickListener(holder, position);
 
             setVisibility(holder);
-            //getMyPosts(holder, position);
         }
     }
 
@@ -136,6 +140,16 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         holder.delete.setOnClickListener(v -> {
             if (deleteClickListener != null) {
                 deleteClickListener.onDeleteClick(posts.get(position));
+            }
+        });
+    }
+
+    // Sets onClick listener for the profile button
+    private void setOnProfileClickListener(@NonNull PostViewHolder holder, int position) {
+        holder.ivProfile.setOnClickListener(v -> {
+            if (profileListener != null) {
+                Post post = posts.get(position);
+                profileListener.viewProfile(post.getUsername(), post.getProfile(),post.getFirst_name() + " " + post.getLast_name());
             }
         });
     }
@@ -234,6 +248,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     // Method to set the click listener
     public void setOnEditClickListener(OnEditClickListener listener) {
         this.editClickListener = listener;
+    }
+
+    public void setOnProfileClickListener(IProfile listener) {
+        this.profileListener = listener;
     }
 
     public void setOnDeleteClickListener(OnEditClickListener.OnDeleteClickListener listener) {

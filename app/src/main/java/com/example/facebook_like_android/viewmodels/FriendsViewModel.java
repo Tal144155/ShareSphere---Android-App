@@ -33,4 +33,9 @@ public class FriendsViewModel extends ViewModel {
     }
 
 
+    public LiveData<Boolean> checkFriends() {
+        return mRepository.checkFriends();
+    }
+
+    public void checkIfFriends(String user1, String user2) { mRepository.areFriends(user1, user2); }
 }

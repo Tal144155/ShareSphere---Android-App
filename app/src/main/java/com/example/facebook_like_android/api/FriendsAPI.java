@@ -158,5 +158,28 @@ public class FriendsAPI {
         });
     }
 
+    public void areFriends(String user1, String user2, MutableLiveData<Boolean> areFriends) {
+        Call<DefaultResponse> call = webServiceAPI.areFriends(user1, user2, token);
+
+        call.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                new Thread(() -> {
+                    String s = response.body().getMessage();
+                    boolean b = s.equals("true");
+                    areFriends.postValue(b);
+                }).start();
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                new Thread(() -> {
+                    Log.d("DEBUG", t.getLocalizedMessage());
+                    areFriends.postValue(false);
+                }).start();
+
+            }
+        });
+    }
 }
 

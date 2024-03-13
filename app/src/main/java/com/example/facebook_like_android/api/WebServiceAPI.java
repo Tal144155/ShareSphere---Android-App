@@ -30,6 +30,8 @@ public interface WebServiceAPI {
     @DELETE("users/{id}/friends/{fid}")
     Call<DefaultResponse> deleteFriend(@Path("id") String id, @Path("fid") String fid, @Header("authorization") String token);
 
+    @GET("users/{id}/friends/{fid}")
+    Call<DefaultResponse> areFriends(@Path("id") String id, @Path("fid") String fid, @Header("authorization") String token);
 
     @GET("users/{id}/friends")
     Call<List<User>> getFriends(@Path("id") String id, @Header("authorization") String token);

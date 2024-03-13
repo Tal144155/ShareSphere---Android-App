@@ -73,28 +73,36 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 
         // Returns the specific username whose profile we are watching
         username = getIntent().getStringExtra("username");
+        friendsViewModel = new ViewModelProvider(this).get(FriendsViewModel.class);
+        requestsViewModel = new ViewModelProvider(this).get(RequestsViewModel.class);
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        profileViewModel.setProfileRepository(username);
+
+
+
         // Set the proper visibilities accordingly
-        if (username.equals(UserInfoManager.getUsername())) {
-            myProfile();
-            isMyProfile = true;
-        }
-        else {
-            // check if friend
-            if (userDao.areFriends(username, UserInfoManager.getUsername()) > 0)
-                friendProfile();
-            else
-                someProfile();
-        }
+        friendsViewModel.checkFriends().observe(this, areFriends -> {
+            if (areFriends != null) {
+                if (username.equals(UserInfoManager.getUsername())) {
+                    myProfile();
+                    isMyProfile = true;
+                } else {
+                    if (areFriends) {
+                        friendProfile();
+                    } else {
+                        someProfile();
+                    }
+                }
+            }
+        });
+
+        friendsViewModel.checkIfFriends(username, UserInfoManager.getUsername());
 
         // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;
         adapter = new PostsListAdapter(this, username);
         lstPosts.setAdapter(adapter);
 
-        friendsViewModel = new ViewModelProvider(this).get(FriendsViewModel.class);
-        requestsViewModel = new ViewModelProvider(this).get(RequestsViewModel.class);
-        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
-        profileViewModel.setProfileRepository(username);
 
         profileViewModel.getMessage().observe(this, msg -> {
             binding.refreshLayout.setRefreshing(false);
@@ -129,9 +137,10 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         adapter.setOnDeleteClickListener(this);
 
         // Set profile information
-        UserInfoManager.setProfile(binding.ivProfile);
+        //UserInfoManager.setProfile(binding.ivProfile);
+        setInfo();
         CircularOutlineUtil.applyCircularOutline(binding.ivProfile);
-        UserInfoManager.setNickname(binding.tvNickname);
+        //UserInfoManager.setNickname(binding.tvNickname);
 
         // Set click listeners for buttons
         binding.btnHome.setOnClickListener(v -> finish());
@@ -167,6 +176,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.btnCreatePost.setVisibility(View.VISIBLE);
         binding.btnFriendRequest.setVisibility(View.GONE);
         binding.lstPosts.setVisibility(View.VISIBLE);
+        binding.btnEdit.setVisibility(View.VISIBLE);
     }
 
     private void friendProfile() {
@@ -175,6 +185,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.btnCreatePost.setVisibility(View.GONE);
         binding.btnFriendRequest.setVisibility(View.GONE);
         binding.lstPosts.setVisibility(View.VISIBLE);
+        binding.btnEdit.setVisibility(View.GONE);
     }
 
     private void someProfile() {
@@ -183,6 +194,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.btnCreatePost.setVisibility(View.GONE);
         binding.btnFriendRequest.setVisibility(View.VISIBLE);
         binding.lstPosts.setVisibility(View.GONE);
+        binding.btnEdit.setVisibility(View.GONE);
     }
 
     // Method to handle creating a new post
