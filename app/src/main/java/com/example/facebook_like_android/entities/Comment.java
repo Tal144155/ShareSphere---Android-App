@@ -2,6 +2,7 @@ package com.example.facebook_like_android.entities;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
@@ -20,11 +21,9 @@ import com.example.facebook_like_android.utils.Base64Utils;
 )
 public class Comment {
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-
+    @PrimaryKey @NonNull
     private String commentId;
-    private int postId; // Foreign key referencing the Post entity
+    private String postId; // Foreign key referencing the Post entity
     private final String username;
     private final String author;
     private final String profile;
@@ -40,13 +39,7 @@ public class Comment {
         this.profileBitmap = Base64Utils.decodeBase64ToBitmap(profile);
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getCommentId() {
         return commentId;
@@ -81,11 +74,11 @@ public class Comment {
     }
 
     // Getter and setter for postId
-    public int getPostId() {
+    public String getPostId() {
         return postId;
     }
 
-    public void setPostId(int postId) {
+    public void setPostId(String postId) {
         this.postId = postId;
     }
 }

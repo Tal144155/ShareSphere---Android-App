@@ -1,8 +1,10 @@
 package com.example.facebook_like_android.entities.post.buttons;
 
+import com.example.facebook_like_android.entities.post.Post;
+
 public interface OnEditClickListener {
-    void onEditClick(int position);
+    void onEditClick(String postId);
     interface OnDeleteClickListener {
-        void onDeleteClick(int position);
+        void onDeleteClick(Post post);
     }
 }

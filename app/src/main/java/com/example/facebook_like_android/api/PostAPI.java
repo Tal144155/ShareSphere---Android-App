@@ -74,7 +74,7 @@ public class PostAPI {
 
 
     public void delete(Post post) {
-        Call<DefaultResponse> call = webServiceAPI.deletePost(post.getUsername(), post.getId(), UserInfoManager.getToken());
+        Call<DefaultResponse> call = webServiceAPI.deletePost(post.getUsername(), post.getPostId(), UserInfoManager.getToken());
 
         call.enqueue(new Callback<DefaultResponse>() {
             @Override

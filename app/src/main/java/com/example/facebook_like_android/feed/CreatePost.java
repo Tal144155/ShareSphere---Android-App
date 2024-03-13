@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebook_like_android.databinding.ActivityCreatePostBinding;
 import com.example.facebook_like_android.style.ThemeMode;
-import com.example.facebook_like_android.utils.BitmapUtils;
+import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.ImageHandler;
 import com.example.facebook_like_android.utils.PermissionsManager;
 
@@ -73,7 +73,7 @@ public class CreatePost extends AppCompatActivity {
         binding.btnCreate.setOnClickListener(v -> {
             setResult(RESULT_OK, new Intent()
                     .putExtra("content", content.getText().toString())
-                    .putExtra("pic", BitmapUtils.bitmapToString(bitmap)));
+                    .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap)));
             finish();
         });
     }

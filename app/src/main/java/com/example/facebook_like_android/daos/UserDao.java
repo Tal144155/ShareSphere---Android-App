@@ -62,10 +62,10 @@ public interface UserDao {
     @Delete
     void delete(User... users);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFriends(List<User> friends);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFriendRequests(List<User> friendRequests);
 
 

@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebook_like_android.databinding.ActivityEditPostBinding;
 import com.example.facebook_like_android.style.ThemeMode;
-import com.example.facebook_like_android.utils.BitmapUtils;
+import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.ImageHandler;
 import com.example.facebook_like_android.utils.PermissionsManager;
@@ -49,7 +49,7 @@ public class EditPost extends AppCompatActivity {
         binding.ivProfile.setImageBitmap(UserInfoManager.getProfileBitmap());
         binding.tvAuthor.setText(UserInfoManager.getNickname());
         binding.etContent.setText(getIntent().getStringExtra("content"));
-        binding.ivPic.setImageBitmap(BitmapUtils.stringToBitmap(getIntent().getStringExtra("pic")));
+        binding.ivPic.setImageBitmap(Base64Utils.decodeBase64ToBitmap(getIntent().getStringExtra("pic")));
 
 
         TextWatcher watcher = new TextWatcher() {
@@ -83,8 +83,8 @@ public class EditPost extends AppCompatActivity {
         binding.btnUpdate.setOnClickListener(v -> {
             setResult(RESULT_OK, new Intent()
                     .putExtra("content", content.getText().toString())
-                    .putExtra("pic", BitmapUtils.bitmapToString(bitmap))
-                    .putExtra("position", getIntent().getIntExtra("position", 0)));
+                    .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap))
+                    .putExtra("postId", getIntent().getStringExtra("postId")));
             finish();
         });
     }

@@ -1,24 +1,18 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 9,
-    "identityHash": "6210bcee624c3d5d96a0213e04e1c8d4",
+    "version": 10,
+    "identityHash": "876bcac9bd8a9dff107c0fd78ad0d9c9",
     "entities": [
       {
         "tableName": "Post",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`postId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` TEXT, `first_name` TEXT, `last_name` TEXT, `content` TEXT, `likes` INTEGER NOT NULL, `profile` TEXT, `pic` TEXT, `publishDate` TEXT, `likedBy` TEXT, `username` TEXT, `comments` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`postId` TEXT NOT NULL, `first_name` TEXT, `last_name` TEXT, `content` TEXT, `likes` INTEGER NOT NULL, `profile` TEXT, `pic` TEXT, `publishDate` TEXT, `likedBy` TEXT, `username` TEXT, `comments` TEXT, PRIMARY KEY(`postId`))",
         "fields": [
           {
             "fieldPath": "postId",
             "columnName": "postId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "first_name",
@@ -82,7 +76,7 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
             "postId"
           ]
@@ -92,25 +86,19 @@
       },
       {
         "tableName": "Comment",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `commentId` TEXT, `postId` INTEGER NOT NULL, `username` TEXT, `author` TEXT, `profile` TEXT, `content` TEXT, FOREIGN KEY(`postId`) REFERENCES `Post`(`postId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`commentId` TEXT NOT NULL, `postId` TEXT, `username` TEXT, `author` TEXT, `profile` TEXT, `content` TEXT, PRIMARY KEY(`commentId`), FOREIGN KEY(`postId`) REFERENCES `Post`(`postId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "commentId",
             "columnName": "commentId",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "postId",
             "columnName": "postId",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "username",
@@ -138,9 +126,9 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "commentId"
           ]
         },
         "indices": [
@@ -234,7 +222,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6210bcee624c3d5d96a0213e04e1c8d4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '876bcac9bd8a9dff107c0fd78ad0d9c9')"
     ]
   }
 }

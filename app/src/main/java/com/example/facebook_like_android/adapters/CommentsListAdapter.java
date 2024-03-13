@@ -93,13 +93,13 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
     // Method to handle editing a comment
     private void editComment(PostViewHolder holder, int position) {
-        // Set onClickListener for edit button
+        // Set onClickListener for update button
         holder.edit.setOnClickListener(v -> {
-            holder.edit.setVisibility(View.GONE); // Hide edit button
+            holder.edit.setVisibility(View.GONE); // Hide update button
             holder.accept.setVisibility(View.VISIBLE); // Show accept button
-            holder.etContent.setText(holder.content.getText()); // Set edit text content to current comment content
+            holder.etContent.setText(holder.content.getText()); // Set update text content to current comment content
             holder.content.setVisibility(View.GONE); // Hide content text
-            holder.etContent.setVisibility(View.VISIBLE); // Show edit text
+            holder.etContent.setVisibility(View.VISIBLE); // Show update text
         });
 
         // Set onClickListener for accept button
@@ -108,8 +108,8 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
                 String newContent = holder.etContent.getText().toString(); // Get edited content
                 updateComment(position, newContent); // Call method to update comment
                 holder.accept.setVisibility(View.GONE); // Hide accept button
-                holder.edit.setVisibility(View.VISIBLE); // Show edit button
-                holder.etContent.setVisibility(View.GONE); // Hide edit text
+                holder.edit.setVisibility(View.VISIBLE); // Show update button
+                holder.etContent.setVisibility(View.GONE); // Hide update text
                 holder.content.setVisibility(View.VISIBLE); // Show content text
             }
         });

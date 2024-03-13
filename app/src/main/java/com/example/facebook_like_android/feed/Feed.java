@@ -2,24 +2,25 @@ package com.example.facebook_like_android.feed;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
-import com.example.facebook_like_android.databinding.ActivityFeedBinding;
-import com.example.facebook_like_android.db.AppDB;
 import com.example.facebook_like_android.daos.CommentDao;
 import com.example.facebook_like_android.daos.PostDao;
+import com.example.facebook_like_android.databinding.ActivityFeedBinding;
+import com.example.facebook_like_android.db.AppDB;
 import com.example.facebook_like_android.profile.Profile;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
+import com.example.facebook_like_android.viewmodels.FeedViewModel;
 import com.example.facebook_like_android.viewmodels.PostsViewModel;
 
 /**
@@ -34,7 +35,8 @@ public class Feed extends AppCompatActivity {
     private AppDB db;
     private PostDao postDao;
     private CommentDao commentDao;
-    private PostsViewModel viewModel;
+    private PostsViewModel postsViewModel;
+    private FeedViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +48,43 @@ public class Feed extends AppCompatActivity {
         commentDao = db.commentDao();
 
         // View Model
-        viewModel = new ViewModelProvider(this).get(PostsViewModel.class);
-        viewModel.get().observe(this, posts -> adapter.setPosts(posts));
+//        postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
+//        postsViewModel.get().observe(this, posts -> adapter.setPosts(posts));
 
         // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;
-        adapter = new PostsListAdapter(this, postDao);
+        adapter = new PostsListAdapter(this, UserInfoManager.getUsername());
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
+        // Feed view model
+        viewModel = new ViewModelProvider(this).get(FeedViewModel.class);
+        viewModel.getMessage().observe(this, msg -> {
+            binding.refreshLayout.setRefreshing(false);
+            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        });
+        viewModel.getPosts().observe(this, posts -> {
+            adapter.setPosts(posts);
+            binding.refreshLayout.setRefreshing(false);
+        });
+
+        binding.refreshLayout.setOnRefreshListener(() -> viewModel.reload());
+
         // Initialize posts and set visibility
-        adapter.initPosts();
+//        adapter.initPosts();
         adapter.setFeedVisibility();
 
         // Set click listeners for buttons
         binding.btnMenu.setOnClickListener(v -> startActivity(new Intent(this, Menu.class)));
         binding.btnSearch.setOnClickListener(v -> startActivity(new Intent(this, Search.class)));
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
-        binding.btnProfile.setOnClickListener(v -> startActivityForResult(new Intent(this, Profile.class), PROFILE_REQUEST_CODE));
+        binding.btnProfile.setOnClickListener(v -> {
+            Intent i = new Intent(this, Profile.class);
+            i.putExtra("profile", UserInfoManager.getProfile())
+                    .putExtra("nickname", UserInfoManager.getNickname())
+                    .putExtra("username", UserInfoManager.getUsername());
+            startActivity(i);
+        });
 
         // Set profile image and nickname
         UserInfoManager.setProfile(binding.btnProfile);
@@ -74,16 +95,16 @@ public class Feed extends AppCompatActivity {
     }
 
     // Handle the result from Profile activity
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
-            // Refresh feed if permission granted
-            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
-                adapter.refreshFeed();
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
+//            // Refresh feed if permission granted
+//            if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+//                adapter.refreshFeed();
+//            }
+//        }
+//    }
 
     // Handle permission request result
     @Override
@@ -94,11 +115,11 @@ public class Feed extends AppCompatActivity {
     }
 
     // Refresh feed onResume if permission granted
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
-            adapter.refreshFeed();
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (PermissionsManager.checkPermissionREAD_EXTERNAL_STORAGE(this)) {
+//            adapter.refreshFeed();
+//        }
+//    }
 }

@@ -2,6 +2,7 @@ package com.example.facebook_like_android.register;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,8 +16,10 @@ import com.example.facebook_like_android.databinding.ActivityLoginBinding;
 import com.example.facebook_like_android.feed.Feed;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.users.Users;
+import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.viewmodels.LoginViewModel;
 
+import java.util.Base64;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
@@ -50,6 +53,7 @@ public class Login extends AppCompatActivity {
         // Inflate the layout using view binding
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         // Initialize InputError object for handling input validation
         inputError = new InputError(binding.etUsername, binding.etPassword);

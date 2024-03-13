@@ -34,7 +34,7 @@ public class UserInfoManager {
     public static void setProfile(ImageButton btnProfile) {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String profile = preferences.getString("profile", "");
-        btnProfile.setImageBitmap(BitmapUtils.stringToBitmap(profile));
+        btnProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(profile));
     }
 
     /**
@@ -45,7 +45,7 @@ public class UserInfoManager {
     public static void setProfile(ImageView ivProfile) {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String profile = preferences.getString("profile", "");
-        ivProfile.setImageBitmap(BitmapUtils.stringToBitmap(profile));
+        ivProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(profile));
     }
 
     /**
@@ -87,7 +87,7 @@ public class UserInfoManager {
     public static Bitmap getProfileBitmap() {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String s = preferences.getString("profile", "");
-        return BitmapUtils.stringToBitmap(s);
+        return Base64Utils.decodeBase64ToBitmap(s);
     }
 
     /**
