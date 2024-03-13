@@ -19,6 +19,7 @@ public class Friends extends AppCompatActivity {
     private FriendsViewModel viewModel;
     private FriendsListAdapter adapter;
     private final ThemeMode mode = ThemeMode.getInstance();
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +30,22 @@ public class Friends extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(FriendsViewModel.class);
 
         RecyclerView lstFriends = binding.lstUsers;
-        adapter = new FriendsListAdapter(this, viewModel, getIntent().getStringExtra("username"));
+        adapter = new FriendsListAdapter(this, viewModel);
         lstFriends.setAdapter(adapter);
         lstFriends.setLayoutManager(new LinearLayoutManager(this));
 
+        username = getIntent().getStringExtra("username");
+
         binding.refreshLayout.setOnRefreshListener(() -> {
-            viewModel.reload(getIntent().getStringExtra("username"));
+            viewModel.reload(username);
+        });
+
+        if (getIntent().getBooleanExtra("isMyProfile", false))
+            adapter.myProfile();
+
+        viewModel.hasChanged().observe(this, hasChanged -> {
+            if (hasChanged)
+                viewModel.reload(username);
         });
 
         viewModel.getFriends().observe(this, friends -> {

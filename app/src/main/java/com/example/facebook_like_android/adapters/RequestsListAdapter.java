@@ -15,6 +15,7 @@ import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.responses.ListUsersResponse;
 import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
+import com.example.facebook_like_android.viewmodels.FriendsViewModel;
 import com.example.facebook_like_android.viewmodels.RequestsViewModel;
 
 import java.util.List;
@@ -41,11 +42,12 @@ public class RequestsListAdapter extends RecyclerView.Adapter<RequestsListAdapte
     private final LayoutInflater mInflater;
     private List<ListUsersResponse> requests;
     private RequestsViewModel viewModel;
-    private boolean isMyProfile = false;
+    private FriendsViewModel friendsViewModel;
 
-    public RequestsListAdapter(Context context, RequestsViewModel viewModel, String username) {
+    public RequestsListAdapter(Context context, RequestsViewModel viewModel, FriendsViewModel friendsViewModel) {
         mInflater = LayoutInflater.from(context);
         this.viewModel = viewModel;
+        this.friendsViewModel = friendsViewModel;
     }
 
     @NonNull
@@ -63,10 +65,9 @@ public class RequestsListAdapter extends RecyclerView.Adapter<RequestsListAdapte
             String nickname = current.getFirst_name() + " " + current.getLast_name();
             holder.tvNickname.setText(nickname);
             holder.tvUsername.setText(current.getUser_name());
-            setVisibility(holder);
 
             holder.btnAccept.setOnClickListener(v -> {
-                viewModel.add(holder.tvUsername.getText().toString());
+                friendsViewModel.add(holder.tvUsername.getText().toString());
             });
 
             CircularOutlineUtil.applyCircularOutline(holder.ivProfile);
@@ -75,19 +76,7 @@ public class RequestsListAdapter extends RecyclerView.Adapter<RequestsListAdapte
         }
     }
 
-    public void myProfile() {
-        isMyProfile = true;
-    }
 
-    private void setVisibility(RequestViewHolder holder) {
-        if (isMyProfile) {
-            holder.btnAccept.setVisibility(View.VISIBLE);
-            holder.btnReject.setVisibility(View.VISIBLE);
-        } else {
-            holder.btnAccept.setVisibility(View.GONE);
-            holder.btnReject.setVisibility(View.GONE);
-        }
-    }
 
 
     @Override

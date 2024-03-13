@@ -16,6 +16,7 @@ public class FriendsRepository {
     private MutableLiveData<List<ListUsersResponse>> friends;
     private MutableLiveData<String> message;
     private MutableLiveData<Boolean> areFriends;
+    private MutableLiveData<Boolean> hasChanged;
     private FriendsAPI friendsAPI;
 
     public FriendsRepository() {
@@ -23,6 +24,7 @@ public class FriendsRepository {
         userDao = db.userDao();
         friends = new MutableLiveData<>(new ArrayList<>());
         message = new MutableLiveData<>();
+        hasChanged = new MutableLiveData<>();
         areFriends = new MutableLiveData<>(false);
         friendsAPI = new FriendsAPI(userDao);
     }
@@ -31,17 +33,18 @@ public class FriendsRepository {
 
     public LiveData<String> getMessage() { return message; }
     public void add(String friend) {
-        friendsAPI.addFriend(friend, friends, message);
+        friendsAPI.addFriend(friend, hasChanged, message);
     }
     public void reload(String username) {
         friendsAPI.getFriends(friends, message, username);
     }
     public void delete(String friend) {
-        friendsAPI.deleteFriend(friend, friends, message);
+        friendsAPI.deleteFriend(friend, hasChanged, message);
     }
 
     public void areFriends(String user1, String user2) {
         friendsAPI.areFriends(user1, user2, areFriends);
     }
     public LiveData<Boolean> checkFriends() { return areFriends; }
+    public LiveData<Boolean> hasChanged() { return hasChanged; }
 }

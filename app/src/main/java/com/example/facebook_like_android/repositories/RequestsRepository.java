@@ -15,6 +15,7 @@ public class RequestsRepository {
     private UserDao userDao;
     private MutableLiveData<List<ListUsersResponse>> requests;
     private MutableLiveData<String> message;
+    private MutableLiveData<Boolean> hasChanged;
     private RequestsAPI requestsAPI;
 
     public RequestsRepository() {
@@ -22,6 +23,7 @@ public class RequestsRepository {
         userDao = db.userDao();
         requests = new MutableLiveData<>(new ArrayList<>());
         message = new MutableLiveData<>();
+        hasChanged = new MutableLiveData<>();
         requestsAPI = new RequestsAPI(userDao);
     }
 
@@ -29,12 +31,15 @@ public class RequestsRepository {
 
     public LiveData<String> getMessage() { return message; }
     public void add(String requestUsername) {
-        requestsAPI.addFriendRequest(requestUsername, requests, message);
+        requestsAPI.addFriendRequest(requestUsername, hasChanged, message);
     }
     public void reload() {
         requestsAPI.getFriendRequests(requests, message);
     }
     public void delete(String requestUsername) {
-        requestsAPI.deleteFriendRequest(requestUsername, requests, message);
+        requestsAPI.deleteFriendRequest(requestUsername, hasChanged, message);
     }
+
+    public LiveData<Boolean> hasChanged() { return hasChanged; }
+
 }

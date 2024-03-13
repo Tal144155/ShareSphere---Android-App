@@ -41,8 +41,9 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     private final LayoutInflater mInflater;
     private List<ListUsersResponse> friends;
     private FriendsViewModel viewModel;
+    private boolean isMyProfile = false;
 
-    public FriendsListAdapter(Context context, FriendsViewModel viewModel, String username) {
+    public FriendsListAdapter(Context context, FriendsViewModel viewModel) {
         mInflater = LayoutInflater.from(context);
         this.viewModel = viewModel;
     }
@@ -74,11 +75,20 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
             }
     }
 
+    public void myProfile() {
+        isMyProfile = true;
+    }
 
     private void setVisibility(FriendViewHolder holder) {
-        holder.btnAccept.setVisibility(View.GONE);
-        holder.btnReject.setVisibility(View.GONE);
+        if (isMyProfile) {
+            holder.btnAccept.setVisibility(View.GONE);
+            holder.btnReject.setVisibility(View.VISIBLE);
+        } else {
+            holder.btnAccept.setVisibility(View.GONE);
+            holder.btnReject.setVisibility(View.GONE);
+        }
     }
+
 
 
     @Override

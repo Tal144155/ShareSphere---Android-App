@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.facebook_like_android.adapters.RequestsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityRequestsBinding;
 import com.example.facebook_like_android.style.ThemeMode;
+import com.example.facebook_like_android.viewmodels.FriendsViewModel;
 import com.example.facebook_like_android.viewmodels.RequestsViewModel;
 
 public class Requests extends AppCompatActivity {
     private ActivityRequestsBinding binding;
     private RequestsViewModel viewModel;
+    private FriendsViewModel friendsViewModel;
     private RequestsListAdapter adapter;
     private final ThemeMode mode = ThemeMode.getInstance();
 
@@ -26,14 +28,23 @@ public class Requests extends AppCompatActivity {
         binding = ActivityRequestsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(RequestsViewModel.class);
+        friendsViewModel = new ViewModelProvider(this).get(FriendsViewModel.class);
 
         RecyclerView lstFriends = binding.lstUsers;
-        adapter = new RequestsListAdapter(this, viewModel, getIntent().getStringExtra("username"));
+        adapter = new RequestsListAdapter(this, viewModel, friendsViewModel);
         lstFriends.setAdapter(adapter);
         lstFriends.setLayoutManager(new LinearLayoutManager(this));
 
-        if (getIntent().getBooleanExtra("isMyProfile", false))
-            adapter.myProfile();
+
+        viewModel.hasChanged().observe(this, hasChanged -> {
+            if (hasChanged)
+                viewModel.reload();
+        });
+
+        friendsViewModel.hasChanged().observe(this, hasChanged -> {
+            if (hasChanged)
+                viewModel.reload();
+        });
 
         binding.refreshLayout.setOnRefreshListener(() -> viewModel.reload());
 

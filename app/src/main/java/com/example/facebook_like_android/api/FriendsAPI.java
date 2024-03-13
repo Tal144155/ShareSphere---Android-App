@@ -77,7 +77,7 @@ public class FriendsAPI {
 //        });
 //    }
 
-    public void addFriend(String friend, MutableLiveData<List<ListUsersResponse>> friends, MutableLiveData<String> message) {
+    public void addFriend(String friend, MutableLiveData<Boolean> hasChanged, MutableLiveData<String> message) {
         Call<DefaultResponse> call = webServiceAPI.approveFriendRequest(username, friend, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
@@ -89,24 +89,30 @@ public class FriendsAPI {
                     new Thread(() -> {
                         userDao.addFriend(username, friend);
                         userDao.addFriend(friend, username);
-                        //friends.postValue(userDao.getFriends(username));
+                        hasChanged.postValue(true);
                         message.postValue("friend added successfully");
                     }).start();
                 } else {
-                    new Thread(() -> message.postValue(response.body().getError())).start();
+                    new Thread(() -> {
+                        message.postValue(response.body().getError());
+                        hasChanged.postValue(false);
+                    }).start();
                 }
             }
 
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
-                new Thread(() -> message.postValue(t.getLocalizedMessage())).start();
+                new Thread(() -> {
+                    message.postValue(t.getLocalizedMessage());
+                    hasChanged.postValue(false);
+                }).start();
             }
         });
     }
 
 
 
-    public void deleteFriend(String friend, MutableLiveData<List<ListUsersResponse>> friends, MutableLiveData<String> message) {
+    public void deleteFriend(String friend, MutableLiveData<Boolean> hasChanged, MutableLiveData<String> message) {
         Call<DefaultResponse> call = webServiceAPI.deleteFriend(username, friend, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
@@ -118,17 +124,23 @@ public class FriendsAPI {
                         // update list of friends
                         userDao.deleteFriend(username, friend);
                         userDao.deleteFriend(friend, username);
-                        //friends.postValue(userDao.getFriends(username));
+                        hasChanged.postValue(true);
                         message.postValue("friend deleted successfully");
                     }).start();
                 } else {
-                    new Thread(() -> message.postValue(response.body().getError())).start();
+                    new Thread(() -> {
+                        message.postValue(response.body().getError());
+                        hasChanged.postValue(false);
+                    }).start();
                 }
             }
 
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
-                new Thread(() -> message.postValue(t.getLocalizedMessage())).start();
+                new Thread(() -> {
+                    message.postValue(t.getLocalizedMessage());
+                    hasChanged.postValue(false);
+                }).start();
             }
         });
     }

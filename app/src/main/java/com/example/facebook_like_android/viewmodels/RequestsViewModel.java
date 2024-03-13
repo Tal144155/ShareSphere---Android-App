@@ -30,4 +30,6 @@ public class RequestsViewModel extends ViewModel {
     public LiveData<String> getMessage() {
         return mRepository.getMessage();
     }
+
+    public LiveData<Boolean> hasChanged() { return mRepository.hasChanged(); }
 }
