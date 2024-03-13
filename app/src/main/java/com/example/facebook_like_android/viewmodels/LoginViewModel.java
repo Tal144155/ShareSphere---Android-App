@@ -3,8 +3,8 @@ package com.example.facebook_like_android.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.repositories.LoginRepository;
+import com.example.facebook_like_android.responses.UserResponse;
 
 public class LoginViewModel extends ViewModel {
     private LoginRepository loginRepository;
@@ -21,7 +21,7 @@ public class LoginViewModel extends ViewModel {
         loginRepository.getUser(username, token);
     }
 
-    public LiveData<User> getUserInfo() { return loginRepository.getUserInfo(); }
+    public LiveData<UserResponse> getUserInfo() { return loginRepository.getUserInfo(); }
 
     public LiveData<Boolean> getIsLoggedIn() {
         return loginRepository.getIsLoggedIn();

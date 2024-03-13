@@ -9,9 +9,6 @@ import com.example.facebook_like_android.responses.LoginResponse;
 import com.example.facebook_like_android.responses.UserResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,7 +47,7 @@ public class LoginAPI {
         });
     }
 
-    public void getUser(String username, MutableLiveData<User> user, String token) {
+    public void getUser(String username, MutableLiveData<UserResponse> user, String token) {
         Call<UserResponse> call = webServiceAPI.getUser(username, token);
 
         call.enqueue(new Callback<UserResponse>() {
@@ -61,24 +58,22 @@ public class LoginAPI {
                         User loggedIn;
                         Log.d("DEBUG", "got user from server!");
                         Log.d("DEBUG", "username: " + response.body().getUser_name());
-                        List<User> friends, requests;
-                        requests = response.body().getFriend_requests();
 
-                        if (requests == null) requests = new ArrayList<>();
-
-                        loggedIn = new User(response.body().getUser_name(), response.body().getFirst_name(),
-                                response.body().getLast_name(), "",
-                                response.body().getPic(), null, null, requests);
-                        user.postValue(loggedIn);
+//                        loggedIn = new User(response.body().getUser_name(), response.body().getFirst_name(),
+//                                response.body().getLast_name(), "",
+//                                response.body().getPic(), null, null, null);
+                        user.postValue(response.body());
 
                     }).start();
                 } else {
+                    Log.d("DEBUG", "server unsuccessful");
                     new Thread(() -> user.postValue(null)).start();
                 }
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.d("DEBUG", t.getLocalizedMessage());
                 new Thread(() -> user.postValue(null)).start();
             }
         });

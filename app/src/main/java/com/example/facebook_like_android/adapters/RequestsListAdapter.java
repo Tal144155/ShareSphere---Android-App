@@ -12,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
-import com.example.facebook_like_android.db.AppDB;
-import com.example.facebook_like_android.entities.User;
+import com.example.facebook_like_android.responses.ListUsersResponse;
+import com.example.facebook_like_android.utils.Base64Utils;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.viewmodels.RequestsViewModel;
 
 import java.util.List;
@@ -38,14 +39,13 @@ public class RequestsListAdapter extends RecyclerView.Adapter<RequestsListAdapte
     }
 
     private final LayoutInflater mInflater;
-    private List<User> requests;
+    private List<ListUsersResponse> requests;
     private RequestsViewModel viewModel;
     private boolean isMyProfile = false;
 
     public RequestsListAdapter(Context context, RequestsViewModel viewModel, String username) {
         mInflater = LayoutInflater.from(context);
         this.viewModel = viewModel;
-        this.requests = AppDB.getDatabase().userDao().getFriendRequests(username);
     }
 
     @NonNull
@@ -58,16 +58,18 @@ public class RequestsListAdapter extends RecyclerView.Adapter<RequestsListAdapte
     @Override
     public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
         if (requests != null) {
-            final User current = requests.get(position);
-            holder.ivProfile.setImageBitmap(current.getProfileBitmap());
-            String nickname = current.getFirstname() + " " + current.getLastname();
+            final ListUsersResponse current = requests.get(position);
+            holder.ivProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(current.getPic()));
+            String nickname = current.getFirst_name() + " " + current.getLast_name();
             holder.tvNickname.setText(nickname);
-            holder.tvUsername.setText(current.getUsername());
+            holder.tvUsername.setText(current.getUser_name());
             setVisibility(holder);
 
             holder.btnAccept.setOnClickListener(v -> {
                 viewModel.add(holder.tvUsername.getText().toString());
             });
+
+            CircularOutlineUtil.applyCircularOutline(holder.ivProfile);
 
             holder.btnReject.setOnClickListener(v -> viewModel.delete(holder.tvUsername.getText().toString()));
         }
@@ -95,7 +97,8 @@ public class RequestsListAdapter extends RecyclerView.Adapter<RequestsListAdapte
         return requests.size();
     }
 
-    public void setRequests(List<User> requests) {
+    public void setRequests(List<ListUsersResponse> requests) {
         this.requests = requests;
+        notifyDataSetChanged();
     }
 }

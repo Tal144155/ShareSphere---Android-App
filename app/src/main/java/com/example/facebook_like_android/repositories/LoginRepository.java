@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.facebook_like_android.api.LoginAPI;
-import com.example.facebook_like_android.entities.User;
+import com.example.facebook_like_android.responses.UserResponse;
 
 public class LoginRepository {
     private LoginAPI loginAPI;
-    private MutableLiveData<User> user;
+    private MutableLiveData<UserResponse> user;
     private MutableLiveData<Boolean> isLoggedIn;
     private MutableLiveData<String> loginResult;
 
@@ -28,7 +28,7 @@ public class LoginRepository {
         loginAPI.getUser(username, user, token);
     }
 
-    public LiveData<User> getUserInfo() { return user; }
+    public LiveData<UserResponse> getUserInfo() { return user; }
 
     public LiveData<Boolean> getIsLoggedIn() {
         return isLoggedIn;

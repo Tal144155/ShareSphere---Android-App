@@ -1,10 +1,12 @@
 package com.example.facebook_like_android.api;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.facebook_like_android.daos.UserDao;
-import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.responses.DefaultResponse;
+import com.example.facebook_like_android.responses.ListUsersResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
@@ -33,7 +35,7 @@ public class RequestsAPI {
     }
 
 
-    public void addFriendRequest(String requestUsername, MutableLiveData<List<User>> requests, MutableLiveData<String> message) {
+    public void addFriendRequest(String requestUsername, MutableLiveData<List<ListUsersResponse>> requests, MutableLiveData<String> message) {
         Call<DefaultResponse> call = webServiceAPI.friendRequest(username, requestUsername, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
@@ -43,7 +45,7 @@ public class RequestsAPI {
                     // update list of requests
                     new Thread(() -> {
                         userDao.addFriendRequest(username, requestUsername);
-                        requests.postValue(userDao.getFriendRequests(username));
+                        //requests.postValue(userDao.getFriendRequests(username));
                         message.postValue("request added successfully");
                     }).start();
                 } else {
@@ -60,7 +62,7 @@ public class RequestsAPI {
 
 
 
-    public void deleteFriendRequest(String requestUsername, MutableLiveData<List<User>> requests, MutableLiveData<String> message) {
+    public void deleteFriendRequest(String requestUsername, MutableLiveData<List<ListUsersResponse>> requests, MutableLiveData<String> message) {
         Call<DefaultResponse> call = webServiceAPI.deleteFriend(username, requestUsername, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
@@ -70,7 +72,7 @@ public class RequestsAPI {
                     new Thread(() -> {
                         // update list of requests
                         userDao.deleteFriendRequest(username, requestUsername);
-                        requests.postValue(userDao.getFriendRequests(username));
+                        //requests.postValue(userDao.getFriendRequests(username));
                         message.postValue("friend request deleted successfully");
                     }).start();
                 } else {
@@ -86,25 +88,29 @@ public class RequestsAPI {
     }
 
 
-    public void getFriendRequests(MutableLiveData<List<User>> requests, MutableLiveData<String> message) {
-        Call<List<User>> call = webServiceAPI.getFriendsRequests(username, username, token);
+    public void getFriendRequests(MutableLiveData<List<ListUsersResponse>> requests, MutableLiveData<String> message) {
+        Call<List<ListUsersResponse>> call = webServiceAPI.getFriendsRequests(username, username, token);
 
-        call.enqueue(new Callback<List<User>>() {
+        call.enqueue(new Callback<List<ListUsersResponse>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(Call<List<ListUsersResponse>> call, Response<List<ListUsersResponse>> response) {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
-                        userDao.insertFriendRequests(response.body());
-                        requests.postValue(userDao.getFriendRequests(username));
+                        Log.d("DEBUG", "got requests");
+                        Log.d("DEBUG", String.valueOf(response.body().size()));
+                        //userDao.insertFriendRequests(response.body());
+                        requests.postValue(response.body());
                         message.postValue("Fetched all requests");
                     }).start();
                 } else {
+                    Log.d("DEBUG", "requests not get");
                     new Thread(() -> message.postValue("An error occurred while fetching requests")).start();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<List<ListUsersResponse>> call, Throwable t) {
+                Log.d("DEBUG", t.getLocalizedMessage());
                 new Thread(() -> message.postValue(t.getLocalizedMessage())).start();
             }
         });

@@ -2,7 +2,6 @@ package com.example.facebook_like_android.register;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,10 +15,8 @@ import com.example.facebook_like_android.databinding.ActivityLoginBinding;
 import com.example.facebook_like_android.feed.Feed;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.users.Users;
-import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.viewmodels.LoginViewModel;
 
-import java.util.Base64;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
@@ -83,16 +80,17 @@ public class Login extends AppCompatActivity {
         });
 
         viewModel.getUserInfo().observe(this, user -> {
+            Log.d("DEBUG", "user has changed. maybe null");
             if (user != null) {
                 Log.d("DEBUG", "got user back!");
                 SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("username", user.getUsername());
-                String nickname = user.getFirstname() + " " + user.getLastname();
+                editor.putString("username", user.getUser_name());
+                String nickname = user.getFirst_name() + " " + user.getLast_name();
                 editor.putString("nickname", nickname);
-                editor.putString("firstname", user.getFirstname());
-                editor.putString("lastname", user.getLastname());
-                editor.putString("profile", user.getProfile());
+                editor.putString("firstname", user.getFirst_name());
+                editor.putString("lastname", user.getLast_name());
+                editor.putString("profile", user.getPic());
                 editor.apply();
                 startActivity(new Intent(this, Feed.class));
             }

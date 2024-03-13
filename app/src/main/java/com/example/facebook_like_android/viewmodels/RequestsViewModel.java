@@ -3,8 +3,8 @@ package com.example.facebook_like_android.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.repositories.RequestsRepository;
+import com.example.facebook_like_android.responses.ListUsersResponse;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class RequestsViewModel extends ViewModel {
 
     public void reload() { mRepository.reload(); }
 
-    public LiveData<List<User>> getRequests() {
+    public LiveData<List<ListUsersResponse>> getRequests() {
         return mRepository.getRequests();
     }
 

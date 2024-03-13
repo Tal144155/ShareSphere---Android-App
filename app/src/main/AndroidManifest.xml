@@ -30,6 +30,9 @@
             android:name=".profile.Friends"
             android:exported="false" />
         <activity
+            android:name=".profile.Requests"
+            android:exported="false" />
+        <activity
             android:name=".feed.EditPost"
             android:exported="false" />
         <activity

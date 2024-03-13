@@ -6,14 +6,14 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.facebook_like_android.api.RequestsAPI;
 import com.example.facebook_like_android.daos.UserDao;
 import com.example.facebook_like_android.db.AppDB;
-import com.example.facebook_like_android.entities.User;
+import com.example.facebook_like_android.responses.ListUsersResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RequestsRepository {
     private UserDao userDao;
-    private MutableLiveData<List<User>> requests;
+    private MutableLiveData<List<ListUsersResponse>> requests;
     private MutableLiveData<String> message;
     private RequestsAPI requestsAPI;
 
@@ -25,7 +25,7 @@ public class RequestsRepository {
         requestsAPI = new RequestsAPI(userDao);
     }
 
-    public LiveData<List<User>> getRequests() { return requests; }
+    public LiveData<List<ListUsersResponse>> getRequests() { return requests; }
 
     public LiveData<String> getMessage() { return message; }
     public void add(String requestUsername) {

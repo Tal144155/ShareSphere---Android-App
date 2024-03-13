@@ -41,7 +41,7 @@ public interface WebServiceAPI {
     Call<DefaultResponse> friendRequest(@Path("id") String friend, @Header("username") String id, @Header("authorization") String token);
 
     @GET("users/{id}/friendsReq")
-    Call<List<User>> getFriendsRequests(@Path("id") String id, @Header("username") String username, @Header("authorization") String token);
+    Call<List<ListUsersResponse>> getFriendsRequests(@Path("id") String id, @Header("username") String username, @Header("authorization") String token);
 
     @GET("users/{id}/friends/checkRequest")
     Call<List<User>> hasBeenRequested(@Path("id") String friend, @Header("username") String username, @Header("authorization") String token);
