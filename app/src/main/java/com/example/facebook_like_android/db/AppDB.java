@@ -13,7 +13,7 @@ import com.example.facebook_like_android.daos.UserDao;
 import com.example.facebook_like_android.entities.Comment;
 import com.example.facebook_like_android.entities.post.Post;
 
-@Database(entities = {Post.class, Comment.class, User.class}, version = 11)
+@Database(entities = {Post.class, Comment.class, User.class}, version = 12)
 
 public abstract class AppDB extends RoomDatabase {
     public abstract PostDao postDao();

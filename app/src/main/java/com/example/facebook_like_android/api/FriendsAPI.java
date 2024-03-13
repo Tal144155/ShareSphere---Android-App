@@ -5,8 +5,8 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.facebook_like_android.daos.UserDao;
-import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.responses.DefaultResponse;
+import com.example.facebook_like_android.responses.ListUsersResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
@@ -77,7 +77,7 @@ public class FriendsAPI {
 //        });
 //    }
 
-    public void addFriend(String friend, MutableLiveData<List<User>> friends, MutableLiveData<String> message) {
+    public void addFriend(String friend, MutableLiveData<List<ListUsersResponse>> friends, MutableLiveData<String> message) {
         Call<DefaultResponse> call = webServiceAPI.approveFriendRequest(username, friend, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
@@ -89,7 +89,7 @@ public class FriendsAPI {
                     new Thread(() -> {
                         userDao.addFriend(username, friend);
                         userDao.addFriend(friend, username);
-                        friends.postValue(userDao.getFriends(username));
+                        //friends.postValue(userDao.getFriends(username));
                         message.postValue("friend added successfully");
                     }).start();
                 } else {
@@ -106,7 +106,7 @@ public class FriendsAPI {
 
 
 
-    public void deleteFriend(String friend, MutableLiveData<List<User>> friends, MutableLiveData<String> message) {
+    public void deleteFriend(String friend, MutableLiveData<List<ListUsersResponse>> friends, MutableLiveData<String> message) {
         Call<DefaultResponse> call = webServiceAPI.deleteFriend(username, friend, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
@@ -118,7 +118,7 @@ public class FriendsAPI {
                         // update list of friends
                         userDao.deleteFriend(username, friend);
                         userDao.deleteFriend(friend, username);
-                        friends.postValue(userDao.getFriends(username));
+                        //friends.postValue(userDao.getFriends(username));
                         message.postValue("friend deleted successfully");
                     }).start();
                 } else {
@@ -134,25 +134,29 @@ public class FriendsAPI {
     }
 
 
-    public void getFriends(MutableLiveData<List<User>> friends, MutableLiveData<String> message) {
-        Call<List<User>> call = webServiceAPI.getFriends(username, token);
+    public void getFriends(MutableLiveData<List<ListUsersResponse>> friends, MutableLiveData<String> message, String username) {
+        Call<List<ListUsersResponse>> call = webServiceAPI.getFriends(username, token, UserInfoManager.getUsername());
 
-        call.enqueue(new Callback<List<User>>() {
+        call.enqueue(new Callback<List<ListUsersResponse>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(Call<List<ListUsersResponse>> call, Response<List<ListUsersResponse>> response) {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
-                        userDao.insertFriends(response.body());
-                        friends.postValue(userDao.getFriends(username));
+                        Log.d("DEBUG", "got friends");
+                        Log.d("DEBUG", String.valueOf(response.body().size()));
+                        //userDao.insertFriends(response.body());
+                        friends.postValue(response.body());
                         message.postValue("Fetched all friends");
                     }).start();
                 } else {
+                    Log.d("DEBUG", "server failed");
                     new Thread(() -> message.postValue("An error occurred while fetching friends")).start();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<List<ListUsersResponse>> call, Throwable t) {
+                Log.d("DEBUG", t.getLocalizedMessage());
                 new Thread(() -> message.postValue(t.getLocalizedMessage())).start();
             }
         });

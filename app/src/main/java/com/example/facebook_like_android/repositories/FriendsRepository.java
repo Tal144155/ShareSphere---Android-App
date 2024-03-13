@@ -6,14 +6,14 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.facebook_like_android.api.FriendsAPI;
 import com.example.facebook_like_android.daos.UserDao;
 import com.example.facebook_like_android.db.AppDB;
-import com.example.facebook_like_android.entities.User;
+import com.example.facebook_like_android.responses.ListUsersResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsRepository {
     private UserDao userDao;
-    private MutableLiveData<List<User>> friends;
+    private MutableLiveData<List<ListUsersResponse>> friends;
     private MutableLiveData<String> message;
     private MutableLiveData<Boolean> areFriends;
     private FriendsAPI friendsAPI;
@@ -27,14 +27,14 @@ public class FriendsRepository {
         friendsAPI = new FriendsAPI(userDao);
     }
 
-    public LiveData<List<User>> getFriends() { return friends; }
+    public LiveData<List<ListUsersResponse>> getFriends() { return friends; }
 
     public LiveData<String> getMessage() { return message; }
     public void add(String friend) {
         friendsAPI.addFriend(friend, friends, message);
     }
-    public void reload() {
-        friendsAPI.getFriends(friends, message);
+    public void reload(String username) {
+        friendsAPI.getFriends(friends, message, username);
     }
     public void delete(String friend) {
         friendsAPI.deleteFriend(friend, friends, message);

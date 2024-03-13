@@ -3,16 +3,11 @@ package com.example.facebook_like_android.profile;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.FriendsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityFriendsBinding;
 import com.example.facebook_like_android.style.ThemeMode;
@@ -28,15 +23,9 @@ public class Friends extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_friends);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         binding = ActivityFriendsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(FriendsViewModel.class);
 
         RecyclerView lstFriends = binding.lstUsers;
@@ -44,7 +33,9 @@ public class Friends extends AppCompatActivity {
         lstFriends.setAdapter(adapter);
         lstFriends.setLayoutManager(new LinearLayoutManager(this));
 
-        binding.refreshLayout.setOnRefreshListener(() -> viewModel.reload());
+        binding.refreshLayout.setOnRefreshListener(() -> {
+            viewModel.reload(getIntent().getStringExtra("username"));
+        });
 
         viewModel.getFriends().observe(this, friends -> {
             adapter.setFriends(friends);
@@ -52,6 +43,7 @@ public class Friends extends AppCompatActivity {
         });
 
         viewModel.getMessage().observe(this, message -> {
+            binding.refreshLayout.setRefreshing(false);
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         });
 

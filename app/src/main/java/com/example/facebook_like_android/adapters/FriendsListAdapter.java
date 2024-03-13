@@ -12,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
-import com.example.facebook_like_android.db.AppDB;
-import com.example.facebook_like_android.entities.User;
+import com.example.facebook_like_android.responses.ListUsersResponse;
+import com.example.facebook_like_android.utils.Base64Utils;
+import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.viewmodels.FriendsViewModel;
 
 import java.util.List;
@@ -38,13 +39,12 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     }
 
     private final LayoutInflater mInflater;
-    private List<User> friends;
+    private List<ListUsersResponse> friends;
     private FriendsViewModel viewModel;
 
     public FriendsListAdapter(Context context, FriendsViewModel viewModel, String username) {
         mInflater = LayoutInflater.from(context);
         this.viewModel = viewModel;
-        this.friends = AppDB.getDatabase().userDao().getFriends(username);
     }
 
     @NonNull
@@ -57,16 +57,18 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     @Override
     public void onBindViewHolder(@NonNull FriendViewHolder holder, int position) {
             if (friends != null) {
-                final User current = friends.get(position);
-                holder.ivProfile.setImageBitmap(current.getProfileBitmap());
-                String nickname = current.getFirstname() + " " + current.getLastname();
+                final ListUsersResponse current = friends.get(position);
+                holder.ivProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(current.getPic()));
+                String nickname = current.getFirst_name() + " " + current.getLast_name();
                 holder.tvNickname.setText(nickname);
-                holder.tvUsername.setText(current.getUsername());
+                holder.tvUsername.setText(current.getUser_name());
                 setVisibility(holder);
 
                 holder.btnAccept.setOnClickListener(v -> {
                     viewModel.add(holder.tvUsername.getText().toString());
                 });
+
+                CircularOutlineUtil.applyCircularOutline(holder.ivProfile);
 
                 holder.btnReject.setOnClickListener(v -> viewModel.delete(holder.tvUsername.getText().toString()));
             }
@@ -86,7 +88,8 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
         return friends.size();
     }
 
-    public void setFriends(List<User> friends) {
+    public void setFriends(List<ListUsersResponse> friends) {
         this.friends = friends;
+        notifyDataSetChanged();
     }
 }

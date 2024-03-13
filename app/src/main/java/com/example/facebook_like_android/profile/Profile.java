@@ -118,7 +118,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 
         binding.btnFriends.setOnClickListener(v -> {
             Intent i = new Intent(this, Friends.class);
-            i.putExtra("username", username);
+            i.putExtra("username", username)
+                    .putExtra("isMyProfile", isMyProfile);
             startActivity(i);
         });
 
@@ -276,6 +277,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 //                imageHandler.openChooser();
 //        });
     }
+
 
     private void editPost(String content, Bitmap pic) {
         //adapter.updatePost(getIntent().getIntExtra("position", 0), content, pic);

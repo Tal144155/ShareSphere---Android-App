@@ -1,9 +1,10 @@
 package com.example.facebook_like_android.api;
 
-import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.entities.Comment;
+import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.responses.DefaultResponse;
+import com.example.facebook_like_android.responses.ListUsersResponse;
 import com.example.facebook_like_android.responses.LoginResponse;
 import com.example.facebook_like_android.responses.UserResponse;
 
@@ -34,7 +35,7 @@ public interface WebServiceAPI {
     Call<DefaultResponse> areFriends(@Path("id") String id, @Path("fid") String fid, @Header("authorization") String token);
 
     @GET("users/{id}/friends")
-    Call<List<User>> getFriends(@Path("id") String id, @Header("authorization") String token);
+    Call<List<ListUsersResponse>> getFriends(@Path("id") String id, @Header("authorization") String token, @Header("username") String username);
 
     @POST("users/{id}/friends")
     Call<DefaultResponse> friendRequest(@Path("id") String friend, @Header("username") String id, @Header("authorization") String token);

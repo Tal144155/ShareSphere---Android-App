@@ -20,11 +20,53 @@ import java.util.List;
 
 public class User {
     @PrimaryKey @NonNull
-    private String username;
-    private String firstname;
-    private String lastname;
+    private String user_name;
+    private String first_name;
+    private String last_name;
+
+    @NonNull
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(@NonNull String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public List<User> getFriend_requests() {
+        return friend_requests;
+    }
+
+    public void setFriend_requests(List<User> friend_requests) {
+        this.friend_requests = friend_requests;
+    }
+
     private String password;
-    private String profile;
+    private String pic;
     @Ignore
     private Bitmap profileBitmap;
     @TypeConverters(PostConverter.class)
@@ -32,14 +74,14 @@ public class User {
     @TypeConverters(UserConverter.class)
     private List<User> friends;
     @TypeConverters(UserConverter.class)
-    private List<User> friendRequests;
+    private List<User> friend_requests;
 
-    public User(String username, String firstname, String lastname, String password, String profile, List<Post> posts, List<User> friends, List<User> friendRequests) {
-        this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public User(String user_name, String first_name, String last_name, String password, String pic, List<Post> posts, List<User> friends, List<User> friend_requests) {
+        this.user_name = user_name;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.password = password;
-        this.profile = profile;
+        this.pic = pic;
         if (posts != null)
             this.posts = posts;
         else
@@ -48,35 +90,35 @@ public class User {
             this.friends = friends;
         else
             this.friends = new ArrayList<>();
-        if (friendRequests != null)
-            this.friendRequests = friendRequests;
+        if (friend_requests != null)
+            this.friend_requests = friend_requests;
         else
-            this.friendRequests = new ArrayList<>();
-        profileBitmap = Base64Utils.decodeBase64ToBitmap(profile);
+            this.friend_requests = new ArrayList<>();
+        profileBitmap = Base64Utils.decodeBase64ToBitmap(pic);
     }
 
     public String getUsername() {
-        return username;
+        return user_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getFirstname() {
-        return firstname;
+        return first_name;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstname(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getLastname() {
-        return lastname;
+        return last_name;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastname(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getPassword() {
@@ -88,11 +130,11 @@ public class User {
     }
 
     public String getProfile() {
-        return profile;
+        return pic;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setProfile(String pic) {
+        this.pic = pic;
     }
 
     public Bitmap getProfileBitmap() {
@@ -120,10 +162,10 @@ public class User {
     }
 
     public List<User> getFriendRequests() {
-        return friendRequests;
+        return friend_requests;
     }
 
-    public void setFriendRequests(List<User> friendRequests) {
-        this.friendRequests = friendRequests;
+    public void setFriendRequests(List<User> friend_requests) {
+        this.friend_requests = friend_requests;
     }
 }

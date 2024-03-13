@@ -53,4 +53,5 @@
     <string name="not_logged_in">Not logged in</string>
     <string name="friends_lst">Friends</string>
     <string name="friend_requests">Friend Requests</string>
+    <string name="friends_">Friends</string>
 </resources>

@@ -49,7 +49,7 @@ public class Requests extends AppCompatActivity {
         binding.refreshLayout.setOnRefreshListener(() -> viewModel.reload());
 
         viewModel.getRequests().observe(this, requests -> {
-            adapter.setRequests(requests);
+            //adapter.setRequests(requests);
             binding.refreshLayout.setRefreshing(false);
         });
 
