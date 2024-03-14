@@ -19,7 +19,7 @@
             android:id="@+id/iv_profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_gravity="start"
+            android:layout_gravity="center"
             android:paddingEnd="15dp"
             android:paddingStart="15dp"
             android:scaleType="centerCrop"

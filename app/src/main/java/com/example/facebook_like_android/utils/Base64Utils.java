@@ -29,9 +29,10 @@ public class Base64Utils {
 
     public static String encodeBitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return java.util.Base64.getEncoder().encodeToString(byteArray);
+        String start = "data:image/jpg;base64,";
+        return start + java.util.Base64.getEncoder().encodeToString(byteArray);
         //return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

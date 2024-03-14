@@ -122,7 +122,7 @@
             android:layout_marginTop="10dp"
             style="@style/tinyRoundButton"
             android:backgroundTint="@color/dark_pink"
-            android:visibility="visible"
+            android:visibility="gone"
             app:tint="@color/pink" />
 
         <ImageButton
@@ -132,7 +132,7 @@
             android:src="@drawable/ic_friend"
             android:layout_gravity="bottom"
             style="@style/tinyRoundButton"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="95dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/dark_pink"
             app:tint="@color/pink"
@@ -145,7 +145,7 @@
             android:src="@drawable/ic_unsend"
             android:layout_gravity="bottom"
             style="@style/tinyRoundButton"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="95dp"
             android:padding="9dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/dark_pink"
