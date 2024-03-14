@@ -47,7 +47,7 @@ public class PostAPI {
         call.enqueue(new Callback<BooleanResponse>() {
             @Override
             public void onResponse(Call<BooleanResponse> call, Response<BooleanResponse> response) {
-                new Thread(() -> isLiked.postValue(response.body().isLiked()));
+                new Thread(() -> isLiked.postValue(response.body().isLiked())).start();
             }
 
             @Override
@@ -68,13 +68,13 @@ public class PostAPI {
                         hasChanged.postValue(true);
                     }).start();
                 } else {
-                    new Thread(() -> hasChanged.postValue(false));
+                    new Thread(() -> hasChanged.postValue(false)).start();
                 }
             }
 
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
-                new Thread(() -> hasChanged.postValue(false));
+                new Thread(() -> hasChanged.postValue(false)).start();
             }
         });
     }
