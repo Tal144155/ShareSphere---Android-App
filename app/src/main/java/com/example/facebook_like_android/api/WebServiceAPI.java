@@ -107,8 +107,8 @@ public interface WebServiceAPI {
 
     @FormUrlEncoded
     @PATCH("users/{id}")
-    Call<DefaultResponse> updateUser(@Path("id") String id, @Field("first_name") String firstname,
-                          @Field("last_name") String lastname, @Field("pic") String pic,
+    Call<DefaultResponse> updateUser(@Path("id") String id, @Field("firstname") String firstname,
+                          @Field("lastname") String lastname, @Field("pic") String pic,
                                      @Header("authorization") String token);
 
     @FormUrlEncoded

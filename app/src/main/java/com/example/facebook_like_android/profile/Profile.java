@@ -203,6 +203,18 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
                 binding.ivProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(profile));
                 String nickname = firstname + " " + lastname;
                 binding.tvNickname.setText(nickname);
+                // Update the user info in Shared preferences
+                SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove("firstname");
+                editor.remove("lastname");
+                editor.remove("nickname");
+                editor.remove("profile");
+                editor.putString("firstname", firstname);
+                editor.putString("lastname", lastname);
+                editor.putString("nickname", nickname);
+                editor.putString("profile", profile);
+                editor.apply();
                 profileViewModel.reload();
                 feedViewModel.reload();
             }
