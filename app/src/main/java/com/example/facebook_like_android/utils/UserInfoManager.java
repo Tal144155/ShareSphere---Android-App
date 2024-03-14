@@ -56,7 +56,8 @@ public class UserInfoManager {
     public static void setNickname(TextView tvNickname) {
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String nickname = preferences.getString("nickname", "");
-        tvNickname.append(nickname);
+        String text = "Welcome back, " + nickname;
+        tvNickname.setText(text);
     }
 
     /**
