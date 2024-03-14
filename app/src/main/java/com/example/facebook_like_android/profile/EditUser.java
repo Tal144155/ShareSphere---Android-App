@@ -47,7 +47,8 @@ public class EditUser extends AppCompatActivity {
 
         // Setting the original user's data
         CircularOutlineUtil.applyCircularOutline(binding.ivProfile);
-        binding.ivProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(getIntent().getStringExtra("profile")));
+        bitmap = Base64Utils.decodeBase64ToBitmap(getIntent().getStringExtra("profile"));
+        binding.ivProfile.setImageBitmap(bitmap);
         binding.etFirstname.setText(getIntent().getStringExtra("firstname"));
         binding.etLastname.setText(getIntent().getStringExtra("lastname"));
 

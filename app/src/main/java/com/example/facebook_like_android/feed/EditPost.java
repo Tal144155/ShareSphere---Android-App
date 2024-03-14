@@ -29,7 +29,7 @@ public class EditPost extends AppCompatActivity {
     private final ImageHandler imageHandler = new ImageHandler(this);
     private ImageView prvImg;
     private Bitmap bitmap;
-    private boolean isPicSelected = false;
+    private boolean isPicSelected = true;
     private final ThemeMode mode = ThemeMode.getInstance();
 
     @Override

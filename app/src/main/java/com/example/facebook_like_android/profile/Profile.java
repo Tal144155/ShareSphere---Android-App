@@ -399,9 +399,9 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     }
 
 
-    private void editPost(String content, Bitmap pic) {
+    private void editPost(String content, Bitmap pic, String postId) {
         //adapter.updatePost(getIntent().getIntExtra("position", 0), content, pic);
-        profileViewModel.update(getIntent().getStringExtra("postId"), content, Base64Utils.encodeBitmapToBase64(pic));
+        profileViewModel.update(postId, content, Base64Utils.encodeBitmapToBase64(pic));
     }
 
 //    private void startEditVisibility() {
@@ -427,7 +427,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
             if (requestCode == CREATE_POST) {
                 createPost(content, pic);
             } else if (requestCode == EDIT_POST) {
-                editPost(content, pic);
+                String postId = data.getStringExtra("postId");
+                editPost(content, pic, postId);
             } else if (requestCode == EDIT_USER) {
                 firstname = data.getStringExtra("firstname");
                 lastname = data.getStringExtra("lastname");
