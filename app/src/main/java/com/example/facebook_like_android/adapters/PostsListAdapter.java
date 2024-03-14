@@ -204,12 +204,16 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
 
     public void setLiked(Boolean isLiked, int position, ImageButton like, TextView likes) {
-        likeButton = new LikeButton(isLiked);
-        likeButton.updateAppearance(like);
-        if (isLiked)
+//        likeButton = new LikeButton(isLiked);
+//        likeButton.updateAppearance(like);
+        if (isLiked) {
             posts.get(position).addlike();
-        else
+            LikeButton.setLike(like);
+        }
+        else {
             posts.get(position).unlike();
+            LikeButton.setUnlike(like);
+        }
         likes.setText(String.valueOf(posts.get(position).getLikes()));
         notifyItemChanged(position); // Notify adapter the button should change
     }
