@@ -84,6 +84,9 @@ public class Feed extends AppCompatActivity implements IProfile, OnEditClickList
             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
         });
         viewModel.getPosts().observe(this, posts -> {
+            // Set profile image and nickname
+            UserInfoManager.setProfile(binding.btnProfile);
+            UserInfoManager.setNickname(binding.tvNickname);
             adapter.setPosts(posts);
             binding.refreshLayout.setRefreshing(false);
         });

@@ -216,7 +216,6 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
                 editor.putString("profile", profile);
                 editor.apply();
                 profileViewModel.reload();
-                feedViewModel.reload();
             }
 
         });
