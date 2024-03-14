@@ -121,6 +121,7 @@ public class ProfileAPI {
                                     res.getProfile(), res.getLikes(), new ArrayList<>(),
                                     res.getPublish_date(), res.get_id()));
                         }
+                        Log.d("DEBUG", "api response is: " + response.body().get(0).get_id());
                         posts.postValue(response.body());
                         Log.d("DEBUG", String.valueOf(postDao.getPostsByUser(username).size()));
                         message.postValue("Refreshed profile");

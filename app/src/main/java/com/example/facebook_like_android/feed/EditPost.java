@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,10 +47,13 @@ public class EditPost extends AppCompatActivity {
 
         // Setting the original post's data
         CircularOutlineUtil.applyCircularOutline(binding.ivProfile);
-        binding.ivProfile.setImageBitmap(UserInfoManager.getProfileBitmap());
+        bitmap = UserInfoManager.getProfileBitmap();
+        binding.ivProfile.setImageBitmap(bitmap);
         binding.tvAuthor.setText(UserInfoManager.getNickname());
         binding.etContent.setText(getIntent().getStringExtra("content"));
         binding.ivPic.setImageBitmap(Base64Utils.decodeBase64ToBitmap(getIntent().getStringExtra("pic")));
+
+        Log.d("DEBUG", "inside edit user: " + getIntent().getStringExtra("postId"));
 
 
         TextWatcher watcher = new TextWatcher() {

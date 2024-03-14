@@ -365,7 +365,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     // Method to handle update click event for a post
     @Override
     public void onEditClick(String postId) {
-
+        Log.d("DEBUG", "profile before starting edit user activity: " + postId);
         Intent i = new Intent(this, EditPost.class);
         TextView tvContent = binding.lstPosts.findViewById(R.id.tv_content);
         ImageView prvImg = binding.lstPosts.findViewById(R.id.iv_pic);

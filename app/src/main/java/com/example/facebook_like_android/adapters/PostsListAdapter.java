@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,6 +189,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         holder.edit.setOnClickListener(v -> {
             if (editClickListener != null) {
                 editClickListener.onEditClick(posts.get(position).get_id());
+                Log.d("DEBUG", "postslistadapter: " + posts.get(position).get_id());
             }
         });
     }
