@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.repositories.ProfileRepository;
+import com.example.facebook_like_android.responses.PostResponse;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class ProfileViewModel extends ViewModel {
 
     public void reload() { profileRepository.reload(); }
 
-    public LiveData<List<Post>> getPosts() { return profileRepository.getPosts(); }
+    public LiveData<List<PostResponse>> getPosts() { return profileRepository.getPosts(); }
 
     public LiveData<String> getMessage() { return profileRepository.getMessage(); }
 

@@ -24,11 +24,13 @@ import com.example.facebook_like_android.entities.post.buttons.LikeButton;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.feed.Comments;
 import com.example.facebook_like_android.profile.IProfile;
+import com.example.facebook_like_android.responses.PostResponse;
 import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.UserInfoManager;
 import com.example.facebook_like_android.viewmodels.ProfileViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
@@ -71,7 +73,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private final LayoutInflater mInflater;  // LayoutInflater to inflate views
     private final PostManager postManager = PostManager.getInstance();
     //private final List<Post> posts = postManager.getPosts();  // List to store posts
-    private List<Post> posts;
+    private List<PostResponse> posts;
     private int visibility = View.GONE;
     private OnEditClickListener editClickListener;
     private OnEditClickListener.OnDeleteClickListener deleteClickListener;
@@ -90,7 +92,19 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         mInflater = LayoutInflater.from(context);
         this.activity = (Activity) context;
         this.postDao = AppDB.getDatabase().postDao();
-        this.posts = postDao.getPostsByUser(username);
+
+        if (posts == null)
+            posts = new ArrayList<>();
+
+        if (posts.isEmpty()) {
+            List<Post> list = postDao.getPostsByUser(username);
+            for (Post post : list) {
+                this.posts.add(new PostResponse(post.getPostId(), post.getUsername(), post.getFirst_name(),
+                        post.getLast_name(), post.getContent(), post.getProfile(), post.getPic(),
+                        post.getLikes(), 0, post.getPublishDate()));
+            }
+        }
+        //this.posts = postDao.getPostsByUser(username);
     }
 
     // onCreateViewHolder: Inflates the layout for individual posts and creates a ViewHolder
@@ -105,14 +119,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     @Override
     public void onBindViewHolder(@NonNull PostsListAdapter.PostViewHolder holder, int position) {
         if (posts != null) {
-            final Post current = posts.get(position);
+            final PostResponse current = posts.get(position);
             String author = current.getFirst_name() + " " + current.getLast_name();
             holder.tvAuthor.setText(author);
             holder.tvcontent.setText(current.getContent());
-            holder.date.setText(current.getPublishDate());
+            holder.date.setText(current.getPublish_date());
             holder.ivPic.setImageBitmap(Base64Utils.decodeBase64ToBitmap(current.getPic()));
             holder.ivProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(current.getProfile()));
-            holder.tvUsername.setText(current.getUsername());
+            holder.tvUsername.setText(current.getUser_name());
             holder.tvLikes.setText(String.valueOf(current.getLikes()));
 
             // Apply circular outline to profile image using the utility class
@@ -153,8 +167,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private void setOnProfileClickListener(@NonNull PostViewHolder holder, int position) {
         holder.ivProfile.setOnClickListener(v -> {
             if (profileListener != null) {
-                Post post = posts.get(position);
-                profileListener.viewProfile(post.getUsername(), post.getProfile(), post.getFirst_name() + " " + post.getLast_name(),
+                PostResponse post = posts.get(position);
+                profileListener.viewProfile(post.getUser_name(), post.getProfile(), post.getFirst_name() + " " + post.getLast_name(),
                         post.getFirst_name(), post.getLast_name());
             }
         });
@@ -173,7 +187,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private void setOnEditClickListener(@NonNull PostViewHolder holder, int position) {
         holder.edit.setOnClickListener(v -> {
             if (editClickListener != null) {
-                editClickListener.onEditClick(posts.get(position).getPostId());
+                editClickListener.onEditClick(posts.get(position).get_id());
             }
         });
     }
@@ -190,7 +204,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, int position) {
         holder.like.setOnClickListener(v -> {
             if (likeClickListener != null) {
-                likeClickListener.onLikeClick(posts.get(position).getPostId(), position, holder.like, holder.tvLikes);
+                likeClickListener.onLikeClick(posts.get(position).get_id(), position, holder.like, holder.tvLikes);
             }
         });
 //        likeButton = new LikeButton(posts.get(position).isLiked());
@@ -243,8 +257,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     // Method to update post content
     public void updatePost(int position, String newContent, Bitmap newPic) {
         if (posts != null && position >= 0 && position < posts.size()) {
-            Post post = posts.get(position);
-            profileViewModel.update(post.getPostId(), newContent, Base64Utils.encodeBitmapToBase64(newPic));
+            PostResponse post = posts.get(position);
+            profileViewModel.update(post.get_id(), newContent, Base64Utils.encodeBitmapToBase64(newPic));
 //            if (!newContent.isEmpty())
 //                post.setContent(newContent); // Update the content
 //            if (newPic != null)
@@ -257,7 +271,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     public void deletePost(int position) {
         if (posts != null && position >= 0 && position < posts.size()) {
-            profileViewModel.delete(posts.get(position).getPostId());
+            profileViewModel.delete(posts.get(position).get_id());
 //            Post post = posts.remove(position);
 //            postDao.delete(post);
             //postManager.removePost(postManager.getPosts().get(position));
@@ -296,7 +310,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     public void getMyPosts(PostViewHolder holder, int position) {
         if (!isProfile)
             return;
-        if (!posts.get(position).getUsername().equals(this.username))
+        if (!posts.get(position).getUser_name().equals(this.username))
             holder.itemView.findViewById(R.id.post).setVisibility(View.GONE);
         else
             holder.itemView.findViewById(R.id.post).setVisibility(View.VISIBLE);
@@ -319,7 +333,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 //        }
 //    }
 
-    public void setPosts(List<Post> posts) {
+    public void setPosts(List<PostResponse> posts) {
         this.posts = posts;
         notifyDataSetChanged();
     }

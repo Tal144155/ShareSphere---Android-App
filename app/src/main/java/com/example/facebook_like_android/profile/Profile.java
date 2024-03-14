@@ -22,11 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
-import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.feed.CreatePost;
 import com.example.facebook_like_android.feed.EditPost;
 import com.example.facebook_like_android.register.Login;
+import com.example.facebook_like_android.responses.PostResponse;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
@@ -357,8 +357,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     }
 
     @Override
-    public void onDeleteClick(Post post) {
-        profileViewModel.delete(post.getPostId());
+    public void onDeleteClick(PostResponse post) {
+        profileViewModel.delete(post.get_id());
         //adapter.deletePost(position);
     }
 

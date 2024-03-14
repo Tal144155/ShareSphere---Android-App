@@ -7,6 +7,7 @@ import com.example.facebook_like_android.responses.BooleanResponse;
 import com.example.facebook_like_android.responses.DefaultResponse;
 import com.example.facebook_like_android.responses.ListUsersResponse;
 import com.example.facebook_like_android.responses.LoginResponse;
+import com.example.facebook_like_android.responses.PostResponse;
 import com.example.facebook_like_android.responses.UserResponse;
 
 import java.util.List;
@@ -74,7 +75,7 @@ public interface WebServiceAPI {
 
     // Posts API
     @GET("posts")
-    Call<List<Post>> getFeed(@Header("username") String username, @Header("authorization") String token);
+    Call<List<PostResponse>> getFeed(@Header("username") String username, @Header("authorization") String token);
 
     @FormUrlEncoded
     @PATCH("users/{id}/posts/{pid}")
@@ -87,8 +88,8 @@ public interface WebServiceAPI {
                                      @Header("authorization") String token);
 
     @GET("users/{id}/posts")
-    Call<List<Post>> getUsersPosts(@Path("id") String friend, @Header("username") String id,
-                                   @Header("authorization") String token);
+    Call<List<PostResponse>> getUsersPosts(@Path("id") String friend, @Header("username") String id,
+                                           @Header("authorization") String token);
 
     @FormUrlEncoded
     @POST("users/{id}/posts")

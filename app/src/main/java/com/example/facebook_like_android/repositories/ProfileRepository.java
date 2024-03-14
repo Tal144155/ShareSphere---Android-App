@@ -6,14 +6,14 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.facebook_like_android.api.ProfileAPI;
 import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.db.AppDB;
-import com.example.facebook_like_android.entities.post.Post;
+import com.example.facebook_like_android.responses.PostResponse;
 
 import java.util.List;
 
 public class ProfileRepository {
 
     private PostDao postDao;
-    private MutableLiveData<List<Post>> posts;
+    private MutableLiveData<List<PostResponse>> posts;
     private MutableLiveData<String> message;
     private MutableLiveData<Boolean> hasChanged;
 
@@ -21,13 +21,13 @@ public class ProfileRepository {
 
     public ProfileRepository(String username) {
         postDao = AppDB.getDatabase().postDao();
-        posts = new MutableLiveData<>(postDao.getPostsByUser(username));
+        posts = new MutableLiveData<>();
         message = new MutableLiveData<>();
         hasChanged = new MutableLiveData<>();
         profileAPI = new ProfileAPI(postDao, username, hasChanged, message);
     }
 
-    public LiveData<List<Post>> getPosts() {
+    public LiveData<List<PostResponse>> getPosts() {
         return posts;
     }
 
