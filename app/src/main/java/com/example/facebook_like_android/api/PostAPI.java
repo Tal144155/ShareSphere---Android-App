@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.db.AppDB;
+import com.example.facebook_like_android.responses.BooleanResponse;
 import com.example.facebook_like_android.responses.DefaultResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
 import com.example.facebook_like_android.utils.UserInfoManager;
@@ -41,16 +42,16 @@ public class PostAPI {
     }
 
     public void isLiked(String postId) {
-        Call<Boolean> call = webServiceAPI.isLiked(username, postId, token);
+        Call<BooleanResponse> call = webServiceAPI.isLiked(username, postId, token);
 
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new Callback<BooleanResponse>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                new Thread(() -> isLiked.postValue(response.body()));
+            public void onResponse(Call<BooleanResponse> call, Response<BooleanResponse> response) {
+                new Thread(() -> isLiked.postValue(response.body().isLiked()));
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<BooleanResponse> call, Throwable t) {
                 Log.d("DEBUG", "server failed to do isLiked");
             }
         });

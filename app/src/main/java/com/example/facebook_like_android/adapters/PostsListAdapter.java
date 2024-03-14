@@ -132,12 +132,12 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     // Sets onClick listener for the share button
     private void setOnShareClickListener(@NonNull PostViewHolder holder, int position) {
-        if (holder.shareOptions.getVisibility() == View.GONE)
-            holder.share.setOnClickListener(v ->
-                    holder.shareOptions.setVisibility(View.VISIBLE));
-        else
-            holder.share.setOnClickListener(v ->
-                    holder.shareOptions.setVisibility(View.GONE));
+        holder.share.setOnClickListener(v -> {
+            if (holder.shareOptions.getVisibility() == View.GONE)
+                holder.shareOptions.setVisibility(View.VISIBLE);
+            else
+                holder.shareOptions.setVisibility(View.GONE);
+        });
     }
 
     // Sets onClick listener for the delete button
@@ -154,7 +154,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         holder.ivProfile.setOnClickListener(v -> {
             if (profileListener != null) {
                 Post post = posts.get(position);
-                profileListener.viewProfile(post.getUsername(), post.getProfile(),post.getFirst_name() + " " + post.getLast_name(),
+                profileListener.viewProfile(post.getUsername(), post.getProfile(), post.getFirst_name() + " " + post.getLast_name(),
                         post.getFirst_name(), post.getLast_name());
             }
         });
@@ -202,6 +202,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 //            notifyItemChanged(position); // Notify adapter the button should change
 //        });
     }
+
     public void setLiked(Boolean isLiked, int position, ImageButton like, TextView likes) {
         likeButton = new LikeButton(isLiked);
         likeButton.updateAppearance(like);
@@ -226,6 +227,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         this.visibility = View.GONE;
         notifyDataSetChanged(); // Notify the adapter to update the views
     }
+
     public void setProfileVisibility(ProfileViewModel viewModel, String username) {
         this.profileViewModel = viewModel;
         if (username.equals(UserInfoManager.getUsername()))
@@ -233,6 +235,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         this.isProfile = true;
         notifyDataSetChanged(); // Notify the adapter to update the views
     }
+
     // Method to update post content
     public void updatePost(int position, String newContent, Bitmap newPic) {
         if (posts != null && position >= 0 && position < posts.size()) {
@@ -247,6 +250,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             notifyItemChanged(position);// Notify adapter of the change at this position
         }
     }
+
     public void deletePost(int position) {
         if (posts != null && position >= 0 && position < posts.size()) {
             profileViewModel.delete(posts.get(position).getPostId());
@@ -256,6 +260,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             notifyItemRemoved(position); // Notify adapter this post was removed
         }
     }
+
     public void addPost(Post post) {
         profileViewModel.add(post.getUsername(), UserInfoManager.getFirstName(), UserInfoManager.getLastName(),
                 post.getProfile(), post.getPic(), post.getContent(), post.getPublishDate());
@@ -278,6 +283,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     public void setOnDeleteClickListener(OnEditClickListener.OnDeleteClickListener listener) {
         this.deleteClickListener = listener;
     }
+
     public void setOnLikeClickListener(OnEditClickListener.OnLikeClickListener listener) {
         this.likeClickListener = listener;
     }
@@ -291,6 +297,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         else
             holder.itemView.findViewById(R.id.post).setVisibility(View.VISIBLE);
     }
+
     public void setUsername(String username) {
         this.username = username;
     }

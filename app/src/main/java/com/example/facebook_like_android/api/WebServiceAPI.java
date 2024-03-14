@@ -3,6 +3,7 @@ package com.example.facebook_like_android.api;
 import com.example.facebook_like_android.entities.Comment;
 import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.entities.post.Post;
+import com.example.facebook_like_android.responses.BooleanResponse;
 import com.example.facebook_like_android.responses.DefaultResponse;
 import com.example.facebook_like_android.responses.ListUsersResponse;
 import com.example.facebook_like_android.responses.LoginResponse;
@@ -66,7 +67,7 @@ public interface WebServiceAPI {
 
     // Likes API
     @GET("users/{id}/posts/{pid}/likes")
-    Call<Boolean> isLiked(@Path("id") String id, @Path("pid") String postId, @Header("authorization") String token);
+    Call<BooleanResponse> isLiked(@Path("id") String id, @Path("pid") String postId, @Header("authorization") String token);
 
     @PATCH("users/{id}/posts/{pid}/likes")
     Call<DefaultResponse> like(@Path("id") String id, @Path("pid") String postId, @Header("authorization") String token);

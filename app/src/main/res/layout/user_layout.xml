@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/iv_profile"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:paddingEnd="15dp"
             android:paddingStart="15dp"
