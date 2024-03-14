@@ -2,6 +2,7 @@
 ![ic_logo.png](media/ic_logo.png)
 The Share Sphere App is a social media platform that allows users to share posts and interact with each other.
 This README file provides an overview of the app's features and functionalities.
+**Before running the app, please make sure the server is up and running!**
 
 ## Features
 ### Sign up
