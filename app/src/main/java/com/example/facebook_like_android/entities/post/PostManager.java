@@ -1,5 +1,7 @@
 package com.example.facebook_like_android.entities.post;
 
+import com.example.facebook_like_android.entities.Comment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
  */
 public class PostManager {
     private static PostManager instance = null;
-    private final List<Post> posts;
+    private List<Post> posts;
 
     // Private constructor to prevent instantiation from outside
     private PostManager() {
@@ -86,5 +88,9 @@ public class PostManager {
      */
     public List<Comment> getComments(int position) {
         return posts.get(position).getComments();
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }

@@ -45,4 +45,15 @@
     <string name="comments">Comments</string>
     <string name="add_comment">Add Comment</string>
     <string name="write_a_comment">Write your comment</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="add_a_friend">Add a friend</string>
+    <string name="what_do_you_want_to_say">What do you want to say?</string>
+    <string name="BaseUrl">http://10.0.2.2:8080/api/</string>
+    <string name="not_logged_in">Not logged in</string>
+    <string name="friends_lst">Friends</string>
+    <string name="friend_requests">Friend Requests</string>
+    <string name="friends_">Friends</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="save_changes">Save Changes</string>
 </resources>

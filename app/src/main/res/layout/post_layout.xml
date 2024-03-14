@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp"
-        android:background="@color/grayTransparent"
+        android:background="@color/post"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,12 +20,36 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_time"
+                android:layout_marginEnd="5dp"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="15dp">
 
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/iv_profile"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
@@ -34,6 +57,7 @@
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp"
                 android:scaleType="centerCrop"
+                android:background="@drawable/circle_background"
                 android:contentDescription="@string/profile_pic" />
 
             <TextView
@@ -57,47 +81,14 @@
             android:textSize="19sp"
             android:paddingBottom="15dp" />
 
-        <EditText
-            android:id="@+id/et_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:textSize="19sp"
-            android:inputType="text"
-            android:paddingBottom="15dp" />
-
         <ImageView
             android:id="@+id/iv_pic"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:minWidth="300dp"
-            android:minHeight="300dp"
             android:paddingBottom="15dp"
             android:layout_gravity="center"
             android:contentDescription="@string/post_picture" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end">
-
-            <Button
-                android:id="@+id/btn_changeImg"
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/change_image"
-                android:backgroundTint="@color/dark_pink"/>
-
-            <Button
-                android:layout_margin="10dp"
-                android:id="@+id/btn_update"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_update_post"
-                android:backgroundTint="@color/dark_pink"/>
-
-        </LinearLayout>
 
 
         <LinearLayout

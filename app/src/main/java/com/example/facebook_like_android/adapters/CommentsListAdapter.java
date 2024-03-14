@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
-import com.example.facebook_like_android.entities.post.Comment;
+import com.example.facebook_like_android.entities.Comment;
 import com.example.facebook_like_android.entities.post.PostManager;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.UserInfoManager;
@@ -73,14 +73,14 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         if (comments != null) {
             Comment current = comments.get(position); // Get current comment
-            holder.profile.setImageBitmap(current.getProfile()); // Set profile image
+            holder.profile.setImageBitmap(current.getProfileBitmap()); // Set profile image
             holder.content.setText(current.getContent()); // Set content text
             holder.author.setText(current.getAuthor()); // Set author text
 
             CircularOutlineUtil.applyCircularOutline(holder.profile); // Apply circular outline to profile image
 
             // Show action buttons if current user is the author of the comment
-            if (UserInfoManager.getUsername(context).equals(current.getUsername()))
+            if (UserInfoManager.getUsername().equals(current.getUsername()))
                 holder.actionBtns.setVisibility(View.VISIBLE);
 
             // Set onClickListener for delete button
@@ -93,13 +93,13 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
     // Method to handle editing a comment
     private void editComment(PostViewHolder holder, int position) {
-        // Set onClickListener for edit button
+        // Set onClickListener for update button
         holder.edit.setOnClickListener(v -> {
-            holder.edit.setVisibility(View.GONE); // Hide edit button
+            holder.edit.setVisibility(View.GONE); // Hide update button
             holder.accept.setVisibility(View.VISIBLE); // Show accept button
-            holder.etContent.setText(holder.content.getText()); // Set edit text content to current comment content
+            holder.etContent.setText(holder.content.getText()); // Set update text content to current comment content
             holder.content.setVisibility(View.GONE); // Hide content text
-            holder.etContent.setVisibility(View.VISIBLE); // Show edit text
+            holder.etContent.setVisibility(View.VISIBLE); // Show update text
         });
 
         // Set onClickListener for accept button
@@ -108,8 +108,8 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
                 String newContent = holder.etContent.getText().toString(); // Get edited content
                 updateComment(position, newContent); // Call method to update comment
                 holder.accept.setVisibility(View.GONE); // Hide accept button
-                holder.edit.setVisibility(View.VISIBLE); // Show edit button
-                holder.etContent.setVisibility(View.GONE); // Hide edit text
+                holder.edit.setVisibility(View.VISIBLE); // Show update button
+                holder.etContent.setVisibility(View.GONE); // Hide update text
                 holder.content.setVisibility(View.VISIBLE); // Show content text
             }
         });

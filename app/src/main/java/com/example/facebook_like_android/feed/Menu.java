@@ -1,6 +1,7 @@
 package com.example.facebook_like_android.feed;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,14 +28,18 @@ public class Menu extends AppCompatActivity {
         binding.btnLogout.setOnClickListener(v ->  {
             Intent i = new Intent(this, Login.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.apply();
             startActivity(i);
         });
         binding.btnHome.setOnClickListener(v -> finish());
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
         // Set profile image and nickname
-        UserInfoManager.setProfile(this, binding.btnProfile);
-        UserInfoManager.setNickname(this, binding.tvNickname);
+        UserInfoManager.setProfile(binding.btnProfile);
+        UserInfoManager.setNickname(binding.tvNickname);
         CircularOutlineUtil.applyCircularOutline(binding.btnProfile);
     }
 }

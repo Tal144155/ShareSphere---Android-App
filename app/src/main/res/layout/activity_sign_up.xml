@@ -205,12 +205,35 @@
                 style="@style/icon"/>
 
             <EditText
-                android:id="@+id/et_nickname"
+                android:id="@+id/et_firstname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:ems="10"
-                android:hint="@string/et_Nickname"
+                android:hint="@string/first_name"
+                android:inputType="textPersonName"
+                android:padding="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_user"
+                style="@style/icon"/>
+
+            <EditText
+                android:id="@+id/et_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="@string/last_name"
                 android:inputType="textPersonName"
                 android:padding="15dp" />
         </LinearLayout>

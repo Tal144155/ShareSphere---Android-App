@@ -25,4 +25,14 @@ public class LikeButton {
             imageButton.setImageResource(R.drawable.ic_like); // Unliked icon
         }
     }
+
+    public static void setLike(ImageButton imageButton) {
+        // Set the button to the "liked" state
+        imageButton.setImageResource(R.drawable.ic_like); // Liked icon
+    }
+
+    public static void setUnlike(ImageButton imageButton) {
+        // Set the button to the "unliked" state
+        imageButton.setImageResource(R.drawable.ic_unlike); // Unliked icon
+    }
 }

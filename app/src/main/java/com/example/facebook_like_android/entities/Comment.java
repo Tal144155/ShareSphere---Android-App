@@ -1,0 +1,84 @@
+package com.example.facebook_like_android.entities;
+
+import android.graphics.Bitmap;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+import com.example.facebook_like_android.entities.post.Post;
+import com.example.facebook_like_android.utils.Base64Utils;
+
+@Entity(
+        foreignKeys = @ForeignKey(entity = Post.class,
+                parentColumns = "postId",
+                childColumns = "postId",
+                onDelete = ForeignKey.CASCADE),
+        indices = {@Index("postId")}
+)
+public class Comment {
+
+    @PrimaryKey @NonNull
+    private String commentId;
+    private String postId; // Foreign key referencing the Post entity
+    private final String username;
+    private final String author;
+    private final String profile;
+    private String content;
+    @Ignore
+    private Bitmap profileBitmap;
+
+    public Comment(String username, String author, String profile, String content) {
+        this.username = username;
+        this.author = author;
+        this.profile = profile;
+        this.content = content;
+        this.profileBitmap = Base64Utils.decodeBase64ToBitmap(profile);
+    }
+
+
+
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
+    public Bitmap getProfileBitmap() {
+        return profileBitmap;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    // Getter and setter for postId
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+}

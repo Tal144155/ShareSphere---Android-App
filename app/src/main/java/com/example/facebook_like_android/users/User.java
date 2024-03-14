@@ -8,15 +8,17 @@ public class User {
     private final EditText username;  // User's username input field
     private final EditText password;  // User's password input field
     private final EditText re_password;  // User's re-entered password input field
-    private final EditText nickname;  // User's nickname input field
+    private final EditText firstname;
+    private final EditText lastname;
     private Bitmap profilePhoto;  // URI for the user's profile photo
 
     // Constructor to initialize user attributes
-    public User(EditText username, EditText password, EditText re_password, EditText nickname) {
+    public User(EditText username, EditText password, EditText re_password, EditText firstname, EditText lastname) {
         this.username = username;
         this.password = password;
         this.re_password = re_password;
-        this.nickname = nickname;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.profilePhoto = null;  // Default profile photo is null
     }
 
@@ -46,7 +48,10 @@ public class User {
     }
 
     // Getter method for the nickname input field
-    public EditText getNickname() {
-        return nickname;
+    public EditText getFirstname() {
+        return firstname;
+    }
+    public EditText getLastname() {
+        return lastname;
     }
 }

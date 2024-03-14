@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feed.Profile">
+    tools:context=".profile.Profile">
 
     <LinearLayout
         android:id="@+id/linearLayout6"
@@ -12,34 +12,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
+        android:padding="7dp"
         android:background="@color/pink">
 
-        <ImageView
-            android:id="@+id/iv_profile"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="centerCrop"
-            android:layout_marginStart="15dp"
-            android:background="@drawable/circle_background" />
-
-        <TextView
-            android:id="@+id/tv_nickname"
-            android:layout_margin="15dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:layout_marginStart="15dp"
-            android:textSize="25sp"
-            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/btn_changeMode"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:contentDescription="@string/btn_changeMode"
-            android:padding="15dp"
+            android:padding="10dp"
             app:srcCompat="@drawable/ic_darkmd"
             style="@style/smallRoundButtonTrans"
             app:tint="@color/dark_pink_red" />
@@ -48,16 +31,146 @@
             android:id="@+id/btn_home"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="5dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_home"
             android:contentDescription="@string/home"
             style="@style/RoundButtonTrans"/>
 
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_logo"/>
+
+        <ImageButton
+            android:id="@+id/btn_requests"
+            android:layout_marginStart="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="9dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_requests"
+            android:contentDescription="@string/home"
+            style="@style/RoundButtonTrans"/>
+
+
+        <ImageButton
+            android:id="@+id/btn_friends"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="7dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_friends"
+            android:contentDescription="@string/home"
+            style="@style/RoundButtonTrans"
+            app:tint="@color/dark_pink_red" />
+
+
+
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profileLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+        android:background="@drawable/galaxybackground">
+
+
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/circle_background" />
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="17dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="190dp"
+            android:layout_gravity="bottom"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="40dp">
+
+        <ImageButton
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            style="@style/tinyRoundButton"
+            android:backgroundTint="@color/dark_pink"
+            android:visibility="gone"
+            app:tint="@color/pink" />
+
+        <ImageButton
+            android:id="@+id/btn_friend_request"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_friend"
+            android:layout_gravity="bottom"
+            style="@style/tinyRoundButton"
+            android:layout_marginTop="95dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark_pink"
+            app:tint="@color/pink"
+            android:visibility="gone"/>
+
+        <ImageButton
+            android:id="@+id/btn_unsend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_unsend"
+            android:layout_gravity="bottom"
+            style="@style/tinyRoundButton"
+            android:layout_marginTop="95dp"
+            android:padding="9dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark_pink"
+            app:tint="@color/pink"
+            android:visibility="gone"/>
+
+        <ImageButton
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="bottom"
+            android:padding="10dp"
+            android:layout_marginEnd="5dp"
+            style="@style/tinyRoundButton"
+            android:backgroundTint="@color/dark_pink"
+            android:visibility="gone"
+            app:tint="@color/pink" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/shareLayout"
@@ -68,69 +181,32 @@
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+        app:layout_constraintTop_toBottomOf="@+id/profileLayout">
 
-        <EditText
-            android:id="@+id/et_createPost"
+        <Button
+            android:id="@+id/btn_createPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:elevation="4dp"
-            android:hint="@string/tv_shrur"
+            android:text="@string/tv_shrur"
             android:outlineProvider="bounds"
+            android:backgroundTint="@color/dark_pink"
+            android:textColor="@color/white"
             android:layout_margin="10dp"
             android:padding="15dp"
             android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/iv_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="300dp"
-            android:minHeight="300dp"
-            android:paddingBottom="15dp"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:contentDescription="@string/post_picture" />
-
-        <Button
-            android:id="@+id/btn_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:text="@string/pick_a_photo" />
-
-        <Button
-            android:id="@+id/btn_create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:enabled="false"
-            android:text="@string/create_post" />
-
-
     </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/myPosts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/my_posts"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shareLayout"
-        style="@style/header"/>
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/myPosts"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/shareLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/grayTransparent">
 
         <androidx.recyclerview.widget.RecyclerView
 

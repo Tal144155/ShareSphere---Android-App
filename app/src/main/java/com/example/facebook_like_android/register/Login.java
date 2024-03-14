@@ -5,14 +5,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.facebook_like_android.databinding.ActivityLoginBinding;
 import com.example.facebook_like_android.feed.Feed;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.users.Users;
+import com.example.facebook_like_android.viewmodels.LoginViewModel;
 
 import java.util.Map;
 
@@ -21,6 +24,7 @@ public class Login extends AppCompatActivity {
     private ActivityLoginBinding binding;  // View binding instance for the activity
     private final ThemeMode mode = ThemeMode.getInstance();  // ThemeMode singleton instance for theme management
     private InputError inputError;  // Object to handle input validation errors
+    private LoginViewModel viewModel;
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -47,6 +51,7 @@ public class Login extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         // Initialize InputError object for handling input validation
         inputError = new InputError(binding.etUsername, binding.etPassword);
 
@@ -63,17 +68,57 @@ public class Login extends AppCompatActivity {
 
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
-        binding.btnLogin.setOnClickListener(v -> {
-            // Check if the provided username and password are valid
-            if (users.isSigned(binding.etUsername, binding.etPassword)) {
-                saveCurrentUser();
-                Intent i = new Intent(this, Feed.class);
-                startActivity(i);
-            } else {
-                // Display a toast message for invalid credentials
-                Toast toast = Toast.makeText(this, "Username or password invalid!", Toast.LENGTH_SHORT);
-                toast.show();
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
+        viewModel.getLoginResult().observe(this, token -> {
+            Log.d("DEBUG", "the token: " + token);
+            SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("token", token);
+            editor.apply();
+            viewModel.getUser(binding.etUsername.getText().toString(), token);
+        });
+
+        viewModel.getUserInfo().observe(this, user -> {
+            Log.d("DEBUG", "user has changed. maybe null");
+            if (user != null) {
+                Log.d("DEBUG", "got user back!");
+                SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("username", user.getUser_name());
+                String nickname = user.getFirst_name() + " " + user.getLast_name();
+                editor.putString("nickname", nickname);
+                editor.putString("firstname", user.getFirst_name());
+                editor.putString("lastname", user.getLast_name());
+                editor.putString("profile", user.getPic());
+                editor.apply();
+                startActivity(new Intent(this, Feed.class));
             }
+        });
+
+        viewModel.getIsLoggedIn().observe(this, isLoggedIn -> {
+            if (!isLoggedIn) {
+                Toast.makeText(getApplicationContext(), "Username or password invalid!", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d("DEBUG", "login success");
+            }
+        }
+        );
+
+        binding.btnLogin.setOnClickListener(v -> {
+            viewModel.login(binding.etUsername.getText().toString(), binding.etPassword.getText().toString());
+
+
+//            // Check if the provided username and password are valid
+//            if (users.isSigned(binding.etUsername, binding.etPassword)) {
+//                saveCurrentUser();
+//                Intent i = new Intent(this, Feed.class);
+//                startActivity(i);
+//            } else {
+//                // Display a toast message for invalid credentials
+//                Toast toast = Toast.makeText(this, "Username or password invalid!", Toast.LENGTH_SHORT);
+//                toast.show();
+//            }
         });
     }
 
@@ -91,7 +136,10 @@ public class Login extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         Map<Users.FIELD, String> user = users.getUserByUsername(binding.etUsername.getText().toString());
         editor.putString("username", user.get(Users.FIELD.Username));
-        editor.putString("nickname", user.get(Users.FIELD.Nickname));
+        String nickname = user.get(Users.FIELD.FirstName) + " " + user.get(Users.FIELD.LastName);
+        editor.putString("nickname", nickname);
+        editor.putString("firstname", user.get(Users.FIELD.FirstName));
+        editor.putString("lastname", user.get(Users.FIELD.LastName));
         editor.putString("profile", user.get(Users.FIELD.ProfilePhoto));
         editor.apply();
     }

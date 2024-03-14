@@ -3,7 +3,7 @@ package com.example.facebook_like_android.users;
 import android.widget.EditText;
 
 import com.example.facebook_like_android.entities.post.Post;
-import com.example.facebook_like_android.utils.BitmapUtils;
+import com.example.facebook_like_android.utils.Base64Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,11 +15,11 @@ import java.util.Objects;
 public class Users {
     // Enum representing user registration fields
     public enum FIELD {
-        Username, Password, ConfirmPassword, Nickname, ProfilePhoto
+        Username, Password, ConfirmPassword, FirstName, LastName, ProfilePhoto
     }
 
     private final Map<String, Map<FIELD, String>> users;  // Map to store user data
-    private Map<String, List<Post>> userPosts;
+    private final Map<String, List<Post>> userPosts;
 
     private static Users instance = null;  // Singleton instance
 
@@ -43,8 +43,9 @@ public class Users {
         map.put(FIELD.Username, user.getUsername().getText().toString());
         map.put(FIELD.Password, user.getPassword().getText().toString());
         map.put(FIELD.ConfirmPassword, user.getRe_password().getText().toString());
-        map.put(FIELD.Nickname, user.getNickname().getText().toString());
-        String bitmap = BitmapUtils.bitmapToString(user.getProfilePhoto());
+        map.put(FIELD.FirstName, user.getFirstname().getText().toString());
+        map.put(FIELD.LastName, user.getLastname().getText().toString());
+        String bitmap = Base64Utils.encodeBitmapToBase64(user.getProfilePhoto());
         map.put(FIELD.ProfilePhoto, bitmap);
         users.put(user.getUsername().getText().toString(), map);
         userPosts.put(user.getUsername().getText().toString(), new ArrayList<>());
