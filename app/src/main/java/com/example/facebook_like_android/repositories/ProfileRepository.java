@@ -15,13 +15,16 @@ public class ProfileRepository {
     private PostDao postDao;
     private MutableLiveData<List<Post>> posts;
     private MutableLiveData<String> message;
+    private MutableLiveData<Boolean> hasChanged;
+
     private ProfileAPI profileAPI;
 
     public ProfileRepository(String username) {
         postDao = AppDB.getDatabase().postDao();
         posts = new MutableLiveData<>(postDao.getPostsByUser(username));
         message = new MutableLiveData<>();
-        profileAPI = new ProfileAPI(postDao, username);
+        hasChanged = new MutableLiveData<>();
+        profileAPI = new ProfileAPI(postDao, username, hasChanged, message);
     }
 
     public LiveData<List<Post>> getPosts() {
@@ -32,14 +35,16 @@ public class ProfileRepository {
         return message;
     }
 
+    public LiveData<Boolean> hasChanged() { return hasChanged; }
 
-    public void add(String username, String firstname, String lastname, String profile, String pic, String content, String date) { profileAPI.add(username, firstname, lastname, profile, pic, content, date, posts, message); }
 
-    public void delete(final Post post) { profileAPI.delete(post, posts, message); }
+    public void add(String username, String firstname, String lastname, String profile, String pic, String content, String date) { profileAPI.add(username, firstname, lastname, profile, pic, content, date); }
 
-    public void reload() { profileAPI.get(posts, message);}
+    public void delete(String postId) { profileAPI.delete(postId); }
+
+    public void reload() { profileAPI.get(posts);}
 
     public void update(String postId, String content, String pic) {
-        profileAPI.update(postId, content, pic, posts, message);
+        profileAPI.update(postId, content, pic);
     }
 }

@@ -75,6 +75,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private int visibility = View.GONE;
     private OnEditClickListener editClickListener;
     private OnEditClickListener.OnDeleteClickListener deleteClickListener;
+    private OnEditClickListener.OnLikeClickListener likeClickListener;
     private IProfile profileListener;
     private boolean isProfile = false;
     private final Activity activity;
@@ -89,7 +90,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         mInflater = LayoutInflater.from(context);
         this.activity = (Activity) context;
         this.postDao = AppDB.getDatabase().postDao();
-        this.posts = postDao.getPostsByUser(username);
+        this.posts = postDao.index();
     }
 
     // onCreateViewHolder: Inflates the layout for individual posts and creates a ViewHolder
@@ -131,8 +132,12 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     // Sets onClick listener for the share button
     private void setOnShareClickListener(@NonNull PostViewHolder holder, int position) {
-        holder.share.setOnClickListener(v ->
-                holder.shareOptions.setVisibility(View.VISIBLE));
+        if (holder.shareOptions.getVisibility() == View.GONE)
+            holder.share.setOnClickListener(v ->
+                    holder.shareOptions.setVisibility(View.VISIBLE));
+        else
+            holder.share.setOnClickListener(v ->
+                    holder.shareOptions.setVisibility(View.GONE));
     }
 
     // Sets onClick listener for the delete button
@@ -183,14 +188,29 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     // setupLikeButtonClickListener: Sets onClick listener for the like button
     private void setupLikeButtonClickListener(@NonNull PostViewHolder holder, int position) {
-        likeButton = new LikeButton(posts.get(position).isLiked());
-        likeButton.updateAppearance(holder.like);
         holder.like.setOnClickListener(v -> {
-            likeButton.like(holder.like);
-            posts.get(position).like();
-            holder.tvLikes.setText(String.valueOf(posts.get(position).getLikes()));
-            notifyItemChanged(position); // Notify adapter the button should change
+            if (likeClickListener != null) {
+                likeClickListener.onLikeClick(posts.get(position).getPostId(), position, holder.like, holder.tvLikes);
+            }
         });
+//        likeButton = new LikeButton(posts.get(position).isLiked());
+//        likeButton.updateAppearance(holder.like);
+//        holder.like.setOnClickListener(v -> {
+//            likeButton.like(holder.like);
+//            posts.get(position).like();
+//            holder.tvLikes.setText(String.valueOf(posts.get(position).getLikes()));
+//            notifyItemChanged(position); // Notify adapter the button should change
+//        });
+    }
+    public void setLiked(Boolean isLiked, int position, ImageButton like, TextView likes) {
+        likeButton = new LikeButton(isLiked);
+        likeButton.updateAppearance(like);
+        if (isLiked)
+            posts.get(position).addlike();
+        else
+            posts.get(position).unlike();
+        likes.setText(String.valueOf(posts.get(position).getLikes()));
+        notifyItemChanged(position); // Notify adapter the button should change
     }
 
     // getItemCount: Returns the number of items in the dataset
@@ -229,7 +249,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
     public void deletePost(int position) {
         if (posts != null && position >= 0 && position < posts.size()) {
-            profileViewModel.delete(posts.get(position));
+            profileViewModel.delete(posts.get(position).getPostId());
 //            Post post = posts.remove(position);
 //            postDao.delete(post);
             //postManager.removePost(postManager.getPosts().get(position));
@@ -257,6 +277,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     public void setOnDeleteClickListener(OnEditClickListener.OnDeleteClickListener listener) {
         this.deleteClickListener = listener;
+    }
+    public void setOnLikeClickListener(OnEditClickListener.OnLikeClickListener listener) {
+        this.likeClickListener = listener;
     }
 
     // Shows only the posts of a given user (used in Profile)

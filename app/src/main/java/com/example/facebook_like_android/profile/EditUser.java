@@ -27,7 +27,7 @@ public class EditUser extends AppCompatActivity {
     private ImageHandler imageHandler = new ImageHandler(this);
     private ImageView prvImg;
     private Bitmap bitmap;
-    private boolean isPicSelected;
+    private boolean isPicSelected = true;
     private EditText firstname;
     private EditText lastname;
     private final ThemeMode mode = ThemeMode.getInstance();

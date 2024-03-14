@@ -27,8 +27,8 @@ public class ProfileViewModel extends ViewModel {
         profileRepository.update(postId, content, pic);
     }
 
-    public void delete(Post post) {
-        profileRepository.delete(post);
+    public void delete(String postId) {
+        profileRepository.delete(postId);
     }
 
     public void reload() { profileRepository.reload(); }
@@ -36,6 +36,9 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<List<Post>> getPosts() { return profileRepository.getPosts(); }
 
     public LiveData<String> getMessage() { return profileRepository.getMessage(); }
+
+    public LiveData<Boolean> hasChanged() { return profileRepository.hasChanged(); }
+
 
 
 

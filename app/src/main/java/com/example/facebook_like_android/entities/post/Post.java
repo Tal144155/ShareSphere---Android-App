@@ -67,6 +67,10 @@ public class Post {
 //        this.id = id;
 //    }
 
+    public void addlike() { this.likes++; }
+    public void unlike() { this.likes--; }
+
+
     public void setPostId(String postId) {
         this.postId = postId;
     }

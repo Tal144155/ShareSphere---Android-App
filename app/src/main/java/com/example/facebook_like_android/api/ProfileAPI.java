@@ -23,12 +23,18 @@ public class ProfileAPI {
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
     private String username;
+    private MutableLiveData<Boolean> hasChanged;
+    private MutableLiveData<String> message;
     String token;
+    private String current;
 
-    public ProfileAPI(PostDao postDao, String username) {
+    public ProfileAPI(PostDao postDao, String username, MutableLiveData<Boolean> hasChanged, MutableLiveData<String> message) {
         this.postDao = postDao;
         this.username = username;
+        this.current = UserInfoManager.getUsername();
 
+        this.hasChanged = hasChanged;
+        this.message = message;
         retrofit = RetrofitClient.getRetrofit();
 
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -36,7 +42,7 @@ public class ProfileAPI {
     }
 
 
-    public void add(String username, String firstname, String lastname, String profile, String pic, String content, String date, MutableLiveData<List<Post>> posts, MutableLiveData<String> message) {
+    public void add(String username, String firstname, String lastname, String profile, String pic, String content, String date) {
         Call<Post> call = webServiceAPI.createPost(username, username, firstname, lastname, pic, profile, content, date , token);
 
         call.enqueue(new Callback<Post>() {
@@ -44,48 +50,60 @@ public class ProfileAPI {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
-                        postDao.insert(response.body());
-                        posts.postValue(postDao.getPostsByUser(username));
-                        message.postValue("Posts updated successfully");
+                        //postDao.insert(response.body());
+                        hasChanged.postValue(true);
+                        //posts.postValue(postDao.getPostsByUser(username));
+                        message.postValue("Posts created successfully");
                     }).start();
                 } else {
-                    new Thread(() -> message.postValue("Couldn't create this post")).start();
+                    new Thread(() -> {
+                        message.postValue("Couldn't create this post");
+                        hasChanged.postValue(false);
+                    }).start();
                 }
             }
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                new Thread(() -> message.postValue(t.getLocalizedMessage())).start();
+                new Thread(() -> {
+                    message.postValue(t.getLocalizedMessage());
+                    hasChanged.postValue(false);
+                }).start();
             }
         });
     }
 
-    public void delete(Post post, MutableLiveData<List<Post>> posts, MutableLiveData<String> message) {
-        Call<DefaultResponse> call = webServiceAPI.deletePost(post.getUsername(), post.getPostId(), token);
+    public void delete(String postId) {
+        Call<DefaultResponse> call = webServiceAPI.deletePost(current, postId, token);
 
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
-                        postDao.delete(post);
-                        posts.postValue(postDao.getPostsByUser(post.getUsername()));
+                        hasChanged.postValue(true);
                         message.postValue("Post deleted successfully");
                     }).start();
                 } else {
-                    new Thread(() -> message.postValue(response.body().getError())).start();
+                    new Thread(() -> {
+                        hasChanged.postValue(false);
+                        message.postValue(response.body().getError());
+                    }).start();
                 }
             }
 
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
-                new Thread(() -> message.postValue(t.getLocalizedMessage())).start();
+                new Thread(() -> {
+                    hasChanged.postValue(false);
+                    message.postValue(t.getLocalizedMessage());
+                }).start();
             }
         });
 
     }
 
-    public void get(MutableLiveData<List<Post>> posts, MutableLiveData<String> message) {
+    public void get(MutableLiveData<List<Post>> posts) {
         Call<List<Post>> call = webServiceAPI.getUsersPosts(username, username, token);
 
         call.enqueue(new Callback<List<Post>>() {
@@ -111,7 +129,7 @@ public class ProfileAPI {
         });
     }
 
-    public void update(String postId, String content, String pic, MutableLiveData<List<Post>> posts, MutableLiveData<String> message) {
+    public void update(String postId, String content, String pic) {
         Call<Post> call = webServiceAPI.editPost(UserInfoManager.getUsername(), postId, content, pic, token);
 
         call.enqueue(new Callback<Post>() {
@@ -119,17 +137,23 @@ public class ProfileAPI {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
-                        postDao.insert(response.body());
-                        posts.postValue(postDao.getPostsByUser(UserInfoManager.getUsername()));
+                        hasChanged.postValue(true);
+                        message.postValue("Post updated successfully");
                     }).start();
                 } else {
-                    new Thread(() -> message.postValue("Couldn't update post")).start();
+                    new Thread(() -> {
+                        hasChanged.postValue(false);
+                        message.postValue("Couldn't update post");
+                    }).start();
                 }
             }
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                new Thread(() -> message.postValue(t.getLocalizedMessage())).start();
+                new Thread(() -> {
+                    hasChanged.postValue(false);
+                    message.postValue(t.getLocalizedMessage());
+                }).start();
             }
         });
 

@@ -2,9 +2,12 @@ package com.example.facebook_like_android.profile;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.CursorWindow;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +34,12 @@ import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 import com.example.facebook_like_android.viewmodels.FeedViewModel;
 import com.example.facebook_like_android.viewmodels.FriendsViewModel;
+import com.example.facebook_like_android.viewmodels.PostsViewModel;
 import com.example.facebook_like_android.viewmodels.ProfileViewModel;
 import com.example.facebook_like_android.viewmodels.RequestsViewModel;
 import com.example.facebook_like_android.viewmodels.UsersViewModel;
 
+import java.lang.reflect.Field;
 import java.util.Calendar;
 
 /**
@@ -42,7 +47,7 @@ import java.util.Calendar;
  * Users can create, update, and delete posts from their profile.
  */
 
-public class Profile extends AppCompatActivity implements OnEditClickListener, OnEditClickListener.OnDeleteClickListener {
+public class Profile extends AppCompatActivity implements OnEditClickListener, OnEditClickListener.OnDeleteClickListener, OnEditClickListener.OnLikeClickListener {
     private ActivityProfileBinding binding;
     private PostsListAdapter adapter;
     private final ThemeMode mode = ThemeMode.getInstance();
@@ -51,6 +56,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     private ProfileViewModel profileViewModel;
     private UsersViewModel usersViewModel;
     private FeedViewModel feedViewModel;
+    private PostsViewModel postsViewModel;
     private String username;
     private String profile;
     private String nickname;
@@ -60,12 +66,25 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     public static int CREATE_POST = 789;
     public static int EDIT_POST = 837;
     public static int EDIT_USER = 316;
+    private String postId;
+    private ImageButton like;
+    private int position;
+    private TextView likes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // enlarging field size
+        try {
+            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 50 * 1024 * 1024); // the new size is 100MB
+        } catch (Exception e) {
+            Log.d("DEBUG", e.getLocalizedMessage());
+        }
 
         // Returns the specific username whose profile we are watching
         username = getIntent().getStringExtra("username");
@@ -79,6 +98,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         profileViewModel.setProfileRepository(username);
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+        postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
 
 
         binding.btnDelete.setOnClickListener(v -> {
@@ -164,10 +184,19 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
             binding.refreshLayout.setRefreshing(false);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         });
+
         profileViewModel.getPosts().observe(this, posts -> {
             binding.refreshLayout.setRefreshing(false);
             adapter.setPosts(posts);
         });
+
+        profileViewModel.hasChanged().observe(this, hasChanged -> {
+            if (hasChanged) {
+                profileViewModel.reload();
+                feedViewModel.reload();
+            }
+        });
+
 
         usersViewModel.hasChanged().observe(this, hasChanged -> {
             if (hasChanged) {
@@ -179,6 +208,14 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
             }
 
         });
+
+
+        postsViewModel.hasChanged().observe(this, hasChanged -> {
+            if (hasChanged)
+                postsViewModel.checkLiked(postId);
+        });
+
+        postsViewModel.isLiked().observe(this, isLiked -> adapter.setLiked(isLiked, position, like, likes));
 
         binding.refreshLayout.setOnRefreshListener(() -> profileViewModel.reload());
 
@@ -203,6 +240,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         adapter.setUsername(UserInfoManager.getUsername());
         adapter.setOnEditClickListener(this);
         adapter.setOnDeleteClickListener(this);
+        adapter.setOnLikeClickListener(this);
 
         // Set profile information
         //UserInfoManager.setProfile(binding.ivProfile);
@@ -309,7 +347,7 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
 
     @Override
     public void onDeleteClick(Post post) {
-        profileViewModel.delete(post);
+        profileViewModel.delete(post.getPostId());
         //adapter.deletePost(position);
     }
 
@@ -400,4 +438,12 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         PermissionsManager.onRequestPermissionsResult(requestCode, grantResults, this);
     }
 
+    @Override
+    public void onLikeClick(String postId, int position, ImageButton like, TextView likes) {
+        this.position = position;
+        this.likes = likes;
+        this.like = like;
+        this.postId = postId;
+        postsViewModel.like(postId);
+    }
 }
