@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:backgroundTint="@color/dark_pink"
+            android:backgroundTint="@color/pink"
             android:text="@string/pick_a_photo" />
 
         <Button
@@ -89,6 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:backgroundTint="@color/dark_pink"
             android:enabled="false"
             android:text="@string/create_post" />
 

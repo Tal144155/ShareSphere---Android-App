@@ -104,6 +104,7 @@
         android:minHeight="300dp"
         android:paddingBottom="15dp"
         android:layout_gravity="center"
+        android:backgroundTint="@color/post"
         android:background="#00FFFFFF"
         android:contentDescription="@string/post_picture" />
 
