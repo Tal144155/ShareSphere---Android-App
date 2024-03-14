@@ -90,7 +90,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         mInflater = LayoutInflater.from(context);
         this.activity = (Activity) context;
         this.postDao = AppDB.getDatabase().postDao();
-        this.posts = postDao.index();
+        this.posts = postDao.getPostsByUser(username);
     }
 
     // onCreateViewHolder: Inflates the layout for individual posts and creates a ViewHolder
