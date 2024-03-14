@@ -82,26 +82,48 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
         android:background="@drawable/galaxybackground">
 
+
+
         <ImageView
             android:id="@+id/iv_profile"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="10dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
             android:background="@drawable/circle_background" />
 
         <TextView
             android:id="@+id/tv_nickname"
-            android:layout_margin="15dp"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="17dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="150dp"
+            android:minWidth="190dp"
             android:layout_gravity="bottom"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="40dp">
+
+        <ImageButton
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            style="@style/tinyRoundButton"
+            android:backgroundTint="@color/dark_pink"
+            android:visibility="visible"
+            app:tint="@color/pink" />
 
         <ImageButton
             android:id="@+id/btn_friend_request"
@@ -110,8 +132,24 @@
             android:src="@drawable/ic_friend"
             android:layout_gravity="bottom"
             style="@style/tinyRoundButton"
+            android:layout_marginTop="40dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/dark_pink"
+            app:tint="@color/pink"
+            android:visibility="gone"/>
+
+        <ImageButton
+            android:id="@+id/btn_unsend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_unsend"
+            android:layout_gravity="bottom"
+            style="@style/tinyRoundButton"
+            android:layout_marginTop="40dp"
+            android:padding="9dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark_pink"
+            app:tint="@color/pink"
             android:visibility="gone"/>
 
         <ImageButton
@@ -119,11 +157,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
+            android:layout_marginTop="40dp"
             android:layout_gravity="bottom"
+            android:padding="10dp"
+            android:layout_marginEnd="5dp"
             style="@style/tinyRoundButton"
             android:backgroundTint="@color/dark_pink"
             android:visibility="gone"
             app:tint="@color/pink" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

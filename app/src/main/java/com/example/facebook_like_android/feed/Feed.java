@@ -1,7 +1,9 @@
 package com.example.facebook_like_android.feed;
 
 import android.content.Intent;
+import android.database.CursorWindow;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -11,10 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.adapters.PostsListAdapter;
-import com.example.facebook_like_android.daos.CommentDao;
-import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.databinding.ActivityFeedBinding;
-import com.example.facebook_like_android.db.AppDB;
 import com.example.facebook_like_android.profile.IProfile;
 import com.example.facebook_like_android.profile.Profile;
 import com.example.facebook_like_android.style.ThemeMode;
@@ -22,21 +21,17 @@ import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 import com.example.facebook_like_android.viewmodels.FeedViewModel;
-import com.example.facebook_like_android.viewmodels.PostsViewModel;
+
+import java.lang.reflect.Field;
 
 /**
  * The Feed activity displays the main feed of posts in the application.
  * Users can view posts, access their profile, change theme, and navigate to other screens.
  */
 public class Feed extends AppCompatActivity implements IProfile {
-    private static final int PROFILE_REQUEST_CODE = 100;
     private ActivityFeedBinding binding;
     private final ThemeMode mode = ThemeMode.getInstance();
     private PostsListAdapter adapter;
-    private AppDB db;
-    private PostDao postDao;
-    private CommentDao commentDao;
-    private PostsViewModel postsViewModel;
     private FeedViewModel viewModel;
 
     @Override
@@ -45,12 +40,18 @@ public class Feed extends AppCompatActivity implements IProfile {
         binding = ActivityFeedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        db = AppDB.getDatabase();
-        commentDao = db.commentDao();
-
         // View Model
 //        postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
 //        postsViewModel.get().observe(this, posts -> adapter.setPosts(posts));
+
+        // enlarging field size
+        try {
+            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 100 * 1024 * 1024); // the new size is 100MB
+        } catch (Exception e) {
+            Log.d("DEBUG", e.getLocalizedMessage());
+        }
 
         // Initialize RecyclerView for displaying posts
         RecyclerView lstPosts = binding.lstPosts;
@@ -83,7 +84,8 @@ public class Feed extends AppCompatActivity implements IProfile {
         binding.btnProfile.setOnClickListener(v -> {
             Intent i = new Intent(this, Profile.class);
             i.putExtra("profile", UserInfoManager.getProfile())
-                    .putExtra("nickname", UserInfoManager.getNickname())
+                    .putExtra("firstname", UserInfoManager.getFirstName())
+                    .putExtra("lastname", UserInfoManager.getLastName())
                     .putExtra("username", UserInfoManager.getUsername());
             startActivity(i);
         });
@@ -117,11 +119,12 @@ public class Feed extends AppCompatActivity implements IProfile {
     }
 
     @Override
-    public void viewProfile(String username, String profile, String nickname) {
+    public void viewProfile(String username, String profile, String nickname, String firstname, String lastname) {
         Intent i = new Intent(this, Profile.class);
         i.putExtra("username", username)
                 .putExtra("profile", profile)
-                .putExtra("nickname", nickname);
+                .putExtra("firstname", firstname)
+                .putExtra("lastname", lastname);
         startActivity(i);
     }
 

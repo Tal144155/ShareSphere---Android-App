@@ -149,7 +149,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         holder.ivProfile.setOnClickListener(v -> {
             if (profileListener != null) {
                 Post post = posts.get(position);
-                profileListener.viewProfile(post.getUsername(), post.getProfile(),post.getFirst_name() + " " + post.getLast_name());
+                profileListener.viewProfile(post.getUsername(), post.getProfile(),post.getFirst_name() + " " + post.getLast_name(),
+                        post.getFirst_name(), post.getLast_name());
             }
         });
     }

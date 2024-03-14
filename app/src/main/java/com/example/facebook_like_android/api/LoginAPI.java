@@ -4,7 +4,6 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.facebook_like_android.entities.User;
 import com.example.facebook_like_android.responses.LoginResponse;
 import com.example.facebook_like_android.responses.UserResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
@@ -55,13 +54,9 @@ public class LoginAPI {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
-                        User loggedIn;
                         Log.d("DEBUG", "got user from server!");
                         Log.d("DEBUG", "username: " + response.body().getUser_name());
 
-//                        loggedIn = new User(response.body().getUser_name(), response.body().getFirst_name(),
-//                                response.body().getLast_name(), "",
-//                                response.body().getPic(), null, null, null);
                         user.postValue(response.body());
 
                     }).start();

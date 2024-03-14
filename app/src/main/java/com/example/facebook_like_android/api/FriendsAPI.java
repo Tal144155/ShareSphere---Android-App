@@ -36,46 +36,6 @@ public class FriendsAPI {
         token = UserInfoManager.getToken();
     }
 
-//    // Method to get users from the server
-//    public void getUsers() {
-//        Call<List<User>> call = webServiceAPI.getUsers();
-//        call.enqueue(new Callback<List<User>>() {
-//            @Override
-//            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-//                new Thread(() -> {
-//                    userDao.clear();
-//                    userDao.insertList(response.body());
-//                    userListData.postValue(userDao.index());
-//                }).start();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<User>> call, Throwable t) {
-//                // Handle failure
-//            }
-//        });
-//    }
-
-
-    // Method to update user information
-//    public void updateUser(User user) {
-//        Call<DefaultResponse> call = webServiceAPI.updateUser(user.getUsername(), user.getFirstname(),
-//                user.getLastname(), user.getProfile());
-//        call.enqueue(new Callback<DefaultResponse>() {
-//            @Override
-//            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-//                new Thread(() -> {
-//                    //userDao.update(response.body());
-//                    userListData.postValue(userDao.index());
-//                }).start();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<DefaultResponse> call, Throwable t) {
-//                // Handle failure
-//            }
-//        });
-//    }
 
     public void addFriend(String friend, MutableLiveData<Boolean> hasChanged, MutableLiveData<String> message) {
         Call<DefaultResponse> call = webServiceAPI.approveFriendRequest(username, friend, token);

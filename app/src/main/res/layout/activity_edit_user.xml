@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/grayTransparent">
+    tools:context=".profile.EditUser">
 
     <LinearLayout
         android:id="@+id/linearLayout6"
@@ -11,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/pink"
+        android:background="@color/purple"
         android:padding="10dp">
 
         <ImageButton
@@ -23,7 +25,7 @@
             android:padding="15dp"
             app:srcCompat="@drawable/ic_darkmd"
             style="@style/smallRoundButtonTrans"
-            app:tint="@color/dark_pink_red" />
+            app:tint="@color/dark_purple" />
 
         <ImageButton
             android:id="@+id/btn_back"
@@ -35,6 +37,7 @@
             android:layout_gravity="end"
             app:srcCompat="@drawable/ic_back"
             android:contentDescription="@string/home"
+            app:tint="@color/dark_purple"
             style="@style/RoundButtonTrans"/>
 
 
@@ -46,65 +49,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
-        android:layout_margin="20dp"
-        android:background="@color/post">
+        android:gravity="center"
+        android:padding="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="15dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_profile"
+            style="@style/header"
+            android:layout_marginBottom="7dp"/>
 
         <ImageView
             android:id="@+id/iv_profile"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="start"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
             android:paddingEnd="15dp"
             android:paddingStart="15dp"
             android:scaleType="centerCrop"
+            android:layout_marginBottom="7dp"
             android:contentDescription="@string/profile_pic" />
 
-        <TextView
-            android:id="@+id/tv_author"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/et_firstname"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:layout_gravity="center"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:layout_marginBottom="7dp"/>
 
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:textSize="19sp"
-        android:paddingBottom="15dp" />
-
-    <EditText
-        android:id="@+id/et_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:textSize="19sp"
-        android:inputType="text"
-        android:paddingBottom="15dp" />
-
-    <ImageView
-        android:id="@+id/iv_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="300dp"
-        android:minHeight="300dp"
-        android:paddingBottom="15dp"
-        android:layout_gravity="center"
-        android:contentDescription="@string/post_picture" />
+        <EditText
+            android:id="@+id/et_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginBottom="7dp"/>
 
         <Button
             android:id="@+id/btn_changeImg"
@@ -112,23 +91,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/change_image"
-            android:backgroundTint="@color/dark_pink"
+            android:backgroundTint="@color/purple"
             android:layout_gravity="center"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end">
-
         <Button
+            android:id="@+id/btn_saved"
             android:layout_margin="10dp"
-            android:id="@+id/btn_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_update_post"
-            android:backgroundTint="@color/dark_pink"/>
+            android:text="@string/save_changes"
+            android:backgroundTint="@color/dark_purple"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
-    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

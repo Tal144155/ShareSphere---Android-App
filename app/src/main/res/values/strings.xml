@@ -54,4 +54,6 @@
     <string name="friends_lst">Friends</string>
     <string name="friend_requests">Friend Requests</string>
     <string name="friends_">Friends</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="save_changes">Save Changes</string>
 </resources>

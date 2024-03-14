@@ -1,5 +1,7 @@
 package com.example.facebook_like_android.api;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.facebook_like_android.daos.PostDao;
@@ -40,16 +42,20 @@ public class FeedAPI {
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
+                        Log.d("DEBUG", "got posts");
+                        Log.d("DEBUG", String.valueOf(response.body().size()));
                         postDao.insertList(response.body());
                         posts.postValue(response.body());
                     }).start();
                 } else {
+                    Log.d("DEBUG", "didn't get posts");
                     new Thread(() -> message.postValue("Couldn't refresh feed")).start();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
+                Log.d("DEBUG", t.getLocalizedMessage());
                 new Thread(() -> message.postValue(t.getLocalizedMessage())).start();
             }
         });

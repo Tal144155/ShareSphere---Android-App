@@ -32,4 +32,5 @@ public class RequestsViewModel extends ViewModel {
     }
 
     public LiveData<Boolean> hasChanged() { return mRepository.hasChanged(); }
+    public LiveData<Boolean> hasRemoved() { return mRepository.hasRemoved(); }
 }

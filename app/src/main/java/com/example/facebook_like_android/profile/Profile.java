@@ -1,6 +1,7 @@
 package com.example.facebook_like_android.profile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -17,23 +18,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebook_like_android.R;
 import com.example.facebook_like_android.adapters.PostsListAdapter;
-import com.example.facebook_like_android.daos.CommentDao;
-import com.example.facebook_like_android.daos.PostDao;
-import com.example.facebook_like_android.daos.UserDao;
 import com.example.facebook_like_android.databinding.ActivityProfileBinding;
-import com.example.facebook_like_android.db.AppDB;
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.entities.post.buttons.OnEditClickListener;
 import com.example.facebook_like_android.feed.CreatePost;
 import com.example.facebook_like_android.feed.EditPost;
+import com.example.facebook_like_android.register.Login;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
+import com.example.facebook_like_android.viewmodels.FeedViewModel;
 import com.example.facebook_like_android.viewmodels.FriendsViewModel;
 import com.example.facebook_like_android.viewmodels.ProfileViewModel;
 import com.example.facebook_like_android.viewmodels.RequestsViewModel;
+import com.example.facebook_like_android.viewmodels.UsersViewModel;
 
 import java.util.Calendar;
 
@@ -46,17 +46,20 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     private ActivityProfileBinding binding;
     private PostsListAdapter adapter;
     private final ThemeMode mode = ThemeMode.getInstance();
-    private AppDB db;
-    private PostDao postDao;
-    private CommentDao commentDao;
-    private UserDao userDao;
     private FriendsViewModel friendsViewModel;
     private RequestsViewModel requestsViewModel;
     private ProfileViewModel profileViewModel;
+    private UsersViewModel usersViewModel;
+    private FeedViewModel feedViewModel;
     private String username;
+    private String profile;
+    private String nickname;
+    private String firstname;
+    private String lastname;
     private boolean isMyProfile = false;
     public static int CREATE_POST = 789;
     public static int EDIT_POST = 837;
+    public static int EDIT_USER = 316;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,20 +67,73 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        db = AppDB.getDatabase();
-        postDao = db.postDao();
-        commentDao = db.commentDao();
-        userDao = db.userDao();
-
-
         // Returns the specific username whose profile we are watching
         username = getIntent().getStringExtra("username");
+        profile = getIntent().getStringExtra("profile");
+        firstname = getIntent().getStringExtra("firstname");
+        lastname = getIntent().getStringExtra("lastname");
+        nickname = firstname + " " + lastname;
         friendsViewModel = new ViewModelProvider(this).get(FriendsViewModel.class);
         requestsViewModel = new ViewModelProvider(this).get(RequestsViewModel.class);
+        feedViewModel = new ViewModelProvider(this).get(FeedViewModel.class);
         profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         profileViewModel.setProfileRepository(username);
+        usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
+
+        binding.btnDelete.setOnClickListener(v -> {
+            usersViewModel.delete();
+        });
+
+        usersViewModel.hasRemoved().observe(this, hasRemoved -> {
+            feedViewModel.reload();
+            // Log out
+            Intent i = new Intent(this, Login.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.apply();
+            startActivity(i);
+        });
+
+        binding.btnFriendRequest.setOnClickListener(v -> {
+            requestsViewModel.add(username);
+        });
+
+        requestsViewModel.hasChanged().observe(this, hasChanged -> {
+            if (hasChanged) {
+                // change btn
+                binding.btnFriendRequest.setVisibility(View.GONE);
+                binding.btnUnsend.setVisibility(View.VISIBLE);
+            }
+        });
+
+        binding.btnUnsend.setOnClickListener(v -> requestsViewModel.delete(username));
+
+        requestsViewModel.hasRemoved().observe(this, hasRemoved -> {
+            if (hasRemoved) {
+                // change btn
+                binding.btnUnsend.setVisibility(View.GONE);
+                binding.btnFriendRequest.setVisibility(View.VISIBLE);
+            }
+        });
+
+        friendsViewModel.hasChanged().observe(this, hasChanged -> {
+            if (hasChanged) {
+                // Set the visibility accordingly and refresh the profile
+                friendProfile();
+                profileViewModel.reload();
+            }
+        });
+
+        binding.btnEdit.setOnClickListener(v -> {
+            Intent i = new Intent(this, EditUser.class);
+            i.putExtra("firstname", firstname)
+                    .putExtra("lastname", lastname)
+                    .putExtra("profile", profile);
+            startActivityForResult(i, EDIT_USER);
+        });
 
 
         // Set the proper visibilities accordingly
@@ -111,6 +167,17 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         profileViewModel.getPosts().observe(this, posts -> {
             binding.refreshLayout.setRefreshing(false);
             adapter.setPosts(posts);
+        });
+
+        usersViewModel.hasChanged().observe(this, hasChanged -> {
+            if (hasChanged) {
+                binding.ivProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(profile));
+                String nickname = firstname + " " + lastname;
+                binding.tvNickname.setText(nickname);
+                profileViewModel.reload();
+                feedViewModel.reload();
+            }
+
         });
 
         binding.refreshLayout.setOnRefreshListener(() -> profileViewModel.reload());
@@ -165,8 +232,6 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
     }
 
     private void setInfo() {
-        String profile = getIntent().getStringExtra("profile");
-        String nickname = getIntent().getStringExtra("nickname");
         binding.ivProfile.setImageBitmap(Base64Utils.decodeBase64ToBitmap(profile));
         binding.tvNickname.setText(nickname);
     }
@@ -178,6 +243,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.btnFriendRequest.setVisibility(View.GONE);
         binding.lstPosts.setVisibility(View.VISIBLE);
         binding.btnEdit.setVisibility(View.VISIBLE);
+        binding.btnUnsend.setVisibility(View.GONE);
+        binding.btnDelete.setVisibility(View.VISIBLE);
     }
 
     private void friendProfile() {
@@ -187,6 +254,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.btnFriendRequest.setVisibility(View.GONE);
         binding.lstPosts.setVisibility(View.VISIBLE);
         binding.btnEdit.setVisibility(View.GONE);
+        binding.btnUnsend.setVisibility(View.GONE);
+        binding.btnDelete.setVisibility(View.GONE);
     }
 
     private void someProfile() {
@@ -196,6 +265,8 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
         binding.btnFriendRequest.setVisibility(View.VISIBLE);
         binding.lstPosts.setVisibility(View.GONE);
         binding.btnEdit.setVisibility(View.GONE);
+        binding.btnUnsend.setVisibility(View.GONE);
+        binding.btnDelete.setVisibility(View.GONE);
     }
 
     // Method to handle creating a new post
@@ -308,8 +379,17 @@ public class Profile extends AppCompatActivity implements OnEditClickListener, O
                 createPost(content, pic);
             } else if (requestCode == EDIT_POST) {
                 editPost(content, pic);
+            } else if (requestCode == EDIT_USER) {
+                firstname = data.getStringExtra("firstname");
+                lastname = data.getStringExtra("lastname");
+                profile = data.getStringExtra("pic");
+                editUser(firstname, lastname, profile);
             }
         }
+    }
+
+    private void editUser(String firstname, String lastname, String profile) {
+        usersViewModel.update(firstname, lastname, profile);
     }
 
     // Handle permission result
