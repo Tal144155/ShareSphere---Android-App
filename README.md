@@ -3,6 +3,9 @@
 The Share Sphere App is a social media platform that allows users to share posts and interact with each other.
 This README file provides an overview of the app's features and functionalities.
 
+**IMPORTANT**
+Due to the app's difficulty loading large photos, when running the server, the database will be initialized with previously created posts and users. However, some of these images are quite large. To prevent the app from crashing, please log in with either the users "tal144155" or "yael2023". If attempting to access another user's profile page, please ensure to navigate to one of these accounts rather than others like "noy", as this profile contains heavy images. **Thank you for your cooperation! 😁🙏**
+
 ## Features
 ### Sign up
 It is important to sign up with the username: **alice** !
@@ -21,6 +24,8 @@ Editing and deleting posts can only be done through the user's profile, where on
 
 ### Log out
 Logging out can be done through the menu, by clicking on the button below.
+
+**Please notice:** The server and React components includes the option to add comments to posts. This feature is not currently available on the Android app, so refrain from pressing the comment button.
 
 ### Creating a Post
 Creating a post can be done through the profile, by clicking twice on the text box labeled "Share your thoughts".
