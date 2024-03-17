@@ -25,8 +25,8 @@ Editing and deleting posts can only be done through the user's profile, where on
 ### Log out
 Logging out can be done through the menu, by clicking on the button below.
 
-**Please notice:** The server and React components includes the option to add comments to posts. This feature is not currently available on the Android app, so refrain from pressing the comment button.
-
 ### Creating a Post
 Creating a post can be done through the profile, by clicking twice on the text box labeled "Share your thoughts".
 A user should upload a picture and write some content in order to create a post.
+
+## **Please notice:** The server and React components includes the option to add comments to posts. This feature is not currently available on the Android app, so refrain from pressing the comment button.
