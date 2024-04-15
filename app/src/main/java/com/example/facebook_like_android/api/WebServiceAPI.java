@@ -77,6 +77,11 @@ public interface WebServiceAPI {
     @GET("posts")
     Call<List<PostResponse>> getFeed(@Header("username") String username, @Header("authorization") String token);
 
+    // Links API
+    @FormUrlEncoded
+    @POST("posts/links")
+    Call<Boolean> checkListUrl(@Field("listurl") List<String> links, @Header("authorization") String token);
+
     @FormUrlEncoded
     @PATCH("users/{id}/posts/{pid}")
     Call<Post> editPost(@Path("id") String id, @Path("pid") String postId,
@@ -126,10 +131,6 @@ public interface WebServiceAPI {
     @POST("tokens")
     Call<LoginResponse> processLogin(@Field("username") String user_name, @Field("password") String password);
 
-    // Links API
-    @FormUrlEncoded
-    @POST("links")
-    Call<Boolean> checkListUrl(@Field("listurl") List<String> links);
 
 
 }
