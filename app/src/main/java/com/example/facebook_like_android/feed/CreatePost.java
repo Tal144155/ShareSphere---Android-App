@@ -13,12 +13,18 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.facebook_like_android.databinding.ActivityCreatePostBinding;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.ImageHandler;
+import com.example.facebook_like_android.utils.LinkExtractor;
 import com.example.facebook_like_android.utils.PermissionsManager;
+import com.example.facebook_like_android.utils.UserInfoManager;
+import com.example.facebook_like_android.viewmodels.ProfileViewModel;
+
+import java.util.List;
 
 public class CreatePost extends AppCompatActivity {
     private ActivityCreatePostBinding binding;
@@ -28,6 +34,7 @@ public class CreatePost extends AppCompatActivity {
     private Bitmap bitmap;
     private boolean isPicSelected = false;
     private final ThemeMode mode = ThemeMode.getInstance();
+    private ProfileViewModel profileViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,8 @@ public class CreatePost extends AppCompatActivity {
         });
         binding.btnChangeMode.setOnClickListener(v -> mode.changeTheme(this));
 
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        profileViewModel.setProfileRepository(UserInfoManager.getUsername());
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -71,11 +80,32 @@ public class CreatePost extends AppCompatActivity {
 
         // Clicking on Create Post button
         binding.btnCreate.setOnClickListener(v -> {
-            setResult(RESULT_OK, new Intent()
-                    .putExtra("content", content.getText().toString())
-                    .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap)));
-            finish();
+
+            List<String> links = LinkExtractor.extractLinks(content.getText().toString());
+
+            if (links != null) {
+                // make async request
+                profileViewModel.confirmLinks(links);
+            } else {
+                setResult(RESULT_OK, new Intent()
+                        .putExtra("content", content.getText().toString())
+                        .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap)));
+                finish();
+            }
+
+
         });
+
+        profileViewModel.isValid().observe(this, valid -> {
+            if (valid) {
+                setResult(RESULT_OK, new Intent()
+                        .putExtra("content", content.getText().toString())
+                        .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap)));
+                finish();
+            }
+        });
+
+        profileViewModel.getMessage().observe(this, msg -> Toast.makeText(this, msg, Toast.LENGTH_LONG).show());
     }
 
 

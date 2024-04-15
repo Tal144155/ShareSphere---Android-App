@@ -126,7 +126,10 @@ public interface WebServiceAPI {
     @POST("tokens")
     Call<LoginResponse> processLogin(@Field("username") String user_name, @Field("password") String password);
 
-
+    // Links API
+    @FormUrlEncoded
+    @POST("links")
+    Call<Boolean> checkListUrl(@Field("listurl") List<String> links);
 
 
 }

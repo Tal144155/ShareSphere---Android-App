@@ -26,17 +26,20 @@ public class ProfileAPI {
     WebServiceAPI webServiceAPI;
     private String username;
     private MutableLiveData<Boolean> hasChanged;
+    private MutableLiveData<Boolean> isValid;
     private MutableLiveData<String> message;
     String token;
     private String current;
 
-    public ProfileAPI(PostDao postDao, String username, MutableLiveData<Boolean> hasChanged, MutableLiveData<String> message) {
+    public ProfileAPI(PostDao postDao, String username, MutableLiveData<Boolean> hasChanged,
+                      MutableLiveData<String> message, MutableLiveData<Boolean> isValid) {
         this.postDao = postDao;
         this.username = username;
         this.current = UserInfoManager.getUsername();
 
         this.hasChanged = hasChanged;
         this.message = message;
+        this.isValid = isValid;
         retrofit = RetrofitClient.getRetrofit();
 
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -166,5 +169,36 @@ public class ProfileAPI {
             }
         });
 
+    }
+
+    public void checkLinks(List<String> links) {
+        Call<Boolean> call = webServiceAPI.checkListUrl(links);
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful()) {
+                    new Thread(() -> {
+                        if (response.body()) {
+                            message.postValue("Links are approved");
+                            isValid.postValue(true);
+                        }
+                    }).start();
+                } else {
+                    new Thread(() -> {
+                        message.postValue("Found a malicious link! Please remove it");
+                        isValid.postValue(false);
+                    }).start();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                new Thread(() -> {
+                    message.postValue(t.getLocalizedMessage());
+                    isValid.postValue(false);
+                }).start();
+            }
+        });
     }
 }

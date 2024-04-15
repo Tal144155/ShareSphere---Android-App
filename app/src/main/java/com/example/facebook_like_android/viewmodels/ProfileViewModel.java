@@ -3,7 +3,6 @@ package com.example.facebook_like_android.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.repositories.ProfileRepository;
 import com.example.facebook_like_android.responses.PostResponse;
 
@@ -39,8 +38,9 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<String> getMessage() { return profileRepository.getMessage(); }
 
     public LiveData<Boolean> hasChanged() { return profileRepository.hasChanged(); }
+    public LiveData<Boolean> isValid() { return profileRepository.isValid(); }
 
-
+    public void confirmLinks(List<String> links) { profileRepository.confirmLinks(links); }
 
 
 }
