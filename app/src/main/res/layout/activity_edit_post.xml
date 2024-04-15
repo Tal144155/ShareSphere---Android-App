@@ -117,6 +117,13 @@
             android:backgroundTint="@color/dark_pink"
             android:layout_gravity="center"/>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -131,6 +138,7 @@
             android:backgroundTint="@color/dark_pink"/>
 
     </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -98,6 +98,7 @@ public class EditPost extends AppCompatActivity {
 
             if (links != null) {
                 // make async request
+                binding.progressBar.setVisibility(View.VISIBLE);
                 profileViewModel.confirmLinks(links);
             } else {
                 setResult(RESULT_OK, new Intent()
@@ -109,6 +110,7 @@ public class EditPost extends AppCompatActivity {
         });
 
         profileViewModel.isValid().observe(this, valid -> {
+            binding.progressBar.setVisibility(View.GONE);
             if (valid) {
                 setResult(RESULT_OK, new Intent()
                         .putExtra("content", content.getText().toString())

@@ -84,6 +84,7 @@ public class CreatePost extends AppCompatActivity {
             List<String> links = LinkExtractor.extractLinks(content.getText().toString());
 
             if (links != null) {
+                binding.progressBar.setVisibility(View.VISIBLE);
                 // make async request
                 profileViewModel.confirmLinks(links);
             } else {
@@ -97,6 +98,7 @@ public class CreatePost extends AppCompatActivity {
         });
 
         profileViewModel.isValid().observe(this, valid -> {
+            binding.progressBar.setVisibility(View.GONE);
             if (valid) {
                 setResult(RESULT_OK, new Intent()
                         .putExtra("content", content.getText().toString())
