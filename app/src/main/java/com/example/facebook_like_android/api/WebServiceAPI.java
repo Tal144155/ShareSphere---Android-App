@@ -9,6 +9,7 @@ import com.example.facebook_like_android.responses.ListUsersResponse;
 import com.example.facebook_like_android.responses.LoginResponse;
 import com.example.facebook_like_android.responses.PostResponse;
 import com.example.facebook_like_android.responses.UserResponse;
+import com.example.facebook_like_android.responses.ValidResponse;
 
 import java.util.List;
 
@@ -80,7 +81,7 @@ public interface WebServiceAPI {
     // Links API
     @FormUrlEncoded
     @POST("posts/links")
-    Call<Boolean> checkListUrl(@Field("listurl") List<String> links, @Header("authorization") String token);
+    Call<ValidResponse> checkListUrl(@Field("listurl") List<String> links, @Header("authorization") String token);
 
     @FormUrlEncoded
     @PATCH("users/{id}/posts/{pid}")

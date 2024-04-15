@@ -8,6 +8,7 @@ import com.example.facebook_like_android.daos.PostDao;
 import com.example.facebook_like_android.entities.post.Post;
 import com.example.facebook_like_android.responses.DefaultResponse;
 import com.example.facebook_like_android.responses.PostResponse;
+import com.example.facebook_like_android.responses.ValidResponse;
 import com.example.facebook_like_android.retrofit.RetrofitClient;
 import com.example.facebook_like_android.utils.UserInfoManager;
 
@@ -21,6 +22,7 @@ import retrofit2.Retrofit;
 
 public class ProfileAPI {
 
+    private int INVALID = 403;
     private PostDao postDao;
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
@@ -172,28 +174,33 @@ public class ProfileAPI {
     }
 
     public void checkLinks(List<String> links) {
-        Call<Boolean> call = webServiceAPI.checkListUrl(links, token);
+        Call<ValidResponse> call = webServiceAPI.checkListUrl(links, token);
 
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new Callback<ValidResponse>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<ValidResponse> call, Response<ValidResponse> response) {
                 if (response.isSuccessful()) {
                     new Thread(() -> {
-                        if (response.body()) {
+                        if (response.body().isValid()) {
                             message.postValue("Links are approved");
                             isValid.postValue(true);
                         }
                     }).start();
-                } else {
+                } else if (response.code() == INVALID){
                     new Thread(() -> {
                         message.postValue("Found a malicious link! Please remove it");
+                        isValid.postValue(false);
+                    }).start();
+                } else { // an error occurred
+                    new Thread(() -> {
+                        message.postValue(response.body().getError());
                         isValid.postValue(false);
                     }).start();
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<ValidResponse> call, Throwable t) {
                 new Thread(() -> {
                     message.postValue(t.getLocalizedMessage());
                     isValid.postValue(false);
