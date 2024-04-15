@@ -16,7 +16,7 @@ public class LinkExtractor {
         List<String> links = null;
 
         // Regular expression pattern to match URLs
-        Pattern pattern = Pattern.compile("\\b(?:https?://|www\\.)\\S+\\b");
+        Pattern pattern = Pattern.compile("/^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$/");
 
         Matcher matcher = pattern.matcher(input);
 
