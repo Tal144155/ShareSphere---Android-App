@@ -51,7 +51,7 @@ public class ProfileRepository {
         profileAPI.update(postId, content, pic);
     }
 
-    public void confirmLinks(List<String> links) {
-        profileAPI.checkLinks(links);
+    public void confirmLinks(String content) {
+        profileAPI.checkLinks(content);
     }
 }

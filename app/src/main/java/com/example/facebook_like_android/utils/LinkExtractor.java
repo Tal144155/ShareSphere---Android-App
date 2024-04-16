@@ -6,11 +6,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LinkExtractor {
-    public static void main(String[] args) {
-        String input = "Here are some links: https://www.example.com, http://anotherexample.com, and www.example.org";
-
-        extractLinks(input);
-    }
 
     public static List<String> extractLinks(String input) {
         List<String> links = null;

@@ -81,18 +81,20 @@ public class CreatePost extends AppCompatActivity {
         // Clicking on Create Post button
         binding.btnCreate.setOnClickListener(v -> {
 
-            List<String> links = LinkExtractor.extractLinks(content.getText().toString());
+            profileViewModel.confirmLinks(content.getText().toString());
 
-            if (links != null) {
-                binding.progressBar.setVisibility(View.VISIBLE);
-                // make async request
-                profileViewModel.confirmLinks(links);
-            } else {
-                setResult(RESULT_OK, new Intent()
-                        .putExtra("content", content.getText().toString())
-                        .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap)));
-                finish();
-            }
+//            List<String> links = LinkExtractor.extractLinks(content.getText().toString());
+//
+//            if (links != null) {
+//                binding.progressBar.setVisibility(View.VISIBLE);
+//                // make async request
+//                profileViewModel.confirmLinks(links);
+//            } else {
+//                setResult(RESULT_OK, new Intent()
+//                        .putExtra("content", content.getText().toString())
+//                        .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap)));
+//                finish();
+//            }
 
 
         });

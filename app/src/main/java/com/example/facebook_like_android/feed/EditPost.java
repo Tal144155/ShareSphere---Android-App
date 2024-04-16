@@ -21,12 +21,9 @@ import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.CircularOutlineUtil;
 import com.example.facebook_like_android.utils.ImageHandler;
-import com.example.facebook_like_android.utils.LinkExtractor;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 import com.example.facebook_like_android.viewmodels.ProfileViewModel;
-
-import java.util.List;
 
 public class EditPost extends AppCompatActivity {
     private ActivityEditPostBinding binding;
@@ -94,19 +91,20 @@ public class EditPost extends AppCompatActivity {
 
         // Clicking on Update Post button
         binding.btnUpdate.setOnClickListener(v -> {
-            List<String> links = LinkExtractor.extractLinks(content.getText().toString());
-
-            if (links != null) {
-                // make async request
-                binding.progressBar.setVisibility(View.VISIBLE);
-                profileViewModel.confirmLinks(links);
-            } else {
-                setResult(RESULT_OK, new Intent()
-                        .putExtra("content", content.getText().toString())
-                        .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap))
-                        .putExtra("postId", getIntent().getStringExtra("postId")));
-                finish();
-            }
+            profileViewModel.confirmLinks(content.getText().toString());
+//            List<String> links = LinkExtractor.extractLinks(content.getText().toString());
+//
+//            if (links != null) {
+//                // make async request
+//                binding.progressBar.setVisibility(View.VISIBLE);
+//                profileViewModel.confirmLinks(links);
+//            } else {
+//                setResult(RESULT_OK, new Intent()
+//                        .putExtra("content", content.getText().toString())
+//                        .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap))
+//                        .putExtra("postId", getIntent().getStringExtra("postId")));
+//                finish();
+//            }
         });
 
         profileViewModel.isValid().observe(this, valid -> {

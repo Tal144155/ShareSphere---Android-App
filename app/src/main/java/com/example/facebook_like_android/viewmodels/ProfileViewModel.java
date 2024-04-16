@@ -40,7 +40,7 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<Boolean> hasChanged() { return profileRepository.hasChanged(); }
     public LiveData<Boolean> isValid() { return profileRepository.isValid(); }
 
-    public void confirmLinks(List<String> links) { profileRepository.confirmLinks(links); }
+    public void confirmLinks(String content) { profileRepository.confirmLinks(content); }
 
 
 }

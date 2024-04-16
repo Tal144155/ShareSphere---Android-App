@@ -81,7 +81,7 @@ public interface WebServiceAPI {
     // Links API
     @FormUrlEncoded
     @POST("posts/links")
-    Call<ValidResponse> checkListUrl(@Field("listurl") List<String> links, @Header("authorization") String token);
+    Call<ValidResponse> checkListUrl(@Field("content") String content, @Header("authorization") String token);
 
     @FormUrlEncoded
     @PATCH("users/{id}/posts/{pid}")

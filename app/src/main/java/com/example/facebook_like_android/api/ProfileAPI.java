@@ -173,8 +173,8 @@ public class ProfileAPI {
 
     }
 
-    public void checkLinks(List<String> links) {
-        Call<ValidResponse> call = webServiceAPI.checkListUrl(links, token);
+    public void checkLinks(String content) {
+        Call<ValidResponse> call = webServiceAPI.checkListUrl(content, token);
 
         call.enqueue(new Callback<ValidResponse>() {
             @Override
