@@ -90,22 +90,7 @@ public class EditPost extends AppCompatActivity {
         });
 
         // Clicking on Update Post button
-        binding.btnUpdate.setOnClickListener(v -> {
-            profileViewModel.confirmLinks(content.getText().toString());
-//            List<String> links = LinkExtractor.extractLinks(content.getText().toString());
-//
-//            if (links != null) {
-//                // make async request
-//                binding.progressBar.setVisibility(View.VISIBLE);
-//                profileViewModel.confirmLinks(links);
-//            } else {
-//                setResult(RESULT_OK, new Intent()
-//                        .putExtra("content", content.getText().toString())
-//                        .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap))
-//                        .putExtra("postId", getIntent().getStringExtra("postId")));
-//                finish();
-//            }
-        });
+        binding.btnUpdate.setOnClickListener(v -> profileViewModel.confirmLinks(content.getText().toString()));
 
         profileViewModel.isValid().observe(this, valid -> {
             binding.progressBar.setVisibility(View.GONE);

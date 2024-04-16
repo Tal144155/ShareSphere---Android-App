@@ -19,12 +19,9 @@ import com.example.facebook_like_android.databinding.ActivityCreatePostBinding;
 import com.example.facebook_like_android.style.ThemeMode;
 import com.example.facebook_like_android.utils.Base64Utils;
 import com.example.facebook_like_android.utils.ImageHandler;
-import com.example.facebook_like_android.utils.LinkExtractor;
 import com.example.facebook_like_android.utils.PermissionsManager;
 import com.example.facebook_like_android.utils.UserInfoManager;
 import com.example.facebook_like_android.viewmodels.ProfileViewModel;
-
-import java.util.List;
 
 public class CreatePost extends AppCompatActivity {
     private ActivityCreatePostBinding binding;
@@ -79,25 +76,7 @@ public class CreatePost extends AppCompatActivity {
         });
 
         // Clicking on Create Post button
-        binding.btnCreate.setOnClickListener(v -> {
-
-            profileViewModel.confirmLinks(content.getText().toString());
-
-//            List<String> links = LinkExtractor.extractLinks(content.getText().toString());
-//
-//            if (links != null) {
-//                binding.progressBar.setVisibility(View.VISIBLE);
-//                // make async request
-//                profileViewModel.confirmLinks(links);
-//            } else {
-//                setResult(RESULT_OK, new Intent()
-//                        .putExtra("content", content.getText().toString())
-//                        .putExtra("pic", Base64Utils.encodeBitmapToBase64(bitmap)));
-//                finish();
-//            }
-
-
-        });
+        binding.btnCreate.setOnClickListener(v -> profileViewModel.confirmLinks(content.getText().toString()));
 
         profileViewModel.isValid().observe(this, valid -> {
             binding.progressBar.setVisibility(View.GONE);
