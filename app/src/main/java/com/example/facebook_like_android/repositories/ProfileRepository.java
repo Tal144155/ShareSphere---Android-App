@@ -16,6 +16,7 @@ public class ProfileRepository {
     private MutableLiveData<List<PostResponse>> posts;
     private MutableLiveData<String> message;
     private MutableLiveData<Boolean> hasChanged;
+    private MutableLiveData<Boolean> isValid;
 
     private ProfileAPI profileAPI;
 
@@ -24,7 +25,8 @@ public class ProfileRepository {
         posts = new MutableLiveData<>();
         message = new MutableLiveData<>();
         hasChanged = new MutableLiveData<>();
-        profileAPI = new ProfileAPI(postDao, username, hasChanged, message);
+        isValid = new MutableLiveData<>();
+        profileAPI = new ProfileAPI(postDao, username, hasChanged, message, isValid);
     }
 
     public LiveData<List<PostResponse>> getPosts() {
@@ -36,6 +38,7 @@ public class ProfileRepository {
     }
 
     public LiveData<Boolean> hasChanged() { return hasChanged; }
+    public LiveData<Boolean> isValid() { return isValid; }
 
 
     public void add(String username, String firstname, String lastname, String profile, String pic, String content, String date) { profileAPI.add(username, firstname, lastname, profile, pic, content, date); }
@@ -46,5 +49,9 @@ public class ProfileRepository {
 
     public void update(String postId, String content, String pic) {
         profileAPI.update(postId, content, pic);
+    }
+
+    public void confirmLinks(String content) {
+        profileAPI.checkLinks(content);
     }
 }

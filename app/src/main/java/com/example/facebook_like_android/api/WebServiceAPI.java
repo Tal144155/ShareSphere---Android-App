@@ -9,6 +9,7 @@ import com.example.facebook_like_android.responses.ListUsersResponse;
 import com.example.facebook_like_android.responses.LoginResponse;
 import com.example.facebook_like_android.responses.PostResponse;
 import com.example.facebook_like_android.responses.UserResponse;
+import com.example.facebook_like_android.responses.ValidResponse;
 
 import java.util.List;
 
@@ -77,6 +78,11 @@ public interface WebServiceAPI {
     @GET("posts")
     Call<List<PostResponse>> getFeed(@Header("username") String username, @Header("authorization") String token);
 
+    // Links API
+    @FormUrlEncoded
+    @POST("posts/links")
+    Call<ValidResponse> checkListUrl(@Field("content") String content, @Header("authorization") String token);
+
     @FormUrlEncoded
     @PATCH("users/{id}/posts/{pid}")
     Call<Post> editPost(@Path("id") String id, @Path("pid") String postId,
@@ -125,7 +131,6 @@ public interface WebServiceAPI {
     @FormUrlEncoded
     @POST("tokens")
     Call<LoginResponse> processLogin(@Field("username") String user_name, @Field("password") String password);
-
 
 
 
