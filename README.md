@@ -1,3 +1,5 @@
+# [The Project's Wiki](https://github.com/Tal144155/Server/wiki)
+
 # Share Sphere App
 ![ic_logo.png](media/ic_logo.png)
 The Share Sphere App is a social media platform that allows users to share posts and interact with each other.
